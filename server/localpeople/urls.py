@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('posting.urls')),
+    path('users/', include('user.urls')),
     path('api-auth/', include('rest_framework.urls')) # 로그인 기능 활성화
 ]
 
