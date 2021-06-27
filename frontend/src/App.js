@@ -41,7 +41,7 @@ function App(props) {
           height: "100vh ",
         }}
       >
-        <span>로딩 중...</span>
+        <span>LOADING...</span>
       </div>
     );
   } else {
