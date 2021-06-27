@@ -4,11 +4,13 @@ import "./Action.css";
 import { Link } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import Map from "../../map/Map.tsx";
 
 const Action = ({ user }) => {
   if (user) {
     return (
       <div className="actions">
+        <Map></Map>
         <Button label="LOG OUT" primary="" to="/login"></Button>
         <div className="profile">
           <PersonIcon></PersonIcon>

@@ -92,8 +92,8 @@ const Map = () => {
   }, []);
 
   return (
-    <div className="App">
-      <div id="map" style={{ width: "400px", height: "400px" }} />
+    <div>
+      <div id="map"></div>
       <div id="dong"></div>
     </div>
   );

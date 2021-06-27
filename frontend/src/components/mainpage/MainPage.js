@@ -4,7 +4,6 @@ import Feed from "../feed/Feed";
 import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import Navbar from "../navbar/Navbar";
-import Map from "../map/Map.tsx";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const MainPage = () => {
@@ -34,7 +33,6 @@ const MainPage = () => {
             />
           ))}
           {/* Feeds */}
-          <Map></Map>
         </div>
       </div>
     </Router>

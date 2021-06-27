@@ -20,6 +20,7 @@ const Navbar = () => {
         <SearchIcon></SearchIcon>
       </label>*/}
       <input type="text" placeholder="Search"></input>
+
       <Action user={user}></Action>
     </div>
   );
