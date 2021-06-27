@@ -1,0 +1,45 @@
+.navbar {
+  padding: 15px;
+  background-color: white;
+  border-bottom: 1px solid rgb(228, 226, 226);
+  object-fit: contain;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar input {
+  display: flex;
+  position: absolute;
+  right: 38%;
+  width: 300px;
+  height: 45px;
+  font-size: 20px;
+  padding-left: 20px;
+  border-radius: 1%;
+  border: 1px solid rgb(230, 230, 230);
+  background-color: rgb(245, 245, 245);
+}
+
+.navbar label {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.logo {
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: larger;
+  border: 1px solid transparent;
+  text-decoration: none;
+  color: black;
+}
+
+.logo:hover {
+  cursor: pointer;
+  border: 1px solid rgb(250, 250, 250);
+}
