@@ -27,6 +27,12 @@
   border-bottom: 1px solid lightgray;
 }
 
+.feed__section {
+  object-fit: contain;
+  display: flex;
+  padding-left: 10px;
+}
+
 .feed__text {
   font-weight: normal;
   padding: 15px 8px;

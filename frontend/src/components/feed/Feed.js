@@ -1,5 +1,6 @@
 import React from "react";
 import "./Feed.css";
+import Like from "../like/Like";
 import Avatar from "@material-ui/core/Avatar";
 
 const Feed = ({ username, description, imageUrl }) => {
@@ -17,6 +18,11 @@ const Feed = ({ username, description, imageUrl }) => {
 
       <img className="feed__image" src={imageUrl} alt="feed__image" />
       {/*image*/}
+      
+      <div className="feed__section">
+        <Like></Like>
+      </div>
+
       <h4 className="feed__text">
         <strong>{username}</strong>: {description}
       </h4>
