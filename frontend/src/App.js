@@ -1,42 +1,58 @@
 import "./App.css";
-import Feed from "./components/feed/Feed";
-import { useState, useEffect } from "react";
-import { db } from "./components/firebase/firebase";
-import Navbar from "./components/navbar/Navbar";
-import CheckboxLabels from "./components/checkbox/Checkbox";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-const App = () => {
-  const [feeds, setFeeds] = useState([]);
+import React, { useState, useEffect } from "react";
+import firebase from "./components/firebase/firebase";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
+import SignupPage from "./components/SignupPage/SignupPage";
+import LoginPage from "./components/LoginPage/LoginPage";
+import MainPage from "./components/mainpage/MainPage";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, clearUser } from "./redux/actions/user_action";
 
+function App(props) {
+  let history = useHistory();
+  let dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {
-    //this is where the code runs
-    db.collection("feeds").onSnapshot((snapshot) => {
-      //every single time a new feeds is added, this code runs
-      setFeeds(snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() })));
+    firebase.auth().onAuthStateChanged(function (user) {
+      console.log("user", user);
+      // user 있으면 로그인 된 / user 없으면 안 된 상태
+      if (user) {
+        history.push("/");
+        dispatch(setUser(user));
+      } else {
+        history.push("/login");
+        dispatch(clearUser());
+      }
     });
-  }, []);
+  }, [dispatch, history]);
 
-  return (
-    <Router>
-      <div className="app">
-        <Navbar />
-        {/* Header */}
-        <div className="app__body">
-          <h1>Hello, This is LocalPeople🦖</h1>
-          {/*<CheckboxLabels></CheckboxLabels>*/}
-          {feeds.map(({ id, feed }) => (
-            <Feed
-              key={id}
-              username={feed.username}
-              description={feed.description}
-              imageUrl={feed.imageUrl}
-            />
-          ))}
-          {/* Feeds */}
-        </div>
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh ",
+        }}
+      >
+        <span>로딩 중...</span>
       </div>
-    </Router>
-  );
-};
+    );
+  } else {
+    return (
+      <Switch>
+        <Route exact path="/" component={MainPage}></Route>
+        <Route exact path="/login" component={LoginPage}></Route>
+        <Route exact path="/signup" component={SignupPage}></Route>
+      </Switch>
+    );
+  }
+}
 
 export default App;
