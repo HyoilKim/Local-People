@@ -16,6 +16,9 @@ const Map = () => {
 
     let map = new window.kakao.maps.Map(container, options);
 
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new window.kakao.maps.services.Geocoder();
+
     function displayMarker(locPosition, message) {
       // 마커를 생성합니다
       var marker = new window.kakao.maps.Marker({
@@ -32,11 +35,38 @@ const Map = () => {
         removable: iwRemoveable,
       });
 
+      function searchAddrFromCoords(coords, callback) {
+        // 좌표로 행정동 주소 정보를 요청합니다
+        geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+      }
+
       // 인포윈도우를 마커위에 표시합니다
       infowindow.open(map, marker);
 
       // 지도 중심좌표를 접속위치로 변경합니다
       map.setCenter(locPosition);
+    }
+
+    function searchAddrFromCoords(coords, callback) {
+      // 좌표로 행정동 주소 정보를 요청합니다
+      geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+    }
+
+    // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+    function displayCenterInfo(result, status) {
+      const infoDiv = document.getElementById("dong");
+      if (status === window.kakao.maps.services.Status.OK) {
+        for (var i = 0; i < result.length; i++) {
+          // 행정동의 region_type 값은 'H' 이므로
+          if (result[i].region_type === "H") {
+            if (!infoDiv) {
+              break;
+            }
+            infoDiv.innerHTML = result[i].address_name;
+            break;
+          }
+        }
+      }
     }
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -49,6 +79,7 @@ const Map = () => {
 
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition, message);
+        searchAddrFromCoords(map.getCenter(), displayCenterInfo);
       });
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
@@ -58,12 +89,12 @@ const Map = () => {
 
       displayMarker(locPosition, message);
     }
-    
   }, []);
 
   return (
     <div className="App">
       <div id="map" style={{ width: "400px", height: "400px" }} />
+      <div id="dong"></div>
     </div>
   );
 };
