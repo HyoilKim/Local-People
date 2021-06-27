@@ -8,4 +8,4 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
         
         # 요청자(request.user)가 객체(Blog)의 author와 동일한지 확인
-        return obj.author == request.user
+        return obj.user == request.user

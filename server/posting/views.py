@@ -1,5 +1,5 @@
-from .models import Posting
-from .serializers import PostingSerializer
+from .models import Posting, Comment
+from .serializers import PostingSerializer, CommentSerializer
 from rest_framework import viewsets, mixins
 from rest_framework.filters import SearchFilter
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
@@ -24,9 +24,19 @@ class MyPostingViewSet(viewsets.ModelViewSet):
     serializer_class = PostingSerializer
     
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        serializer.save(user=self.request.user)
 
     def get_queryset(self):
         qs = Posting.objects.all()
-        qs = qs.filter(author=self.request.user)           
+        qs = qs.filter(user=self.request.user)           
         return qs
+
+class CommentViewSet(viewsets.ModelViewSet):
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

@@ -14,8 +14,20 @@ class Posting(models.Model):
         REPORT = 'RP', _('Report')          # 신고해요
         ELSE = 'ES', _('Else')              # 기타
 
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL)
     image = models.ImageField(upload_to='images', blank=True, null=True)
-    content = models.CharField(max_length=1000, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
     category = models.CharField(choices=Category.choices, max_length=50)
     created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.content
+
+class Comment(models.Model):
+    posting = models.ForeignKey(Posting, null=False, blank=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=False, on_delete=models.SET_NULL)
+    comment = models.TextField()
+    created_at = models.DateField(auto_now_add=True, null=False, blank=False)
+    
+    def __str__(self):
+        return self.comment
