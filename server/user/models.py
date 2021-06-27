@@ -21,7 +21,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_super_user(self, email, password, **extra_fields):
+    def create_superuser(self, email, password, **extra_fields):
         user = self.model(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
         user.is_admin = True
