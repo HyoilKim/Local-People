@@ -19,6 +19,8 @@ class Posting(models.Model):
     content = models.TextField(blank=True, null=True)
     category = models.CharField(choices=Category.choices, max_length=50)
     created_at = models.DateField(auto_now_add=True)
+    latitude = models.DecimalField()        # 위도
+    longitude = models.DecimalField()       # 경도
 
     def __str__(self):
         return self.content
