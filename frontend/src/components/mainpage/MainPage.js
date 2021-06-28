@@ -3,11 +3,14 @@ import "./MainPage.css";
 import Feed from "../feed/Feed";
 import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
+import firebase from "../firebase/firebase";
 import Navbar from "../navbar/Navbar";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import FeedCreate from "../feedcreate/FeedCreate";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
+  const user = firebase.auth().currentUser;
 
   useEffect(() => {
     //this is where the code runs
@@ -35,6 +38,12 @@ const MainPage = () => {
           {/* Feeds */}
         </div>
       </div>
+      <FeedCreate username={user.displayName} />
+      {/*user?.displayName ? (
+        <FeedCreate username={user.displayName} />
+      ) : (
+        <h3>Sorry you need to login to upload</h3>
+      )*/}
     </Router>
   );
 };

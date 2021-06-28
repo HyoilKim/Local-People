@@ -33,10 +33,10 @@
 .logo {
   font-family: Helvetica;
   font-weight: bold;
-  font-size: larger;
+  font-size: 25px;
   border: 1px solid transparent;
   text-decoration: none;
-  color: black;
+  color: #757575; 
 }
 
 .logo:hover {

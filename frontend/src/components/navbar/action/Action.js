@@ -5,12 +5,17 @@ import { Link } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Map from "../../map/Map.tsx";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 const Action = ({ user }) => {
   if (user) {
     return (
       <div className="actions">
-        <Map></Map>
+        <div className="actions__location">
+          <LocationOnIcon></LocationOnIcon>
+          <Map></Map>
+        </div>
+
         <Button label="LOG OUT" primary="" to="/login"></Button>
         <div className="profile">
           <PersonIcon></PersonIcon>
