@@ -3,13 +3,17 @@ from rest_framework import serializers
 
 class PostingSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(use_url=True, required=False, allow_null=True) # 둘 중 하나만 넣어도 됨
-    user_id = serializers.ReadOnlyField(source='user.username')
+    like = serializers.ReadOnlyField()
     class Meta:
         model = Posting
-        fields = ('pk', 'user_id', 'image', 'content', 'category', 'lat', 'lng', 'created_at')
+        fields = ('pk', 'image', 'content', 'category', 'lat', 'lng', 'like', 'created_at')
 
 class CommentSerializer(serializers.ModelSerializer):
-    user_id = serializers.ReadOnlyField(source='user.username')
+    user = serializers.ReadOnlyField(source='user.email')
+    like = serializers.ReadOnlyField()
     class Meta:
         model = Comment
-        fields = ('pk', 'user_id', 'posting', 'comment', 'created_at')
+        fields = ('pk', 'posting', 'user', 'comment', 'like', 'created_at')
+
+class LikeSerializer():
+    pass
