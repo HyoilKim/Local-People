@@ -18,9 +18,9 @@ class Posting(models.Model):
     image = models.ImageField(upload_to='images', blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     category = models.CharField(choices=Category.choices, max_length=50)
+    lat = models.FloatField(blank=False, null=False)               # 위도 
+    lng = models.FloatField(blank=False, null=False)               # 경도
     created_at = models.DateField(auto_now_add=True)
-    lat = models.FloatField(blank=False, null=False)    # 위도 
-    lng = models.FloatField(blank=False, null=False)    # 경도
     
     def __str__(self):
         return self.content
