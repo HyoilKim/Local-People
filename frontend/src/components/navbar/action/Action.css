@@ -22,3 +22,19 @@
   align-items: center;
   padding: 10px;
 }
+
+.actions__logout {
+  padding: 5px 16px;
+  align-items: center;
+  border-radius: 30px;
+  border: 1px solid #0179d2;
+  color: #0179d2;
+  font-weight: 600;
+  font-size: 15px;
+  margin-right: 5px;
+}
+.actions__logout:hover {
+  cursor: pointer;
+  background-color: rgb(232, 243, 255);
+  border: 1px solid rgb(232, 243, 255);
+}

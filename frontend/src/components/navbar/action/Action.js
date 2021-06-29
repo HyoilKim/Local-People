@@ -5,18 +5,28 @@ import { Link } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Map from "../../map/Map.tsx";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
+import { auth } from "../../firebase/firebase";
 
 const Action = ({ user }) => {
+  const onLogOutClick = (e) => {
+    e.preventDefault();
+    auth
+      .signOut()
+      .then(() => {
+        console.log("user signed out");
+      })
+      .catch((error) => {
+        console.log("error");
+      });
+  };
   if (user) {
     return (
       <div className="actions">
         <div className="actions__location">
-          <LocationOnIcon></LocationOnIcon>
           <Map></Map>
         </div>
-
-        <Button label="LOG OUT" primary="" to="/login"></Button>
+        <button className="actions__logout" onClick={onLogOutClick}>LOG OUT</button>
+        
         <div className="profile">
           <PersonIcon></PersonIcon>
           <ArrowDropDownIcon></ArrowDropDownIcon>

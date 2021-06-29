@@ -11,6 +11,12 @@ import FeedCreate from "../feedcreate/FeedCreate";
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
   const user = firebase.auth().currentUser;
+  let nickname = "";
+  if (user !== null) {
+    const displayName = user.displayName;
+    const email = user.email;
+    nickname = email.split("@")[0];
+  }
 
   useEffect(() => {
     //this is where the code runs
@@ -30,6 +36,8 @@ const MainPage = () => {
           {feeds.map(({ id, feed }) => (
             <Feed
               key={id}
+              postId={id}
+              user={nickname}
               username={feed.username}
               description={feed.description}
               imageUrl={feed.imageUrl}
@@ -38,7 +46,7 @@ const MainPage = () => {
           {/* Feeds */}
         </div>
       </div>
-      <FeedCreate username={user.displayName} />
+      <FeedCreate username={nickname} />
       {/*user?.displayName ? (
         <FeedCreate username={user.displayName} />
       ) : (
