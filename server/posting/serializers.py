@@ -6,7 +6,7 @@ class PostingSerializer(serializers.ModelSerializer):
     user_id = serializers.ReadOnlyField(source='user.username')
     class Meta:
         model = Posting
-        fields = ('pk', 'user_id', 'image', 'content', 'category', 'created_at')
+        fields = ('pk', 'user_id', 'image', 'content', 'category', 'lat',' lng', 'created_at')
 
 class CommentSerializer(serializers.ModelSerializer):
     user_id = serializers.ReadOnlyField(source='user.username')
