@@ -16,7 +16,7 @@ schema_view = get_schema_view(
         contact=openapi.Contact(email="quf9483@naver.com"), 
         license=openapi.License(name="Local People"), 
     ),
-    validators=['flex', 'ssv'],
+    validators=['flex'],
     public=True,
     permission_classes=(AllowAny,),
 )
