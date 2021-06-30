@@ -3,48 +3,48 @@ import Button from "../button/Button";
 import "./Action.css";
 import { Link } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Map from "../../map/Map.tsx";
-import { auth } from "../../firebase/firebase";
+import { useSelector } from "react-redux";
+import firebase from "../../firebase/firebase";
+import Dropdown from "react-bootstrap/Dropdown";
 
-const Action = ({ user }) => {
-  const onLogOutClick = (e) => {
-    e.preventDefault();
-    auth
-      .signOut()
-      .then(() => {
-        console.log("user signed out");
-      })
-      .catch((error) => {
-        console.log("error");
-      });
-  };
-  if (user) {
-    return (
-      <div className="actions">
-        <div className="actions__location">
-          <Map></Map>
-        </div>
-        <button className="actions__logout" onClick={onLogOutClick}>LOG OUT</button>
-        
-        <div className="profile">
-          <PersonIcon></PersonIcon>
-          <ArrowDropDownIcon></ArrowDropDownIcon>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="actions">
-        <Button label="LOG IN" primary="" to="/login"></Button>
-        <Button label="SIGN UP" primary="true" to="/signup"></Button>
-        <div className="profile">
-          <PersonIcon></PersonIcon>
-          <ArrowDropDownIcon></ArrowDropDownIcon>
-        </div>
-      </div>
-    );
+function Action() {
+  const currentUser = firebase.auth().currentUser;
+  let nickname = "";
+  if (currentUser) {
+    nickname = currentUser.displayName;
   }
-};
+
+  const user = useSelector((state) => state.user.currentUser);
+
+  const handleLogout = () => {
+    firebase.auth().signOut();
+  };
+
+  return (
+    <div>
+      <Dropdown>
+        <Dropdown.Toggle
+          style={{
+            background: "transparent",
+            border: "0px",
+          }}
+          id="dropdown-basic"
+        >
+          {nickname} {/*user && user.displayName*/}
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu>
+          <Dropdown.Item href="#/action-1">마이페이지</Dropdown.Item>
+          <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+      <Map></Map>
+      <div className="profile">
+        <PersonIcon></PersonIcon>
+      </div>
+    </div>
+  );
+}
 
 export default Action;

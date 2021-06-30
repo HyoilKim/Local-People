@@ -15,7 +15,7 @@ const MainPage = () => {
   if (user !== null) {
     const displayName = user.displayName;
     const email = user.email;
-    nickname = email.split("@")[0];
+    nickname = user.displayName;
   }
 
   useEffect(() => {

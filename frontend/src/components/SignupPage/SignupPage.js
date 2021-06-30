@@ -25,15 +25,14 @@ function SignupPage() {
         .createUserWithEmailAndPassword(data.email, data.password);
       //firebase에서 생성한 유저에 추가 정보 입력 (위치인증 기능 추가 시 사용 예정)
 
-      /*
-            await createdUser.user.updateProfile({
-                    displayName: data.email
-            })
-            */
+      await createdUser.user.updateProfile({
+        displayName: data.nickname,
+      });
 
       //firebase 데이터베이스에 저장 (이메일 통해)
       await firebase.database().ref("users").child(createdUser.user.uid).set({
         email: createdUser.user.email,
+        nickname: createdUser.user.displayName,
       });
 
       console.log("createdUser", createdUser);
@@ -64,6 +63,16 @@ function SignupPage() {
           />
           {errors.email && errors.email.type === "required" && (
             <span>이메일을 입력해주세요.</span>
+          )}
+
+          <label>닉네임</label>
+          <input
+            name="nickname"
+            type="nickname"
+            {...register("nickname", { required: true })}
+          />
+          {errors.nickname && errors.nickname.type === "required" && (
+            <span>닉네임을 입력해주세요.</span>
           )}
 
           <label>비밀번호</label>

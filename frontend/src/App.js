@@ -7,8 +7,8 @@ import {
   Route,
   useHistory,
 } from "react-router-dom";
-import SignupPage from "./components/SignupPage/SignupPage";
-import LoginPage from "./components/LoginPage/LoginPage";
+import SignupPage from "./components/signuppage/SignupPage";
+import LoginPage from "./components/loginpage/LoginPage";
 import MainPage from "./components/mainpage/MainPage";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "./redux/actions/user_action";
