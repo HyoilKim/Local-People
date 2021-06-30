@@ -40,7 +40,7 @@ const MainPage = () => {
             <Feed
               key={id}
               postId={id}
-              user={nickname}
+              user={user.displayName}
               username={feed.username}
               description={feed.description}
               imageUrl={feed.imageUrl}
