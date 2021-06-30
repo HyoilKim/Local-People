@@ -5,19 +5,17 @@ import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import Navbar from "../navbar/Navbar";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import FeedCreate from "../feedcreate/FeedCreate";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
   const user = firebase.auth().currentUser;
   console.log(user.displayName);
-  let nickname = "";
   useEffect(() => {
     if (user !== null) {
       const displayName = user.displayName;
       const email = user.email;
-      nickname = user.displayName;
     }
   }, []);
 

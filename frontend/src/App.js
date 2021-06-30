@@ -1,12 +1,7 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import { React, useEffect } from "react";
 import firebase from "./components/firebase/firebase";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import SignupPage from "./components/signuppage/SignupPage";
 import LoginPage from "./components/loginpage/LoginPage";
 import MainPage from "./components/mainpage/MainPage";

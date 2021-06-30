@@ -1,6 +1,5 @@
 import React from "react";
 import "./Navbar.css";
-import SearchIcon from "@material-ui/icons/Search";
 import Action from "./action/Action.js";
 import { Link } from "react-router-dom";
 
