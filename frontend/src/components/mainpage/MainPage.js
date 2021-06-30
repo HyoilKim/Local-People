@@ -49,12 +49,12 @@ const MainPage = () => {
           {/* Feeds */}
         </div>
       </div>
-      <FeedCreate username={nickname} />
-      {/*user?.displayName ? (
+
+      {user?.displayName ? (
         <FeedCreate username={user.displayName} />
       ) : (
         <h3>Sorry you need to login to upload</h3>
-      )*/}
+      )}
     </Router>
   );
 };
