@@ -1,0 +1,62 @@
+.feed {
+  background-color: white;
+  width: 98%;
+  max-width: 700px;
+  border: 2px solid #f7f7f7;
+  margin-bottom: 45px;
+  border-radius: 1%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.feed:hover {
+  border: 2px solid lightgray;
+}
+
+.feed__header {
+  display: flex;
+  align-items: center;
+  padding: 10px 7px;
+}
+
+.feed__image {
+  object-fit: contain;
+  width: 100%;
+  border-top: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+}
+
+.feed__section {
+  object-fit: contain;
+  display: flex;
+  padding-left: 10px;
+}
+
+.feed__text {
+  font-weight: normal;
+  padding: 15px 8px;
+}
+
+.feed__avatar {
+  margin-right: 5px;
+}
+
+.feed__commentBox {
+  margin-top: 10px;
+  display: flex;
+}
+
+.feed__input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid lightgray;
+}
+.feed__button {
+  flex: 0;
+  cursor: pointer;
+}
+
+.feed__comments {
+  padding-left: 10px;
+}

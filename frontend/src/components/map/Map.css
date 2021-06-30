@@ -1,0 +1,11 @@
+.map {
+  display: flex;
+  flex-direction: row;
+}
+#dong {
+  display: flex;
+}
+
+.map__button {
+  display: flex;
+}

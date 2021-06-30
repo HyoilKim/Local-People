@@ -1,0 +1,32 @@
+.button {
+  padding: 5px 16px;
+  align-items: center;
+  border-radius: 30px;
+  border: 1px solid #0179d2;
+  font-weight: 600;
+  font-size: 15px;
+  margin-right: 5px;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.button__primary {
+  background-color: #0179d2;
+  color: white;
+}
+
+.button__primary:hover {
+  background-color: rgb(125, 190, 255);
+  border: 1px solid rgb(125, 190, 255);
+}
+
+.button__secondary {
+  color: #0179d2;
+}
+
+.button__secondary:hover {
+  background-color: rgb(232, 243, 255);
+  border: 1px solid rgb(232, 243, 255);
+}
