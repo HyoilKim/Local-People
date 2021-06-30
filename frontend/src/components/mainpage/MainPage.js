@@ -11,12 +11,15 @@ import FeedCreate from "../feedcreate/FeedCreate";
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
   const user = firebase.auth().currentUser;
+  console.log(user.displayName);
   let nickname = "";
-  if (user !== null) {
-    const displayName = user.displayName;
-    const email = user.email;
-    nickname = user.displayName;
-  }
+  useEffect(() => {
+    if (user !== null) {
+      const displayName = user.displayName;
+      const email = user.email;
+      nickname = user.displayName;
+    }
+  }, []);
 
   useEffect(() => {
     //this is where the code runs

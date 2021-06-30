@@ -3,7 +3,6 @@ import "./Navbar.css";
 import SearchIcon from "@material-ui/icons/Search";
 import Action from "./action/Action.js";
 import { Link } from "react-router-dom";
-const user = true;
 
 const Navbar = () => {
   return (
@@ -21,7 +20,7 @@ const Navbar = () => {
       </label>*/}
       <input type="text" placeholder="Search"></input>
 
-      <Action user={user}></Action>
+      <Action></Action>
     </div>
   );
 };
