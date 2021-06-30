@@ -41,3 +41,22 @@
 .feed__avatar {
   margin-right: 5px;
 }
+
+.feed__commentBox {
+  margin-top: 10px;
+  display: flex;
+}
+
+.feed__input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid lightgray;
+}
+.feed__button {
+  flex: 0;
+  cursor: pointer;
+}
+
+.feed__comments {
+  padding-left: 10px;
+}
