@@ -4,7 +4,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import Map from "../../map/Map.tsx";
 import { useSelector } from "react-redux";
 import firebase from "../../firebase/firebase";
-import Dropdown from "react-bootstrap/Dropdown";
+import {Dropdown, DropdownButton} from "react-bootstrap";
 
 function Action() {
   const currentUser = firebase.auth().currentUser;
@@ -21,27 +21,22 @@ function Action() {
 
   return (
     <div>
-      <Dropdown>
-        <Dropdown.Toggle
-          style={{
-            background: "transparent",
-            border: "0px",
-          }}
-          id="dropdown-basic"
-        >
-          {nickname} {/*user && user.displayName*/}
-        </Dropdown.Toggle>
+      <div style={{display: 'flex', marginBottom: '1rem'}}>
+        <PersonIcon
+          style={{ width: '20px', height: '20px', marginTop: '3px' }}>
+        </PersonIcon>
+        <Dropdown>
+            <DropdownButton style={{background: 'transparent', border: '0px'}} title={nickname}>
+              <Dropdown.Item as="button" style={{textAlign: 'center', width: '70px', height: '20px', fontSize: '10px'}}>마이페이지</Dropdown.Item>
+              <div>
+                <Dropdown.Item as="button" style={{textAlign: 'center', width: '70px', height: '20px', fontSize: '10px'}} onClick={handleLogout}>로그아웃</Dropdown.Item>
+              </div>
+            </DropdownButton>
+        </Dropdown>
+        <Map></Map>
 
-        <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">마이페이지</Dropdown.Item>
-          <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-      <Map></Map>
-      <div className="profile">
-        <PersonIcon></PersonIcon>
       </div>
-    </div>
+    </div>    
   );
 }
 

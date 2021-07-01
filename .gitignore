@@ -154,3 +154,5 @@ cython_debug/
 .idea/
 
 *migrations/
+
+secrets.json

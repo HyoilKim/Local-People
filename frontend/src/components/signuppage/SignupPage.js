@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import firebase from "../firebase/firebase";
+import Map from "../map/Map.tsx";
 
 function SignupPage() {
   const {
@@ -107,6 +108,19 @@ function SignupPage() {
             )}
 
           {errorFromSubmit && <span>{errorFromSubmit}</span>}
+
+          <div>
+            <button name ="loc_certi" style={{
+                width: "375px",
+                height: "120px"
+              }} {...register("loc_certi", { required: true })}>
+              <Map>위치 인증</Map></button>
+          </div>
+
+          {/*errors.loc_certi &&
+            errors.loc_certi.type === "required" && (
+              <span>위치 인증을 클릭해주세요.</span>
+            )*/}
 
           <input
             type="submit"

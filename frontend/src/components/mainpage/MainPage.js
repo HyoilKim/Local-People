@@ -1,7 +1,7 @@
 import React from "react";
 import "./MainPage.css";
 import Feed from "../feed/Feed";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLocation } from "react";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import Navbar from "../navbar/Navbar";
