@@ -36,10 +36,15 @@
   font-size: 25px;
   border: 1px solid transparent;
   text-decoration: none;
-  color: #757575; 
+  color: #757575;
 }
 
 .logo:hover {
   cursor: pointer;
   border: 1px solid rgb(250, 250, 250);
+}
+
+.navbar__postIcon {
+  cursor: pointer;
+  display: flex;
 }

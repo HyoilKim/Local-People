@@ -2,6 +2,8 @@ import React from "react";
 import "./Navbar.css";
 import Action from "./action/Action.js";
 import { Link } from "react-router-dom";
+import Icon from "@material-ui/core/Icon";
+import AddIcon from '@material-ui/icons/Add';
 
 const Navbar = () => {
   return (
@@ -17,8 +19,9 @@ const Navbar = () => {
       {/* <label>
         <SearchIcon></SearchIcon>
       </label>*/}
-      <input type="text" placeholder="Search"></input>
 
+      {/*<input type="text" placeholder="Search"></input> */}
+      <AddIcon className="navbar__postIcon"></AddIcon>
       <Action></Action>
     </div>
   );
