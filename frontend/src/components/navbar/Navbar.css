@@ -38,6 +38,9 @@
   text-decoration: none;
   color: #757575;
 }
+.navbar__post {
+  color: black;
+}
 
 .logo:hover {
   cursor: pointer;
