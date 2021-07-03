@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { db, storage } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
-import Navbar from "../navbar/Navbar";
+import Nav from "../nav/Nav";
 import { useHistory } from "react-router-dom";
 import "./FeedCreate.css";
 
@@ -74,7 +74,7 @@ const FeedCreate = ({ username }) => {
 
   return (
     <div className="container">
-      <Navbar></Navbar>
+      <Nav></Nav>
       <div className="feedCreate">
         <progress value={progress} max="100"></progress>
         <input accept="image/*" type="file" onChange={handleChange} />
