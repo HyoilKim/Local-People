@@ -1,9 +1,9 @@
 import React from "react";
 import "./Navbar.css";
-import SearchIcon from "@material-ui/icons/Search";
 import Action from "./action/Action.js";
 import { Link } from "react-router-dom";
-const user = true;
+import Icon from "@material-ui/core/Icon";
+import AddIcon from "@material-ui/icons/Add";
 
 const Navbar = () => {
   return (
@@ -13,15 +13,18 @@ const Navbar = () => {
         alt="logo"
         className="app__headerImage"
       />*/}
-      <Link className="logo" to="/">
+      <Link className="navbar__logo" to="/">
         LCPP
       </Link>
       {/* <label>
         <SearchIcon></SearchIcon>
       </label>*/}
-      <input type="text" placeholder="Search"></input>
 
-      <Action user={user}></Action>
+      {/*<input type="text" placeholder="Search"></input> */}
+      <Link className="navbar__post" to="/create">
+        <AddIcon className="navbar__postIcon"></AddIcon>
+      </Link>
+      <Action></Action>
     </div>
   );
 };

@@ -5,18 +5,19 @@ import { useState, useEffect, useLocation } from "react";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import Navbar from "../navbar/Navbar";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import FeedCreate from "../feedcreate/FeedCreate";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
   const user = firebase.auth().currentUser;
-  let nickname = "";
-  if (user !== null) {
-    const displayName = user.displayName;
-    const email = user.email;
-    nickname = user.displayName;
-  }
+  console.log(user.displayName);
+  useEffect(() => {
+    if (user !== null) {
+      const displayName = user.displayName;
+      const email = user.email;
+    }
+  }, []);
 
   useEffect(() => {
     //this is where the code runs
@@ -26,33 +27,25 @@ const MainPage = () => {
     });
   }, []);
   return (
-    <Router>
-      <div className="app">
-        <Navbar />
-        {/* Header */}
-        <div className="app__body">
-          <h1>Hello, This is LocalPeople🦖</h1>
-          {/*<CheckboxLabels></CheckboxLabels>*/}
-          {feeds.map(({ id, feed }) => (
-            <Feed
-              key={id}
-              postId={id}
-              user={nickname}
-              username={feed.username}
-              description={feed.description}
-              imageUrl={feed.imageUrl}
-            />
-          ))}
-          {/* Feeds */}
-        </div>
+    <div className="app">
+      <Navbar />
+      {/* Header */}
+      <div className="app__body">
+        <h1>Hello, This is LocalPeople🦖</h1>
+        {/*<CheckboxLabels></CheckboxLabels>*/}
+        {feeds.map(({ id, feed }) => (
+          <Feed
+            key={id}
+            postId={id}
+            user={user.displayName}
+            username={feed.username}
+            description={feed.description}
+            imageUrl={feed.imageUrl}
+          />
+        ))}
+        {/* Feeds */}
       </div>
-      <FeedCreate username={nickname} />
-      {/*user?.displayName ? (
-        <FeedCreate username={user.displayName} />
-      ) : (
-        <h3>Sorry you need to login to upload</h3>
-      )*/}
-    </Router>
+    </div>
   );
 };
 

@@ -1,7 +1,5 @@
 import React from "react";
-import Button from "../button/Button";
 import "./Action.css";
-import { Link } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
 import Map from "../../map/Map.tsx";
 import { useSelector } from "react-redux";

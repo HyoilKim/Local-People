@@ -1,20 +1,17 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import { React, useEffect } from "react";
 import firebase from "./components/firebase/firebase";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useHistory,
-} from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import SignupPage from "./components/signuppage/SignupPage";
 import LoginPage from "./components/loginpage/LoginPage";
 import MainPage from "./components/mainpage/MainPage";
+import FeedCreate from "./components/feedcreate/FeedCreate";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "./redux/actions/user_action";
 
 function App(props) {
   let history = useHistory();
+  const user = firebase.auth().currentUser;
   let dispatch = useDispatch();
   const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {
@@ -48,6 +45,13 @@ function App(props) {
     return (
       <Switch>
         <Route exact path="/" component={MainPage}></Route>
+        <Route exact path="/create" component={FeedCreate}>
+          {user?.displayName ? (
+            <FeedCreate username={user.displayName} />
+          ) : (
+            <h3>Sorry you need to login to upload</h3>
+          )}
+        </Route>
         <Route exact path="/login" component={LoginPage}></Route>
         <Route exact path="/signup" component={SignupPage}></Route>
       </Switch>
