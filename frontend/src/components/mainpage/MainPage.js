@@ -4,14 +4,13 @@ import Feed from "../feed/Feed";
 import { useState, useEffect, useLocation } from "react";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
-import Navbar from "../navbar/Navbar";
-import { BrowserRouter as Router } from "react-router-dom";
+import Nav from "../nav/Nav";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import FeedCreate from "../feedcreate/FeedCreate";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
   const user = firebase.auth().currentUser;
-  console.log(user.displayName);
   useEffect(() => {
     if (user !== null) {
       const displayName = user.displayName;
@@ -28,7 +27,7 @@ const MainPage = () => {
   }, []);
   return (
     <div className="app">
-      <Navbar />
+      <Nav />
       {/* Header */}
       <div className="app__body">
         <h1>Hello, This is LocalPeople🦖</h1>
@@ -45,6 +44,7 @@ const MainPage = () => {
         ))}
         {/* Feeds */}
       </div>
+      {/*<Link to="/fetchingtest">fetch</Link>*/}
     </div>
   );
 };

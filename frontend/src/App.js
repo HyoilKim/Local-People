@@ -8,6 +8,7 @@ import MainPage from "./components/mainpage/MainPage";
 import FeedCreate from "./components/feedcreate/FeedCreate";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "./redux/actions/user_action";
+import DataFetching from "./components/datafetching/DataFetching";
 
 function App(props) {
   let history = useHistory();
@@ -45,13 +46,8 @@ function App(props) {
     return (
       <Switch>
         <Route exact path="/" component={MainPage}></Route>
-        <Route exact path="/create" component={FeedCreate}>
-          {user?.displayName ? (
-            <FeedCreate username={user.displayName} />
-          ) : (
-            <h3>Sorry you need to login to upload</h3>
-          )}
-        </Route>
+        <Route exact path="/create" component={FeedCreate}></Route>
+        <Route exact path="/fetchingtest" component={DataFetching}></Route>
         <Route exact path="/login" component={LoginPage}></Route>
         <Route exact path="/signup" component={SignupPage}></Route>
       </Switch>
