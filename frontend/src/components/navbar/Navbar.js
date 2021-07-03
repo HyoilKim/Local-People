@@ -3,7 +3,7 @@ import "./Navbar.css";
 import Action from "./action/Action.js";
 import { Link } from "react-router-dom";
 import Icon from "@material-ui/core/Icon";
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from "@material-ui/icons/Add";
 
 const Navbar = () => {
   return (
@@ -13,7 +13,7 @@ const Navbar = () => {
         alt="logo"
         className="app__headerImage"
       />*/}
-      <Link className="logo" to="/">
+      <Link className="navbar__logo" to="/">
         LCPP
       </Link>
       {/* <label>
@@ -21,7 +21,9 @@ const Navbar = () => {
       </label>*/}
 
       {/*<input type="text" placeholder="Search"></input> */}
-      <AddIcon className="navbar__postIcon"></AddIcon>
+      <Link className="navbar__post" to="/create">
+        <AddIcon className="navbar__postIcon"></AddIcon>
+      </Link>
       <Action></Action>
     </div>
   );

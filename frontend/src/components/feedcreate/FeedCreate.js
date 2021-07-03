@@ -3,6 +3,9 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { db, storage } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
+import Navbar from "../navbar/Navbar";
+import { useHistory } from "react-router-dom";
+import "./FeedCreate.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FeedCreate = ({ username }) => {
   const classes = useStyles();
-
+  let history = useHistory();
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -63,33 +66,37 @@ const FeedCreate = ({ username }) => {
             setProgress(0);
             setDescription("");
             setImage(null);
+            history.push("/");
           });
       }
     );
   };
 
   return (
-    <div>
-      <progress value={progress} max="100"></progress>
-      <input accept="image/*" type="file" onChange={handleChange} />
+    <div className="container">
+      <Navbar></Navbar>
+      <div className="feedCreate">
+        <progress value={progress} max="100"></progress>
+        <input accept="image/*" type="file" onChange={handleChange} />
 
-      <input
-        type="text"
-        name=""
-        id=""
-        onChange={(event) => setDescription(event.target.value)}
-        placeholder="Enter a description"
-        value={description}
-      />
+        <input
+          type="text"
+          name=""
+          id=""
+          onChange={(event) => setDescription(event.target.value)}
+          placeholder="Enter a description"
+          value={description}
+        />
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleUpload}
-        className={classes.button}
-      >
-        Post
-      </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleUpload}
+          className={classes.button}
+        >
+          Post
+        </Button>
+      </div>
     </div>
   );
 };

@@ -27,33 +27,25 @@ const MainPage = () => {
     });
   }, []);
   return (
-    <Router>
-      <div className="app">
-        <Navbar />
-        {/* Header */}
-        <div className="app__body">
-          <h1>Hello, This is LocalPeople🦖</h1>
-          {/*<CheckboxLabels></CheckboxLabels>*/}
-          {feeds.map(({ id, feed }) => (
-            <Feed
-              key={id}
-              postId={id}
-              user={user.displayName}
-              username={feed.username}
-              description={feed.description}
-              imageUrl={feed.imageUrl}
-            />
-          ))}
-          {/* Feeds */}
-        </div>
+    <div className="app">
+      <Navbar />
+      {/* Header */}
+      <div className="app__body">
+        <h1>Hello, This is LocalPeople🦖</h1>
+        {/*<CheckboxLabels></CheckboxLabels>*/}
+        {feeds.map(({ id, feed }) => (
+          <Feed
+            key={id}
+            postId={id}
+            user={user.displayName}
+            username={feed.username}
+            description={feed.description}
+            imageUrl={feed.imageUrl}
+          />
+        ))}
+        {/* Feeds */}
       </div>
-
-      {user?.displayName ? (
-        <FeedCreate username={user.displayName} />
-      ) : (
-        <h3>Sorry you need to login to upload</h3>
-      )}
-    </Router>
+    </div>
   );
 };
 
