@@ -37,6 +37,7 @@ code {
   text-align: center;
   padding-bottom: 50px;
   letter-spacing: 10px;
+  color: #fb8267;
 }
 
 .auth-wrapper span {
@@ -70,7 +71,7 @@ code {
 
 .auth-wrapper button[type="submit"],
 .auth-wrapper input[type="submit"] {
-  background: black;
+  background: #fb8267;
   color: white;
   text-transform: uppercase;
   border: none;
@@ -84,7 +85,7 @@ code {
 
 .auth-wrapper button[type="submit"]:hover,
 .auth-wrapper input[type="submit"]:hover {
-  background: black;
+  background: #f75f3d;
 }
 
 .auth-wrapper button[type="submit"]:active,

@@ -32,8 +32,11 @@ function LoginPage() {
 
   return (
     <div className="auth-wrapper">
-      <div style={{ textAlign: "center", fontWeight: "bold" }}>
+      <div style={{ textAlign: "center", fontWeight: "bold", height:"40px" }}>
         <h1>로그인</h1>
+      </div>
+      <div style={{marginBottom: "40px"}}>
+        <hr></hr>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>이메일</label>
@@ -63,10 +66,10 @@ function LoginPage() {
 
         <input value="로그인" type="submit" disabled={loading} />
         <Link
-          style={{ paddingTop:"15px", paddingLeft:"70px", textAlign: "center", color: "gray", textDecoration: "none"}}
+          style={{ paddingTop:"40px", paddingLeft:"80px", textAlign: "center", color: "gray", textDecoration: "none"}}
           to="signup"
         >
-          계정이 없으신가요? 회원 가입
+          계정이 없으신가요? 회원가입
         </Link>
       </form>
     </div>

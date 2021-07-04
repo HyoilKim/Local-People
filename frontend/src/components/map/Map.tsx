@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./Map.css";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 declare global {
@@ -85,7 +86,7 @@ const Map = () => {
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
         completed = true;
         if (authButton) {
-          authButton.innerText = "위치인증완료";
+            authButton.innerText = "위치 인증 완료";
         }
       });
     } else {
@@ -96,7 +97,7 @@ const Map = () => {
 
       displayMarker(locPosition, message);
       if (authButton) {
-        authButton.innerText = "위치인증실패";
+        authButton.innerText = "위치 인증 실패";
       }
     }
   };
@@ -191,12 +192,13 @@ const Map = () => {
       <div id="map"></div>
       <div className="map__button">
         <button
+          style={{backgroundColor:"#fb8267", borderRadius:"5px"}}
           id="authButton"
           value=""
           onClick={handleClick}
           disabled={completed}
         >
-          위치인증하기
+          위치 인증하기
         </button>
       </div>
     </div>
