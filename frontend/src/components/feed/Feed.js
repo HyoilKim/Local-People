@@ -4,10 +4,18 @@ import Like from "../like/Like";
 import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
+import { FeedbackSharp } from "@material-ui/icons";
+import FeedMore from "./FeedMore";
 
 const Feed = ({ postId, user, username, description, imageUrl }) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+
+  const currentUser = firebase.auth().currentUser;
+  let nickname = "";
+  if (currentUser) {
+    nickname = currentUser.displayName;
+  }
 
   const postComment = (event) => {
     event.preventDefault();
@@ -27,7 +35,6 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
         .collection("feeds")
         .doc(postId)
         .collection("comments")
-        .orderBy("timestamp", "asc")
         .onSnapshot((snapshot) => {
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
@@ -47,6 +54,14 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
           src="/static/images/avatar/1.jpeg"
         ></Avatar>
         <h3>{username}</h3>
+        <div
+          className="more"
+          style={{ marginLeft: "570px", marginTop: "3px" }}
+        ></div>
+        <FeedMore
+          isCurrentUser={username === nickname}
+          postId={postId}
+        ></FeedMore>
         {/*header -> profileimage + username */}
       </div>
 
@@ -68,6 +83,10 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
           </p>
         ))}
       </div>
+      {/*<div style={{display: 'flex'}}>
+        <FeedMore style={{marginLeft : "570px", marginTop : "3px"}}
+        isCurrentUser={username === nickname}></FeedMore>
+        </div>*/}
 
       <form className="feed__commentBox">
         <input
