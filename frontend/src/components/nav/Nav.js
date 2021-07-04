@@ -17,7 +17,7 @@ const Nav = () => {
   return (
     <div className="navbar">
       <Link className="navbar__logo" to="/">
-        LCPP
+        로컬피플
       </Link>
       <DropdownCustom username={nickname}></DropdownCustom>
     </div>

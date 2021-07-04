@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FeedCreate = ({ username }) => {
+  const currentUser = firebase.auth().currentUser;
   const classes = useStyles();
   let history = useHistory();
   const [description, setDescription] = useState("");
@@ -50,6 +51,7 @@ const FeedCreate = ({ username }) => {
       },
       () => {
         //complete function...
+
         storage
           .ref("images")
           .child(image.name)
@@ -60,7 +62,7 @@ const FeedCreate = ({ username }) => {
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               description: description,
               imageUrl: url,
-              username: username,
+              username: currentUser.displayName,
             });
 
             setProgress(0);

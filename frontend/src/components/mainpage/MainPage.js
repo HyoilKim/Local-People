@@ -30,7 +30,6 @@ const MainPage = () => {
       <Nav />
       {/* Header */}
       <div className="app__body">
-        <h1>Hello, This is LocalPeople🦖</h1>
         {/*<CheckboxLabels></CheckboxLabels>*/}
         {feeds.map(({ id, feed }) => (
           <Feed
