@@ -10,12 +10,14 @@ from rest_framework.authentication import TokenAuthentication, SessionAuthentica
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
 
+
 class PostingViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Posting.objects.all()
     serializer_class = PostingSerializer
     filter_backends = [SearchFilter]
     search_fields = ('content', 'category') # only tuple
+
 
 class MyPostingViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
@@ -29,6 +31,7 @@ class MyPostingViewSet(viewsets.ModelViewSet):
         qs = Posting.objects.all()
         qs = qs.filter(user=self.request.user)   
         return qs
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
