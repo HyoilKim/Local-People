@@ -25,15 +25,18 @@ function LoginPage() {
       setErrorFromSubmit(error.message);
       setLoading(false);
       setTimeout(() => {
-        setErrorFromSubmit("");
+        setErrorFromSubmit('');
       }, 5000);
     }
   };
 
   return (
     <div className="auth-wrapper">
-      <div style={{ textAlign: "center", fontWeight: "bold" }}>
-        <h3>로그인</h3>
+      <div style={{ textAlign: "center", fontWeight: "bold", height:"40px" }}>
+        <h1>로그인</h1>
+      </div>
+      <div style={{marginBottom: "40px"}}>
+        <hr></hr>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label>이메일</label>
@@ -61,12 +64,12 @@ function LoginPage() {
 
         {errorFromSubmit && <span>{errorFromSubmit}</span>}
 
-        <input type="submit" disabled={loading} />
+        <input value="로그인" type="submit" disabled={loading} />
         <Link
-          style={{ textAlign: "center", color: "gray", textDecoration: "none" }}
+          style={{ paddingTop:"40px", paddingLeft:"80px", textAlign: "center", color: "gray", textDecoration: "none"}}
           to="signup"
         >
-          계정 생성
+          계정이 없으신가요? 회원가입
         </Link>
       </form>
     </div>

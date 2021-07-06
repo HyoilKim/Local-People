@@ -52,8 +52,11 @@ function SignupPage() {
     // 회원가입 제출 시 로그인 창으로 다시 이동하는 기능 필요
     <div className="auth-wrapper">
       <div className="form">
-        <div style={{ textAlign: "center", fontWeight: "bold" }}>
-          <h3>회원가입</h3>
+        <div style={{ textAlign: "center", fontWeight: "bold", height:"40px" }}>
+          <h1>회원가입</h1>
+        </div>
+        <div style={{marginBottom: "40px"}}>
+          <hr></hr>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>이메일</label>
@@ -111,8 +114,10 @@ function SignupPage() {
 
           <div>
             <button name ="loc_certi" style={{
+                backgroundColor: "#ffffff",
                 width: "375px",
-                height: "120px"
+                height: "120px",
+                paddingLeft: "55px"
               }} {...register("loc_certi", { required: true })}>
               <Map>위치 인증</Map></button>
           </div>
@@ -123,12 +128,14 @@ function SignupPage() {
             )*/}
 
           <input
+            value="회원가입"
             type="submit"
             style={{ marginTop: "40px" }}
             disabled={loading}
           />
           <Link
             style={{
+              paddingLeft: "115px",
               textAlign: "center",
               color: "gray",
               textDecoration: "none",

@@ -9,6 +9,7 @@ import FeedCreate from "./components/feedcreate/FeedCreate";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "./redux/actions/user_action";
 import DataFetching from "./components/datafetching/DataFetching";
+import MyPage from "./components/mypage/MyPage";
 
 function App(props) {
   let history = useHistory();
@@ -49,6 +50,7 @@ function App(props) {
         <Route exact path="/create" component={FeedCreate}></Route>
         <Route exact path="/fetchingtest" component={DataFetching}></Route>
         <Route exact path="/login" component={LoginPage}></Route>
+        <Route exact path="/mypage" component={MyPage}></Route>
         <Route exact path="/signup" component={SignupPage}></Route>
       </Switch>
     );

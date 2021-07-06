@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
 }
 
 code {
@@ -17,12 +18,13 @@ code {
   flex-direction: column;
   justify-content: center;
   padding: 60px;
-  margin: 120px auto;
+  margin: 0px auto;
   width: 100%;
-  max-width: 520px;
-  min-height: 600px;
+  max-width: 400px;
+  min-height: 750px;
+  border-color: black;
   border-radius: 5px;
-  background-color: #dae0e6;
+  background-color: #ffffff;
 }
 
 .auth-wrapper form {
@@ -30,10 +32,12 @@ code {
   margin: 0 auto;
 }
 
-.auth-wrapper h3 {
-  font-weight: 500;
+.auth-wrapper h1 {
+  font-weight: 1000;
   text-align: center;
-  padding-bottom: 10px;
+  padding-bottom: 50px;
+  letter-spacing: 10px;
+  color: #fb8267;
 }
 
 .auth-wrapper span {
@@ -67,7 +71,7 @@ code {
 
 .auth-wrapper button[type="submit"],
 .auth-wrapper input[type="submit"] {
-  background: #7a84eb;
+  background: #fb8267;
   color: white;
   text-transform: uppercase;
   border: none;
@@ -76,12 +80,12 @@ code {
   padding: 15px;
   font-size: 20px;
   font-weight: 400;
-  letter-spacing: 10px;
+  letter-spacing: 3px;
 }
 
 .auth-wrapper button[type="submit"]:hover,
 .auth-wrapper input[type="submit"]:hover {
-  background: #636ee6;
+  background: #f75f3d;
 }
 
 .auth-wrapper button[type="submit"]:active,

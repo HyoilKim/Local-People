@@ -4,16 +4,24 @@ import Like from "../like/Like";
 import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
+import { FeedbackSharp } from "@material-ui/icons";
+import FeedMore from "./FeedMore";
 
-const Feed = ({ postId, user, username, description, imageUrl }) => {
+const Feed = ({ postId, author, description, imageUrl }) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+
+  const currentUser = firebase.auth().currentUser;
+  let nickname = "";
+  if (currentUser) {
+    nickname = currentUser.displayName;
+  }
 
   const postComment = (event) => {
     event.preventDefault();
     db.collection("feeds").doc(postId).collection("comments").add({
       text: comment,
-      username: user,
+      username: nickname,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -27,7 +35,6 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
         .collection("feeds")
         .doc(postId)
         .collection("comments")
-        .orderBy("timestamp", "asc")
         .onSnapshot((snapshot) => {
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
@@ -43,10 +50,18 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
       <div className="feed__header">
         <Avatar
           className="feed__avatar"
-          alt={username}
+          alt={author}
           src="/static/images/avatar/1.jpeg"
         ></Avatar>
-        <h3>{username}</h3>
+        <h3>{author}</h3>
+        <div
+          className="more"
+          style={{ marginLeft: "570px", marginTop: "3px" }}
+        ></div>
+        <FeedMore
+          isCurrentUser={author === nickname}
+          postId={postId}
+        ></FeedMore>
         {/*header -> profileimage + username */}
       </div>
 
@@ -58,7 +73,7 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
       </div>
 
       <h4 className="feed__text">
-        <strong>{username}</strong>: {description}
+        <strong>{author}</strong>: {description}
       </h4>
       {/*username + description */}
       <div className="feed__comments">

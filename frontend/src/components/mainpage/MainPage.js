@@ -11,12 +11,6 @@ import FeedCreate from "../feedcreate/FeedCreate";
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
   const user = firebase.auth().currentUser;
-  useEffect(() => {
-    if (user !== null) {
-      const displayName = user.displayName;
-      const email = user.email;
-    }
-  }, []);
 
   useEffect(() => {
     //this is where the code runs
@@ -25,26 +19,21 @@ const MainPage = () => {
       setFeeds(snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() })));
     });
   }, []);
+
   return (
     <div className="app">
       <Nav />
-      {/* Header */}
       <div className="app__body">
-        <h1>Hello, This is LocalPeople🦖</h1>
-        {/*<CheckboxLabels></CheckboxLabels>*/}
         {feeds.map(({ id, feed }) => (
           <Feed
             key={id}
             postId={id}
-            user={user.displayName}
-            username={feed.username}
+            author={feed.username}
             description={feed.description}
             imageUrl={feed.imageUrl}
           />
         ))}
-        {/* Feeds */}
       </div>
-      {/*<Link to="/fetchingtest">fetch</Link>*/}
     </div>
   );
 };
