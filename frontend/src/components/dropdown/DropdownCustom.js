@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import "./Dropdown.css";
+import { Avatar } from "@material-ui/core";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 import Map from "../map/Map.tsx";
 import firebase from "firebase";
@@ -16,10 +17,11 @@ const DropdownCustom = ({ username }) => {
     <div className="menu-container">
       <button onClick={onClick} className="menu-trigger">
         <span>{username}</span>
-        <img
-          src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/df/df7789f313571604c0e4fb82154f7ee93d9989c6.jpg"
-          alt="User avatar"
-        />
+        <Avatar
+          className="feed__avatar"
+          alt={username}
+          src="/static/images/avatar/1.jpeg"
+        ></Avatar>
       </button>
       <nav
         ref={dropdownRef}

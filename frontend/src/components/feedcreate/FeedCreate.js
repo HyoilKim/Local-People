@@ -79,7 +79,12 @@ const FeedCreate = ({ username }) => {
       <Nav></Nav>
       <div className="feedCreate">
         <progress value={progress} max="100"></progress>
-        <input accept="image/*" type="file" onChange={handleChange} />
+        <input
+          accept="image/*"
+          type="file"
+          onChange={handleChange}
+          className="feedCreate__image"
+        />
 
         <input
           type="text"
@@ -88,10 +93,12 @@ const FeedCreate = ({ username }) => {
           onChange={(event) => setDescription(event.target.value)}
           placeholder="Enter a description"
           value={description}
+          className="feedCreate__description"
         />
 
         <Button
           variant="contained"
+          className="feedCreate__button"
           color="primary"
           onClick={handleUpload}
           className={classes.button}

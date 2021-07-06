@@ -7,7 +7,7 @@ import firebase from "../firebase/firebase";
 import { FeedbackSharp } from "@material-ui/icons";
 import FeedMore from "./FeedMore";
 
-const Feed = ({ postId, user, username, description, imageUrl }) => {
+const Feed = ({ postId, author, description, imageUrl }) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
 
@@ -21,7 +21,7 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
     event.preventDefault();
     db.collection("feeds").doc(postId).collection("comments").add({
       text: comment,
-      username: user,
+      username: nickname,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
@@ -50,16 +50,16 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
       <div className="feed__header">
         <Avatar
           className="feed__avatar"
-          alt={username}
+          alt={author}
           src="/static/images/avatar/1.jpeg"
         ></Avatar>
-        <h3>{username}</h3>
+        <h3>{author}</h3>
         <div
           className="more"
           style={{ marginLeft: "570px", marginTop: "3px" }}
         ></div>
         <FeedMore
-          isCurrentUser={username === nickname}
+          isCurrentUser={author === nickname}
           postId={postId}
         ></FeedMore>
         {/*header -> profileimage + username */}
@@ -73,7 +73,7 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
       </div>
 
       <h4 className="feed__text">
-        <strong>{username}</strong>: {description}
+        <strong>{author}</strong>: {description}
       </h4>
       {/*username + description */}
       <div className="feed__comments">
@@ -83,10 +83,6 @@ const Feed = ({ postId, user, username, description, imageUrl }) => {
           </p>
         ))}
       </div>
-      {/*<div style={{display: 'flex'}}>
-        <FeedMore style={{marginLeft : "570px", marginTop : "3px"}}
-        isCurrentUser={username === nickname}></FeedMore>
-        </div>*/}
 
       <form className="feed__commentBox">
         <input
