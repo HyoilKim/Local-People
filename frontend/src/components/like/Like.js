@@ -18,6 +18,8 @@ import firebase from "../firebase/firebase";
   checked: {},
 })((props) => <Checkbox color="default" {...props} />); */
 
+let isLike = false;
+
 const Like = () => {
   /*
   const [isLiked, setIsLiked] = useState(null);
@@ -36,6 +38,7 @@ const Like = () => {
     }
   }*/
 
+  const [count, setCount] = useState(0);
   const [state, setState] = React.useState({
     checkedA: true,
     checkedB: true,
@@ -45,6 +48,17 @@ const Like = () => {
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
+  };
+
+  const handleClick = () => {
+    if (isLike === false) {
+      isLike = true;
+      setCount(count + 1);
+    } else {
+      setCount(count - 1);
+      isLike = false;
+      return;
+    }
   };
 
   return (
@@ -60,9 +74,10 @@ const Like = () => {
           }
           label=""
           style={{ width: "30px" }}
+          onClick={handleClick}
         />
         <div style={{ display: "flex", marginTop: "12px" }}>
-          <h5>2명이 좋아합니다</h5>
+          <h5>{count}명이 좋아합니다</h5>
         </div>
       </div>
     </FormGroup>

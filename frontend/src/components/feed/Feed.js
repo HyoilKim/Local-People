@@ -35,6 +35,7 @@ const Feed = ({ postId, author, description, imageUrl }) => {
         .collection("feeds")
         .doc(postId)
         .collection("comments")
+        .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
