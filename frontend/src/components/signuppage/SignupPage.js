@@ -48,14 +48,21 @@ function SignupPage() {
     }
   };
 
+  const dong = document.getElementById("dong");
+  if (dong !== null) {
+    console.log(dong.innerText);
+  }
+
   return (
     // 회원가입 제출 시 로그인 창으로 다시 이동하는 기능 필요
     <div className="auth-wrapper">
       <div className="form">
-        <div style={{ textAlign: "center", fontWeight: "bold", height:"40px" }}>
+        <div
+          style={{ textAlign: "center", fontWeight: "bold", height: "40px" }}
+        >
           <h1>회원가입</h1>
         </div>
-        <div style={{marginBottom: "40px"}}>
+        <div style={{ marginBottom: "40px" }}>
           <hr></hr>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -113,13 +120,18 @@ function SignupPage() {
           {errorFromSubmit && <span>{errorFromSubmit}</span>}
 
           <div>
-            <button name ="loc_certi" style={{
+            <button
+              name="loc_certi"
+              style={{
                 backgroundColor: "#ffffff",
                 width: "375px",
                 height: "120px",
-                paddingLeft: "55px"
-              }} {...register("loc_certi", { required: true })}>
-              <Map>위치 인증</Map></button>
+                paddingLeft: "55px",
+              }}
+              {...register("loc_certi", { required: true })}
+            >
+              <Map>위치 인증</Map>
+            </button>
           </div>
 
           {/*errors.loc_certi &&

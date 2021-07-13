@@ -1,6 +1,7 @@
-import React, { useState, useSelector } from "react";
+import React, { useState, useEffect, useSelector } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
+import { db } from "../firebase/firebase";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -18,48 +19,53 @@ import firebase from "../firebase/firebase";
   checked: {},
 })((props) => <Checkbox color="default" {...props} />); */
 
-let isLike = false;
-
-const Like = () => {
-  /*
-  const [isLiked, setIsLiked] = useState(null);
-  const usersRef = firebase.database().ref("feeds.username");
-  const user = useSelector(state => state.user.currentUser);
-
-  const handleLike = () => {
-    if (isLiked) {
-      usersRef
-        .child('${user.uid}/liked')
-        .remove(err => {
-          if(err !== null) {
-            console.error(err);
-          }
-        })
+const Like = ({ postId, nickname }) => {
+  const [userList, setUserList] = useState([]);
+  const checkUser = (element) => {
+    if (element.username === nickname) {
+      return true;
     }
-  }*/
+  };
+  useEffect(() => {
+    let unsubscribe;
+    if (postId) {
+      unsubscribe = db
+        .collection("feeds")
+        .doc(postId)
+        .collection("likes")
+        .orderBy("timestamp", "desc")
+        .onSnapshot((snapshot) => {
+          setUserList(snapshot.docs.map((doc) => doc.data().username));
+        });
+      console.log(userList);
+    }
+    return () => {
+      unsubscribe();
+    };
+  }, [postId]);
 
-  const [count, setCount] = useState(0);
-  const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
-    checkedF: true,
-    checkedG: true,
-  });
-
+  const [isLike, setIsLike] = useState({ checkedH: userList.some(checkUser) });
+  const [count, setCount] = useState(userList.length);
+  console.log(count)
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    if (isLike.checkedH === false) {
+      setCount(count);
+      postLike();
+    } else {
+      setCount(count);
+    }
+    setIsLike({ ...isLike, [event.target.name]: event.target.checked });
   };
 
-  const handleClick = () => {
-    if (isLike === false) {
-      isLike = true;
-      setCount(count + 1);
-    } else {
-      setCount(count - 1);
-      isLike = false;
-      return;
-    }
+  const postLike = () => {
+    db.collection("feeds").doc(postId).collection("likes").add({
+      username: nickname,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    setCount();
   };
+
+  const handleClick = () => {};
 
   return (
     <FormGroup>
@@ -67,6 +73,7 @@ const Like = () => {
         <FormControlLabel
           control={
             <Checkbox
+              checked={isLike.checkedH}
               icon={<FavoriteBorder />}
               checkedIcon={<Favorite />}
               name="checkedH"
@@ -74,7 +81,7 @@ const Like = () => {
           }
           label=""
           style={{ width: "30px" }}
-          onClick={handleClick}
+          onChange={handleChange}
         />
         <div style={{ display: "flex", marginTop: "12px" }}>
           <h5>{count}명이 좋아합니다</h5>

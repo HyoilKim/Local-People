@@ -39,7 +39,7 @@ const Feed = ({ postId, author, description, imageUrl }) => {
         .onSnapshot((snapshot) => {
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
-      console.log(comments);
+      
     }
     return () => {
       unsubscribe();
@@ -70,7 +70,7 @@ const Feed = ({ postId, author, description, imageUrl }) => {
       {/*image*/}
 
       <div className="feed__section">
-        <Like></Like>
+        <Like postId={postId} nickname={nickname}></Like>
       </div>
 
       <h4 className="feed__text">
