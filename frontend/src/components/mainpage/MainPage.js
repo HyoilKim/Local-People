@@ -35,6 +35,7 @@ const MainPage = () => {
             author={feed.username}
             description={feed.description}
             imageUrl={feed.imageUrl}
+            likedUser={feed.likes}
           />
         ))}
       </div>

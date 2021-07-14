@@ -7,7 +7,7 @@ import firebase from "../firebase/firebase";
 import { FeedbackSharp } from "@material-ui/icons";
 import FeedMore from "./FeedMore";
 
-const Feed = ({ postId, author, description, imageUrl }) => {
+const Feed = ({ postId, author, description, imageUrl, likedUser }) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
 
@@ -39,7 +39,6 @@ const Feed = ({ postId, author, description, imageUrl }) => {
         .onSnapshot((snapshot) => {
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
-      
     }
     return () => {
       unsubscribe();
@@ -70,7 +69,7 @@ const Feed = ({ postId, author, description, imageUrl }) => {
       {/*image*/}
 
       <div className="feed__section">
-        <Like postId={postId} nickname={nickname}></Like>
+        <Like postId={postId} nickname={nickname} likedUser={likedUser}></Like>
       </div>
 
       <h4 className="feed__text">

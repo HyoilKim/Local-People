@@ -19,13 +19,11 @@ import firebase from "../firebase/firebase";
   checked: {},
 })((props) => <Checkbox color="default" {...props} />); */
 
-const Like = ({ postId, nickname }) => {
+const Like = ({ postId, nickname, likedUser }) => {
   const [userList, setUserList] = useState([]);
   const checkUser = (element) => {
-    if (element.username === nickname) {
+    if (element === nickname) {
       return true;
-    } else {
-      return false;
     }
   };
   useEffect(() => {
@@ -34,12 +32,10 @@ const Like = ({ postId, nickname }) => {
       unsubscribe = db
         .collection("feeds")
         .doc(postId)
-        .collection("likes")
-        .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
-          setUserList(snapshot.docs.map((doc) => doc.data().username));
-          setCount(snapshot.docs.length);
-          setIsLike(snapshot.docs.some(checkUser));
+          setUserList(snapshot.data().likes);
+          setCount(snapshot.data().likes.length);
+          setIsLike(snapshot.data().likes.some(checkUser));
         });
       console.log(userList);
     }
@@ -48,21 +44,27 @@ const Like = ({ postId, nickname }) => {
     };
   }, [postId]);
   const postLike = () => {
-    db.collection("feeds").doc(postId).collection("likes").add({
-      username: nickname,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    setCount(userList.length);
+    db.collection("feeds")
+      .doc(postId)
+      .update({ likes: [...userList, nickname] });
   };
-  const [isLike, setIsLike] = useState();
+
+  const deleteLike = () => {
+    db.collection("feeds")
+      .doc(postId)
+      .update({
+        likes: userList.filter((element) => element !== nickname),
+      });
+  };
+  const [isLike, setIsLike] = useState(likedUser.some(checkUser));
   const [count, setCount] = useState(0);
-  console.log(count);
+  console.log(isLike);
   const handleChange = (event) => {
     if (isLike === false) {
       postLike();
     } else {
+      deleteLike();
     }
-    setIsLike({ ...isLike, [event.target.name]: event.target.checked });
   };
 
   const handleClick = () => {};

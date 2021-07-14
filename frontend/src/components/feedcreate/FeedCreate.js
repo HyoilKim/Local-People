@@ -63,6 +63,7 @@ const FeedCreate = ({ username }) => {
               description: description,
               imageUrl: url,
               username: currentUser.displayName,
+              likes: [],
             });
 
             setProgress(0);
