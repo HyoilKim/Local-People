@@ -14,10 +14,14 @@ const MainPage = () => {
 
   useEffect(() => {
     //this is where the code runs
-    db.collection("feeds").onSnapshot((snapshot) => {
-      //every single time a new feeds is added, this code runs
-      setFeeds(snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() })));
-    });
+    db.collection("feeds")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        //every single time a new feeds is added, this code runs
+        setFeeds(
+          snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() }))
+        );
+      });
   }, []);
 
   return (
@@ -31,6 +35,7 @@ const MainPage = () => {
             author={feed.username}
             description={feed.description}
             imageUrl={feed.imageUrl}
+            likedUser={feed.likes}
           />
         ))}
       </div>

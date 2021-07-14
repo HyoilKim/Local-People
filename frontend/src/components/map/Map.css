@@ -1,15 +1,15 @@
 .map {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 #dong {
   display: flex;
-  margin-top: 30px;
-  margin-right: 20px;
+  margin: auto;
 }
 
 .map__button {
   display: flex;
+  margin: auto;
 }
 
 @import url(https://fonts.googleapis.com/css?family=BenchNine:700);
