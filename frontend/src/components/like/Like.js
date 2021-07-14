@@ -24,6 +24,8 @@ const Like = ({ postId, nickname }) => {
   const checkUser = (element) => {
     if (element.username === nickname) {
       return true;
+    } else {
+      return false;
     }
   };
   useEffect(() => {
@@ -36,6 +38,8 @@ const Like = ({ postId, nickname }) => {
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
           setUserList(snapshot.docs.map((doc) => doc.data().username));
+          setCount(snapshot.docs.length);
+          setIsLike(snapshot.docs.some(checkUser));
         });
       console.log(userList);
     }
@@ -43,26 +47,22 @@ const Like = ({ postId, nickname }) => {
       unsubscribe();
     };
   }, [postId]);
-
-  const [isLike, setIsLike] = useState({ checkedH: userList.some(checkUser) });
-  const [count, setCount] = useState(userList.length);
-  console.log(count)
-  const handleChange = (event) => {
-    if (isLike.checkedH === false) {
-      setCount(count);
-      postLike();
-    } else {
-      setCount(count);
-    }
-    setIsLike({ ...isLike, [event.target.name]: event.target.checked });
-  };
-
   const postLike = () => {
     db.collection("feeds").doc(postId).collection("likes").add({
       username: nickname,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    setCount();
+    setCount(userList.length);
+  };
+  const [isLike, setIsLike] = useState();
+  const [count, setCount] = useState(0);
+  console.log(count);
+  const handleChange = (event) => {
+    if (isLike === false) {
+      postLike();
+    } else {
+    }
+    setIsLike({ ...isLike, [event.target.name]: event.target.checked });
   };
 
   const handleClick = () => {};
@@ -73,7 +73,7 @@ const Like = ({ postId, nickname }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={isLike.checkedH}
+              checked={isLike}
               icon={<FavoriteBorder />}
               checkedIcon={<Favorite />}
               name="checkedH"
