@@ -15,5 +15,5 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('pk', 'posting', 'user', 'comment', 'like', 'created_at')
 
-class LikeSerializer():
+class CommentsLikeSerializer():
     pass

@@ -1,9 +1,7 @@
-import json
-from django.http import JsonResponse
-from django.core.checks import messages
+from django.db import reset_queries
 from .models import Posting, Comment
 from .serializers import PostingSerializer, CommentSerializer
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, mixins, generics, status
 from rest_framework.response import Response
 from rest_framework.filters import SearchFilter
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
@@ -35,5 +33,23 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    def get_queryset(self):
+        print(self.request.query_params) 
+
+        try:
+            posting_id = int(self.request.query_params['posting'])
+        except:
+            return Response(data=0,status=status.HTTP_400_BAD_REQUEST)
+            
+        if posting_id:
+            return Comment.objects.filter(posting=posting_id)
+        else:
+            return Comment.objects.all()
+        
+class CommentListOfPosting(generics.ListAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        posting_id = self.kwargs['posting']
+        return Comment.objects.filter(posting=posting_id)
