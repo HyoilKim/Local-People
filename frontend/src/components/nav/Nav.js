@@ -1,4 +1,3 @@
-import React from "react";
 import "./Nav.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";

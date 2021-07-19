@@ -7,10 +7,10 @@ declare global {
   }
 }
 
-const Map = () => {
+const MarkerView = () => {
   let completed = false;
   const handleClick = () => {
-    let container = document.getElementById("map");
+    let container = document.getElementById("mapview");
     let options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
       level: 3,
@@ -101,8 +101,8 @@ const Map = () => {
     }
   };
 
-  /*useEffect(() => {
-    let container = document.getElementById("map");
+  useEffect(() => {
+    let container = document.getElementById("mapview");
     let options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
       level: 3,
@@ -128,11 +128,6 @@ const Map = () => {
         content: iwContent,
         removable: iwRemoveable,
       });
-
-      function searchAddrFromCoords(coords, callback) {
-        // 좌표로 행정동 주소 정보를 요청합니다
-        geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-      }
 
       // 인포윈도우를 마커위에 표시합니다
       infowindow.open(map, marker);
@@ -183,25 +178,18 @@ const Map = () => {
 
       displayMarker(locPosition, message);
     }
-  }, []);*/
+  }, []);
 
   return (
     <div className="map">
-      <div id="dong"></div>
-      <div id="map"></div>
-      <div className="map__button">
-        <button
-          style={{ backgroundColor: "#fb8267", borderRadius: "5px" }}
-          id="authButton"
-          value=""
-          onClick={handleClick}
-          disabled={completed}
-        >
+      <div className="">
+        <button value="" onClick={handleClick} disabled={completed}>
           위치 인증하기
         </button>
       </div>
+      <div id="mapview"></div>
     </div>
   );
 };
 
-export default Map;
+export default MarkerView;

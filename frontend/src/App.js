@@ -1,5 +1,5 @@
 import "./App.css";
-import { React, useEffect } from "react";
+import { useEffect } from "react";
 import firebase from "./components/firebase/firebase";
 import { Switch, Route, useHistory } from "react-router-dom";
 import SignupPage from "./components/signuppage/SignupPage";
@@ -13,12 +13,10 @@ import MyPage from "./components/mypage/MyPage";
 
 function App(props) {
   let history = useHistory();
-  const user = firebase.auth().currentUser;
   let dispatch = useDispatch();
   const isLoading = useSelector((state) => state.user.isLoading);
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
-      console.log("user", user);
       // user 있으면 로그인 된 / user 없으면 안 된 상태
       if (user) {
         history.push("/");
