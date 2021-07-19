@@ -1,28 +1,16 @@
-import React, { useState, useEffect, useSelector } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
+import React, { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import firebase from "../firebase/firebase";
-/* const GreenCheckbox = withStyles({
-
-  root: {
-    color: green[400],
-    "&$checked": {
-      color: green[600],
-    },
-  },
-  checked: {},
-})((props) => <Checkbox color="default" {...props} />); */
 
 const Like = ({ postId, nickname, likedUser }) => {
   const [userList, setUserList] = useState([]);
   const checkUser = (element) => {
     if (element === nickname) {
+      //리스트 element 중 현재 유저의 닉네임과 일치하면 true 아니면 false
       return true;
     }
   };
@@ -33,16 +21,15 @@ const Like = ({ postId, nickname, likedUser }) => {
         .collection("feeds")
         .doc(postId)
         .onSnapshot((snapshot) => {
-          setUserList(snapshot.data().likes);
-          setCount(snapshot.data().likes.length);
-          setIsLike(snapshot.data().likes.some(checkUser));
+          setUserList(snapshot.data().likes); // 좋아요 누른 유저 리스트
+          setCount(snapshot.data().likes.length); // 좋아요 누른 유저 리스트의 길이
+          setIsLike(snapshot.data().likes.some(checkUser)); //좋아요리스트 중 현재 유저가 있는지 없는지
         });
-      console.log(userList);
     }
     return () => {
       unsubscribe();
     };
-  }, [postId]);
+  }, [postId, checkUser]);
   const postLike = () => {
     db.collection("feeds")
       .doc(postId)
@@ -53,7 +40,7 @@ const Like = ({ postId, nickname, likedUser }) => {
     db.collection("feeds")
       .doc(postId)
       .update({
-        likes: userList.filter((element) => element !== nickname),
+        likes: userList.filter((element) => element !== nickname), //db 상에 있는 유저리스트 중 현재 유저와 같은 요소가 없도록 필터링
       });
   };
   const [isLike, setIsLike] = useState(likedUser.some(checkUser));
@@ -66,8 +53,6 @@ const Like = ({ postId, nickname, likedUser }) => {
       deleteLike();
     }
   };
-
-  const handleClick = () => {};
 
   return (
     <FormGroup>

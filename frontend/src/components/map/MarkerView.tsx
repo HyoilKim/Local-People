@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-const Map = () => {
+const MarkerView = () => {
   let completed = false;
   const handleClick = () => {
     let container = document.getElementById("map");
@@ -101,7 +101,7 @@ const Map = () => {
     }
   };
 
-  /*useEffect(() => {
+  useEffect(() => {
     let container = document.getElementById("map");
     let options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
@@ -183,7 +183,7 @@ const Map = () => {
 
       displayMarker(locPosition, message);
     }
-  }, []);*/
+  }, []);
 
   return (
     <div className="map">
@@ -204,4 +204,4 @@ const Map = () => {
   );
 };
 
-export default Map;
+export default MarkerView;

@@ -1,12 +1,9 @@
-import React from "react";
 import "./MainPage.css";
 import Feed from "../feed/Feed";
-import { useState, useEffect, useLocation } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import Nav from "../nav/Nav";
-import { BrowserRouter as Router, Link } from "react-router-dom";
-import FeedCreate from "../feedcreate/FeedCreate";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
