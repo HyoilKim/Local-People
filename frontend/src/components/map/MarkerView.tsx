@@ -37,11 +37,6 @@ const MarkerView = () => {
         removable: iwRemoveable,
       });
 
-      function searchAddrFromCoords(coords, callback) {
-        // 좌표로 행정동 주소 정보를 요청합니다
-        geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-      }
-
       // 인포윈도우를 마커위에 표시합니다
       infowindow.open(map, marker);
 

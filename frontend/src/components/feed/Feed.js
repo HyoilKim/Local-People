@@ -1,10 +1,9 @@
-import { React, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./Feed.css";
 import Like from "../like/Like";
 import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
-import { FeedbackSharp } from "@material-ui/icons";
 import FeedMore from "./FeedMore";
 
 const Feed = ({ postId, author, description, imageUrl, likedUser }) => {
