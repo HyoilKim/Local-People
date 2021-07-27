@@ -5,6 +5,7 @@ import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import MarkerView from "../map/MarkerView";
 import Nav from "../nav/Nav";
+import CheckBox from "../category/Category";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
@@ -13,6 +14,9 @@ const MainPage = () => {
   const handleClick = () => {
     setIsMap(!isMap);
   };
+  const [Filters, setFilters] = useState({
+      mock_data: []
+  })
 
   useEffect(() => {
     //this is where the code runs
@@ -26,6 +30,20 @@ const MainPage = () => {
       });
   }, []);
 
+  const showFilteredResults = (filters) => {
+      // TODO: Show rendered feed
+  }
+
+  const handleFilters = (filters, category) => {
+      const newFilters = {...Filters}
+
+      newFilters[category] = filters
+
+      showFilteredResults(newFilters)
+      setFilters(newFilters)
+
+  }
+
   return (
     <div className="app">
       <Nav />
@@ -37,6 +55,10 @@ const MainPage = () => {
             {isMap ? "피드로 보기" : "지도로 보기"}
           </button>
         </div>
+
+          <CheckBox
+              handleFilters={filters => handleFilters(filters, "mock_data")}
+          />
 
         {isMap ? (
           <MarkerView></MarkerView>
