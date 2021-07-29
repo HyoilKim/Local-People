@@ -118,7 +118,7 @@ function SignupPage() {
             )}
 
           {errorFromSubmit && <span>{errorFromSubmit}</span>}
-
+          {/*
           <div>
             <button
               name="loc_certi"
@@ -133,7 +133,7 @@ function SignupPage() {
               <Map>위치 인증</Map>
             </button>
           </div>
-
+*/}
           {/*errors.loc_certi &&
             errors.loc_certi.type === "required" && (
               <span>위치 인증을 클릭해주세요.</span>

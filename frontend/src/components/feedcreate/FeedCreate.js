@@ -18,6 +18,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+navigator.geolocation.getCurrentPosition((position) => {
+  let lng = position.coords.longitude;
+  let lat = position.coords.latitude;
+});
+
 const FeedCreate = ({ username }) => {
   const currentUser = firebase.auth().currentUser;
   const classes = useStyles();

@@ -25,6 +25,7 @@ const MainPage = () => {
         );
       });
   }, []);
+  console.log(isMap);
 
   return (
     <div className="app">
@@ -39,8 +40,6 @@ const MainPage = () => {
         </div>
 
         {isMap ? (
-          <MarkerView></MarkerView>
-        ) : (
           feeds.map(({ id, feed }) => (
             <Feed
               key={id}
@@ -51,6 +50,8 @@ const MainPage = () => {
               likedUser={feed.likes}
             />
           ))
+        ) : (
+          <MarkerView></MarkerView>
         )}
       </div>
     </div>
