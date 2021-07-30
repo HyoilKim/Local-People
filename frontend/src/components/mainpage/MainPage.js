@@ -25,7 +25,6 @@ const MainPage = () => {
         );
       });
   }, []);
-  console.log(isMap);
 
   return (
     <div className="app">
@@ -35,11 +34,13 @@ const MainPage = () => {
         <div className="app__view__button">
           <button>새 소식</button>
           <button onClick={handleClick}>
-            {isMap ? "피드로 보기" : "지도로 보기"}
+            {isMap === true ? "피드로 보기" : "지도로 보기"}
           </button>
         </div>
 
-        {isMap ? (
+        {isMap === true ? (
+          <MarkerView></MarkerView>
+        ) : (
           feeds.map(({ id, feed }) => (
             <Feed
               key={id}
@@ -50,8 +51,6 @@ const MainPage = () => {
               likedUser={feed.likes}
             />
           ))
-        ) : (
-          <MarkerView></MarkerView>
         )}
       </div>
     </div>

@@ -18,18 +18,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-navigator.geolocation.getCurrentPosition((position) => {
-  let lng = position.coords.longitude;
-  let lat = position.coords.latitude;
-});
-
 const FeedCreate = ({ username }) => {
   const currentUser = firebase.auth().currentUser;
   const classes = useStyles();
+  const [isCoords, setIsCoords] = useState(false);
+  const [currentCoords, setCurrentCoords] = useState({
+    lat: 33.450701,
+    lon: 126.570667,
+  });
   let history = useHistory();
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
+  const handleClick = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setCurrentCoords({
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        });
+        setIsCoords(true);
+      });
+    } else {
+      console.log("Can't load currentPosition");
+    }
+  };
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -38,47 +51,57 @@ const FeedCreate = ({ username }) => {
   };
 
   const handleUpload = () => {
-    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    if (isCoords === true) {
+      const uploadTask = storage.ref(`images/${image.name}`).put(image);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        //progress function
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgress(progress);
-      },
-      (error) => {
-        //Error function
-        console.log(error);
-        alert(error.message);
-      },
-      () => {
-        //complete function...
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          //progress function
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error) => {
+          //Error function
+          console.log(error);
+          alert(error.message);
+        },
+        () => {
+          //complete function...
 
-        storage
-          .ref("images")
-          .child(image.name)
-          .getDownloadURL()
-          .then((url) => {
-            //post image inside db
-            db.collection("feeds").add({
-              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-              description: description,
-              imageUrl: url,
-              username: currentUser.displayName,
-              likes: [],
+          storage
+            .ref("images")
+            .child(image.name)
+            .getDownloadURL()
+            .then((url) => {
+              //post image inside db
+              db.collection("feeds").add({
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                description: description,
+                imageUrl: url,
+                username: currentUser.displayName,
+                likes: [],
+                location: currentCoords,
+              });
+
+              setProgress(0);
+              setDescription("");
+              setImage(null);
+              history.push("/");
             });
-
-            setProgress(0);
-            setDescription("");
-            setImage(null);
-            history.push("/");
-          });
-      }
-    );
+        }
+      );
+    } else {
+      alert("위치인증이 필요합니다.");
+    }
   };
+  const locationButton = document.getElementById("locationButton");
+
+  locationButton.innerText = `${
+    isCoords === true ? "위치인증완료" : "위치인증하기"
+  }`;
 
   return (
     <div className="container">
@@ -102,6 +125,14 @@ const FeedCreate = ({ username }) => {
           className="feedCreate__description"
         />
 
+        <Button
+          variant="contained"
+          className="feedCreate__button"
+          color="primary"
+          onClick={handleClick}
+          className={classes.button}
+          id="locationButton"
+        ></Button>
         <Button
           variant="contained"
           className="feedCreate__button"

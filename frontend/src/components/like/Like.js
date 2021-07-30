@@ -29,7 +29,7 @@ const Like = ({ postId, nickname, likedUser }) => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [postId]);
   const postLike = () => {
     db.collection("feeds")
       .doc(postId)

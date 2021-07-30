@@ -39,9 +39,6 @@ const Feed = ({ postId, author, description, imageUrl, likedUser }) => {
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
     }
-    return () => {
-      unsubscribe();
-    };
   }, [postId]);
 
   return (
