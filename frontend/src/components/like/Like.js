@@ -21,9 +21,11 @@ const Like = ({ postId, nickname, likedUser }) => {
         .collection("feeds")
         .doc(postId)
         .onSnapshot((snapshot) => {
-          setUserList(snapshot.data().likes); // 좋아요 누른 유저 리스트
-          setCount(snapshot.data().likes.length); // 좋아요 누른 유저 리스트의 길이
-          setIsLike(snapshot.data().likes.some(checkUser)); //좋아요리스트 중 현재 유저가 있는지 없는지 redirect가 여러번 되는 문제가 있긴하다.
+          if (snapshot.data().likes) {
+            setUserList(snapshot.data().likes); // 좋아요 누른 유저 리스트
+            setCount(snapshot.data().likes.length); // 좋아요 누른 유저 리스트의 길이
+            setIsLike(snapshot.data().likes.some(checkUser)); //좋아요리스트 중 현재 유저가 있는지 없는지 redirect가 여러번 되는 문제가 있긴하다.
+          }
         });
     }
     return () => {
@@ -45,7 +47,6 @@ const Like = ({ postId, nickname, likedUser }) => {
   };
   const [isLike, setIsLike] = useState(likedUser.some(checkUser));
   const [count, setCount] = useState(0);
-  console.log(isLike);
   const handleChange = (event) => {
     if (isLike === false) {
       postLike();

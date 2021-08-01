@@ -31,6 +31,8 @@ const FeedCreate = ({ username }) => {
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
   const handleClick = () => {
+    const locationButton = document.getElementById("locationButton");
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setCurrentCoords({
@@ -38,9 +40,11 @@ const FeedCreate = ({ username }) => {
           lon: position.coords.longitude,
         });
         setIsCoords(true);
+        locationButton.innerText = "위치인증완료";
       });
     } else {
       console.log("Can't load currentPosition");
+      locationButton.innerText = "위치인증실패";
     }
   };
 
@@ -97,11 +101,6 @@ const FeedCreate = ({ username }) => {
       alert("위치인증이 필요합니다.");
     }
   };
-  const locationButton = document.getElementById("locationButton");
-
-  locationButton.innerText = `${
-    isCoords === true ? "위치인증완료" : "위치인증하기"
-  }`;
 
   return (
     <div className="container">
@@ -132,7 +131,9 @@ const FeedCreate = ({ username }) => {
           onClick={handleClick}
           className={classes.button}
           id="locationButton"
-        ></Button>
+        >
+          위치인증하기
+        </Button>
         <Button
           variant="contained"
           className="feedCreate__button"
