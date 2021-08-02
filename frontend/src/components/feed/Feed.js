@@ -60,6 +60,24 @@ const Feed = ({
     setComment("");
   };
 
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setCurrentCoords({
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      });
+      setDistance(
+        getDistanceFromLatLonInKm(
+          currentCoords.lat,
+          currentCoords.lon,
+          lat,
+          lon
+        )
+      );
+      console.log(distance);
+    });
+  }
+
   useEffect(() => {
     let unsubscribe;
     if (postId) {
