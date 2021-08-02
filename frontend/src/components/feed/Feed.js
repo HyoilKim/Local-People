@@ -15,6 +15,28 @@ const Feed = ({
   lat,
   lon,
 }) => {
+  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState("");
+  const [currentCoords, setCurrentCoords] = useState({
+    lat: 33.450701,
+    lon: 126.570667,
+  });
+  const currentUser = firebase.auth().currentUser;
+  let nickname = "";
+  if (currentUser) {
+    nickname = currentUser.displayName;
+  }
+
+  const postComment = (event) => {
+    event.preventDefault();
+    db.collection("feeds").doc(postId).collection("comments").add({
+      text: comment,
+      username: nickname,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    setComment("");
+  };
   function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
     function deg2rad(deg) {
       return deg * (Math.PI / 180);
@@ -33,51 +55,6 @@ const Feed = ({
     return d;
   }
 
-  const [currentCoords, setCurrentCoords] = useState({
-    lat: 33.450701,
-    lon: 126.570667,
-  });
-  const [isCoords, setIsCoords] = useState(false);
-  const [distance, setDistance] = useState(0);
-
-  const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState("");
-
-  const currentUser = firebase.auth().currentUser;
-  let nickname = "";
-  if (currentUser) {
-    nickname = currentUser.displayName;
-  }
-
-  const postComment = (event) => {
-    event.preventDefault();
-    db.collection("feeds").doc(postId).collection("comments").add({
-      text: comment,
-      username: nickname,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-
-    setComment("");
-  };
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setCurrentCoords({
-        lat: position.coords.latitude,
-        lon: position.coords.longitude,
-      });
-      setDistance(
-        getDistanceFromLatLonInKm(
-          currentCoords.lat,
-          currentCoords.lon,
-          lat,
-          lon
-        )
-      );
-      console.log(distance);
-    });
-  }
-
   useEffect(() => {
     let unsubscribe;
     if (postId) {
@@ -90,6 +67,26 @@ const Feed = ({
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
     }
+    let getPosition = function (options) {
+      return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      });
+    };
+
+    getPosition()
+      .then((position) => {
+        console.log(
+          getDistanceFromLatLonInKm(
+            position.coords.latitude,
+            position.coords.longitude,
+            lat,
+            lon
+          )
+        );
+      })
+      .catch((e) => {
+        console.log(e.message);
+      });
   }, [postId]);
 
   return (

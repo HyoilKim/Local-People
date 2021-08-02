@@ -28,10 +28,11 @@ const Like = ({ postId, nickname, likedUser }) => {
           }
         });
     }
+    if(navigator.geolocation)
     return () => {
       unsubscribe();
     };
-  }, [postId]);
+  }, [postId, checkUser]);
   const postLike = () => {
     db.collection("feeds")
       .doc(postId)

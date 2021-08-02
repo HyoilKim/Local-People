@@ -8,11 +8,13 @@ import Nav from "../nav/Nav";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
-  const user = firebase.auth().currentUser;
   const [isMap, setIsMap] = useState("false");
   const handleClick = () => {
     setIsMap(!isMap);
   };
+  
+
+  const [distance, setDistance] = useState(0);
 
   useEffect(() => {
     //this is where the code runs
@@ -51,7 +53,7 @@ const MainPage = () => {
               likedUser={feed.likes}
               lat={feed.location.lat}
               lon={feed.location.lon}
-            />
+            ></Feed>
           ))
         )}
       </div>
