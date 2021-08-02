@@ -28,7 +28,7 @@ const Like = ({ postId, nickname, likedUser }) => {
           }
         });
     }
-    if(navigator.geolocation)
+
     return () => {
       unsubscribe();
     };
