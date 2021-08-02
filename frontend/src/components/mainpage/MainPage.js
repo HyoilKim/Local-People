@@ -49,6 +49,8 @@ const MainPage = () => {
               description={feed.description}
               imageUrl={feed.imageUrl}
               likedUser={feed.likes}
+              lat={feed.location.lat}
+              lon={feed.location.lon}
             />
           ))
         )}
