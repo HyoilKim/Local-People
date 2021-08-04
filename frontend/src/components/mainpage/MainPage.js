@@ -2,7 +2,6 @@ import "./MainPage.css";
 import Feed from "../feed/Feed";
 import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
-import firebase from "../firebase/firebase";
 import MarkerView from "../map/MarkerView";
 import Nav from "../nav/Nav";
 
@@ -12,9 +11,6 @@ const MainPage = () => {
   const handleClick = () => {
     setIsMap(!isMap);
   };
-  
-
-  const [distance, setDistance] = useState(0);
 
   useEffect(() => {
     //this is where the code runs
@@ -26,6 +22,8 @@ const MainPage = () => {
           snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() }))
         );
       });
+
+    console.log(feeds);
   }, []);
 
   return (

@@ -8,7 +8,6 @@ import MainPage from "./components/mainpage/MainPage";
 import FeedCreate from "./components/feedcreate/FeedCreate";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "./redux/actions/user_action";
-import DataFetching from "./components/datafetching/DataFetching";
 import MyPage from "./components/mypage/MyPage";
 
 function App(props) {
@@ -46,7 +45,6 @@ function App(props) {
       <Switch>
         <Route exact path="/" component={MainPage}></Route>
         <Route exact path="/create" component={FeedCreate}></Route>
-        <Route exact path="/fetchingtest" component={DataFetching}></Route>
         <Route exact path="/login" component={LoginPage}></Route>
         <Route exact path="/mypage" component={MyPage}></Route>
         <Route exact path="/signup" component={SignupPage}></Route>
