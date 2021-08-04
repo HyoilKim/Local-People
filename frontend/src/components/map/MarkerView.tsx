@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-const MarkerView = () => {
+const MarkerView = ({ feeds }) => {
   let completed = false;
 
   useEffect(() => {
@@ -87,6 +87,8 @@ const MarkerView = () => {
 
       displayMarker(locPosition, message);
     }
+
+    console.log(feeds);
   }, []);
 
   return (

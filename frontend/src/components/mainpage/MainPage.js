@@ -39,7 +39,7 @@ const MainPage = () => {
         </div>
 
         {isMap === true ? (
-          <MarkerView></MarkerView>
+          <MarkerView feeds={feeds}></MarkerView>
         ) : (
           feeds.map(({ id, feed }) => (
             <Feed
