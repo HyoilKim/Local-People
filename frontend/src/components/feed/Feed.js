@@ -19,7 +19,6 @@ const Feed = ({
   const [comment, setComment] = useState("");
   const currentUser = firebase.auth().currentUser;
   let nickname = "";
-
   if (currentUser) {
     nickname = currentUser.displayName;
   }
@@ -34,9 +33,8 @@ const Feed = ({
 
     setComment("");
   };
-
   function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
-    //두 점의 위경도 좌표를 받아 거리를 반환
+    //두 점의 위경도좌표를 받아 거리 return
     function deg2rad(deg) {
       return deg * (Math.PI / 180);
     }
@@ -66,7 +64,6 @@ const Feed = ({
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
     }
-
     let getPosition = function (options) {
       return new Promise(function (resolve, reject) {
         navigator.geolocation.getCurrentPosition(resolve, reject, options);
@@ -87,6 +84,9 @@ const Feed = ({
       .catch((e) => {
         console.log(e.message);
       });
+
+
+      return; //componentWillUnmount
   }, [postId]);
 
   return (
