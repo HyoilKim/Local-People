@@ -8,8 +8,6 @@ declare global {
 }
 
 const MarkerView = ({ feeds }) => {
-  let completed = false;
-
   useEffect(() => {
     let container = document.getElementById("mapview");
     let options = {

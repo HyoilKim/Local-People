@@ -8,7 +8,15 @@ declare global {
 }
 
 const Map = () => {
+  //위치인증 버튼을 클릭하였을 때, 실행하는 것임
+  const authButton = document.getElementById("authButton");
   let completed = false;
+  if (navigator.geolocation) {
+    completed = true;
+    if (authButton) {
+      authButton.innerText = "위치 인증 완료";
+    }
+  }
   const handleClick = () => {
     let container = document.getElementById("map");
     let options = {
@@ -70,7 +78,7 @@ const Map = () => {
         }
       }
     }
-    const authButton = document.getElementById("authButton");
+
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(function (position) {
