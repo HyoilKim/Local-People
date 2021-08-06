@@ -10,6 +10,7 @@ const MainPage = () => {
   const [isMap, setIsMap] = useState("false");
   const handleClick = () => {
     setIsMap(!isMap);
+    console.log("main2"); //for debug
   };
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const MainPage = () => {
         );
       });
 
-    console.log(feeds);
+    console.log("main1"); //for debug
   }, []);
 
   return (

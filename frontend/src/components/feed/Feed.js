@@ -15,12 +15,14 @@ const Feed = ({
   lat,
   lon,
 }) => {
+  let nickname = "";
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const currentUser = firebase.auth().currentUser;
-  let nickname = "";
+
   if (currentUser) {
     nickname = currentUser.displayName;
+    console.log("feed1"); //for Debug
   }
 
   const postComment = (event) => {
@@ -30,29 +32,31 @@ const Feed = ({
       username: nickname,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
-
+    console.log("feed2"); //for Debug
     setComment("");
   };
-  function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
-    //두 점의 위경도좌표를 받아 거리 return
-    function deg2rad(deg) {
-      return deg * (Math.PI / 180);
-    }
-    const R = 6371;
-    const dLat = deg2rad(lat2 - lat1);
-    const dLon = deg2rad(lng2 - lng1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const d = R * c;
-    return d;
-  }
 
   useEffect(() => {
+    function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
+      //두 점의 위경도좌표를 받아 거리 return
+      function deg2rad(deg) {
+        return deg * (Math.PI / 180);
+      }
+      const R = 6371;
+      const dLat = deg2rad(lat2 - lat1);
+      const dLon = deg2rad(lng2 - lng1);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) *
+          Math.cos(deg2rad(lat2)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const d = R * c;
+      console.log("feed3"); //for Debug
+      return d;
+    }
+
     let unsubscribe;
     if (postId) {
       unsubscribe = db
@@ -69,7 +73,7 @@ const Feed = ({
         navigator.geolocation.getCurrentPosition(resolve, reject, options);
       });
     };
-
+    console.log("feed4"); //for Debug
     getPosition()
       .then((position) => {
         console.log(
@@ -85,8 +89,7 @@ const Feed = ({
         console.log(e.message);
       });
 
-
-      return; //componentWillUnmount
+    return; //componentWillUnmount
   }, [postId]);
 
   return (
