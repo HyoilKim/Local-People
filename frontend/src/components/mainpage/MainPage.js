@@ -10,7 +10,6 @@ const MainPage = () => {
   const [isMap, setIsMap] = useState("false");
   const handleClick = () => {
     setIsMap(!isMap);
-    console.log("main2"); //for debug
   };
 
   useEffect(() => {
@@ -23,8 +22,6 @@ const MainPage = () => {
           snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() }))
         );
       });
-
-    console.log("main1"); //for debug
   }, []);
 
   return (

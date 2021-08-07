@@ -22,7 +22,7 @@ const Feed = ({
 
   if (currentUser) {
     nickname = currentUser.displayName;
-    console.log("feed1"); //for Debug
+    
   }
 
   const postComment = (event) => {
@@ -32,7 +32,7 @@ const Feed = ({
       username: nickname,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    console.log("feed2"); //for Debug
+    
     setComment("");
   };
 
@@ -53,7 +53,7 @@ const Feed = ({
           Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       const d = R * c;
-      console.log("feed3"); //for Debug
+      
       return d;
     }
 
@@ -73,7 +73,7 @@ const Feed = ({
         navigator.geolocation.getCurrentPosition(resolve, reject, options);
       });
     };
-    console.log("feed4"); //for Debug
+    
     getPosition()
       .then((position) => {
         console.log(
