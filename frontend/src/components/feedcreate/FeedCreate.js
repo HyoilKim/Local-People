@@ -106,23 +106,19 @@ const FeedCreate = ({ username }) => {
     <div className="container">
       <Nav></Nav>
       <div className="feedCreate">
-        <progress value={progress} max="100"></progress>
-        <input
-          accept="image/*"
-          type="file"
-          onChange={handleChange}
-          className="feedCreate__image"
-        />
+        <div className="feedCreate__comment">
+          <h3 
+            style={{color: "#fb8267", fontSize: "25px", fontWeight:"bold"}}>게시물 만들기</h3>
+        </div>
 
-        <input
-          type="text"
+        <textarea
           name=""
           id=""
           onChange={(event) => setDescription(event.target.value)}
-          placeholder="Enter a description"
+          placeholder="내용을 입력해주세요"
           value={description}
-          className="feedCreate__description"
-        />
+          className="feedCreate__description"></textarea>
+          
 
         <Button
           variant="contained"
@@ -143,7 +139,31 @@ const FeedCreate = ({ username }) => {
         >
           Post
         </Button>
+
       </div>
+      <div className="feedCreate__bottom">
+        <div className="feedCreate__image">
+          <input
+            accept="image/*"
+            type="file"
+            onChange={handleChange}
+          />
+        </div>
+        <div className="feedCreate__button">
+          <Button
+            variant="contained"
+            background
+            color="primary"
+            onClick={handleUpload}
+            className={classes.button}
+          >
+            업로드
+          </Button>
+        </div>
+      </div>
+      {/* <div className="feedCreate__progress">
+        <progress value={progress} max="100"></progress>
+      </div> */}
     </div>
   );
 };

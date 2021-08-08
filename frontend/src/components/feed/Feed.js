@@ -5,6 +5,9 @@ import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import FeedMore from "./FeedMore";
+import UserInfo from "./UserInfo";
+import CommentMore from "./CommentMore";
+
 
 const Feed = ({
   postId,
@@ -95,20 +98,28 @@ const Feed = ({
   return (
     <div className="feed">
       <div className="feed__header">
-        <Avatar
-          className="feed__avatar"
-          alt={author}
-          src="/static/images/avatar/1.jpeg"
-        ></Avatar>
-        <h3>{author}</h3>
-        <div
-          className="more"
-          style={{ marginLeft: "570px", marginTop: "3px" }}
-        ></div>
-        <FeedMore
-          isCurrentUser={author === nickname}
-          postId={postId}
-        ></FeedMore>
+        <div className="feed__header__left">
+          <Avatar
+            className="feed__avatar"
+            alt={author}
+            src="/static/images/avatar/1.jpeg"
+          ></Avatar>
+          <h3 style={{marginLeft: "5px", marginTop: "8px"}}>{author}</h3>
+          <div
+            style={{
+              marginLeft: "5px",
+              marginTop: "20px",
+              fontSize: "7px",
+            }}>
+            <UserInfo></UserInfo>
+          </div>
+        </div>
+        <div style={{width : "20px"}}>
+          <FeedMore
+            isCurrentUser={author === nickname}
+            postId={postId}
+          ></FeedMore>
+        </div>
         {/*header -> profileimage + username */}
       </div>
 
@@ -118,6 +129,7 @@ const Feed = ({
       <div className="feed__section">
         <Like postId={postId} nickname={nickname} likedUser={likedUser}></Like>
       </div>
+
 
       <h4 className="feed__text">
         <strong>{author}</strong>: {description}
@@ -130,6 +142,12 @@ const Feed = ({
           </p>
         ))}
       </div>
+      {/* <div>
+        <CommentMore
+          isCurrentUser={author === nickname}
+          postId={postId}>
+        </CommentMore>
+      </div> */}
 
       <form className="feed__commentBox">
         <input
