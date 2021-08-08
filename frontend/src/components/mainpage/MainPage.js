@@ -46,8 +46,11 @@ const MainPage = () => {
             ))
           )}
         </div>
-
-        <MarkerView feeds={feeds}></MarkerView>
+        <div className="app__map__container">
+          <div className="app__map">
+            <MarkerView feeds={feeds}></MarkerView>
+          </div>
+        </div>
       </div>
     </div>
   );
