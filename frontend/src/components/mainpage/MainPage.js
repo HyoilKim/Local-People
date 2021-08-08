@@ -29,12 +29,6 @@ const MainPage = () => {
       <Nav />
       <div className="app__feed">
         <div className="app__body">
-          <div className="app__view__button">
-            <button onClick={handleClick}>
-              {isMap === true ? "피드로 보기" : "지도로 보기"}
-            </button>
-          </div>
-
           {isMap === true ? (
             <MarkerView feeds={feeds}></MarkerView>
           ) : (
@@ -52,9 +46,8 @@ const MainPage = () => {
             ))
           )}
         </div>
-        <div className="app__body__map">
-          <MarkerView feeds={feeds}></MarkerView>
-        </div>
+
+        <MarkerView feeds={feeds}></MarkerView>
       </div>
     </div>
   );
