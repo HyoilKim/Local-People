@@ -1,71 +1,67 @@
-import React, { useState, useEffect, useSelector } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
+import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Favorite from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-import firebase from "../firebase/firebase";
-/* const GreenCheckbox = withStyles({
 
-  root: {
-    color: green[400],
-    "&$checked": {
-      color: green[600],
-    },
-  },
-  checked: {},
-})((props) => <Checkbox color="default" {...props} />); */
-
-const Like = ({ postId, nickname }) => {
-  const [userList, setUserList] = useState([]);
+const Like = ({ postId, nickname, likedUser }) => {
   const checkUser = (element) => {
-    if (element.username === nickname) {
+    if (element === nickname) {
+      //리스트 element 중 현재 유저의 닉네임과 일치하면 true 아니면 false
       return true;
     }
+
+    console.log("5"); //for debug
+  };
+  const [userList, setUserList] = useState([]);
+  const [isLike, setIsLike] = useState(likedUser.some(checkUser));
+  const [count, setCount] = useState(0);
+
+  const handleChange = (event) => {
+    if (isLike === false) {
+      postLike();
+      console.log("1"); //for debug
+    } else {
+      deleteLike();
+      console.log("2"); //for debug
+    }
+
+    return;
+  };
+  const postLike = () => {
+    db.collection("feeds")
+      .doc(postId)
+      .update({ likes: [...userList, nickname] });
+    console.log("3"); //for debug
+    return;
+  };
+
+  const deleteLike = () => {
+    db.collection("feeds")
+      .doc(postId)
+      .update({
+        likes: userList.filter((element) => element !== nickname), //db 상에 있는 유저리스트 중 현재 유저와 같은 요소가 없도록 필터링
+      });
+    console.log("4"); //for debug
+    return;
   };
   useEffect(() => {
-    let unsubscribe;
     if (postId) {
-      unsubscribe = db
-        .collection("feeds")
+      db.collection("feeds")
         .doc(postId)
-        .collection("likes")
-        .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
-          setUserList(snapshot.docs.map((doc) => doc.data().username));
+          if (snapshot.data().likes) {
+            setUserList(snapshot.data().likes); // 좋아요 누른 유저 리스트
+            setCount(snapshot.data().likes.length); // 좋아요 누른 유저 리스트의 길이
+            setIsLike(snapshot.data().likes.some(checkUser)); //좋아요리스트 중 현재 유저가 있는지 없는지 redirect가 여러번 되는 문제가 있긴하다.
+          }
         });
-      console.log(userList);
     }
-    return () => {
-      unsubscribe();
-    };
+    console.log("6"); //for debug
+    return;
   }, [postId]);
-
-  const [isLike, setIsLike] = useState({ checkedH: userList.some(checkUser) });
-  const [count, setCount] = useState(userList.length);
-  console.log(count)
-  const handleChange = (event) => {
-    if (isLike.checkedH === false) {
-      setCount(count);
-      postLike();
-    } else {
-      setCount(count);
-    }
-    setIsLike({ ...isLike, [event.target.name]: event.target.checked });
-  };
-
-  const postLike = () => {
-    db.collection("feeds").doc(postId).collection("likes").add({
-      username: nickname,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    setCount();
-  };
-
-  const handleClick = () => {};
 
   return (
     <FormGroup>
@@ -73,7 +69,7 @@ const Like = ({ postId, nickname }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={isLike.checkedH}
+              checked={isLike}
               icon={<FavoriteBorder />}
               checkedIcon={<Favorite />}
               name="checkedH"

@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: column;
 }
+#mapview {
+  width: 500px;
+  height: 500px;
+}
 #dong {
   display: flex;
   margin: auto;
@@ -10,6 +14,10 @@
 .map__button {
   display: flex;
   margin: auto;
+}
+
+#mapview {
+  z-index: 0;
 }
 
 @import url(https://fonts.googleapis.com/css?family=BenchNine:700);
