@@ -18,8 +18,14 @@
 
 .feed__header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 10px 7px;
+}
+
+.feed__header__left {
+  display: flex;
+  flex-direction: row;
 }
 
 .feed__image {

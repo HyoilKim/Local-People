@@ -35,7 +35,9 @@ const DropdownCustom = ({ username }) => {
             <Link to="/create">업로드</Link>
           </li>
           <li>
-            <Link onClick={handleLogout}>로그아웃</Link>
+            <Link to="/login" onClick={handleLogout}>
+              로그아웃
+            </Link>
           </li>
           <li>
             <a>

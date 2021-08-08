@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import "./Feed.css";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 
-const ITEM_HEIGHT = 30;
+const ITEM_HEIGHT = 10;
 
-const FeedMore = ({ isCurrentUser, postId }) => {
+const CommentMore = ({ isCurrentUser, postId }) => {
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const onClick = () => setIsActive(!isActive);
@@ -15,13 +15,13 @@ const FeedMore = ({ isCurrentUser, postId }) => {
   const open = Boolean(anchorEl);
 
   const [editing, setEditing] = useState(false);
-  const [newFeed, setNewFeed] = useState(postId.description);
+  const [newComment, setNewComment] = useState(postId.text);
 
   const onDeleteClick = async () => {
     const ok = window.confirm("정말 삭제하시겠습니까?");
     if (ok) {
       await db
-        .collection("feeds")
+        .collection("comments")
         .doc(`${postId}`)
         .delete()
         .then(() => {
@@ -36,8 +36,8 @@ const FeedMore = ({ isCurrentUser, postId }) => {
   const toggleEditing = () => setEditing((prev) => !prev);
   const onSubmit = async (event) => {
     event.preventDefault();
-    await db.collection("feeds").doc(`${postId}`).update({
-      description: newFeed,
+    await db.collection("comments").doc(`${postId}`).update({
+      text: newComment,
     });
     setEditing(false);
   };
@@ -45,7 +45,7 @@ const FeedMore = ({ isCurrentUser, postId }) => {
     const {
       target: { value },
     } = event;
-    setNewFeed(value);
+    setNewComment(value);
   };
 
   const handleClick = (event) => {
@@ -63,11 +63,11 @@ const FeedMore = ({ isCurrentUser, postId }) => {
           <form onSubmit={onSubmit}>
             <input
               type="text"
-              value={newFeed}
+              value={newComment}
               onChange={onChange}
               required
             ></input>
-            <input type="submit" value="Update Feed"></input>
+            <input type="submit" value="Update Comment"></input>
           </form>
           <button onClick={toggleEditing}>취소</button>
         </>
@@ -84,7 +84,7 @@ const FeedMore = ({ isCurrentUser, postId }) => {
               >
                 <ul>
                   <li>
-                    <Link to="/update" onClick={toggleEditing}>수정하기</Link>
+                    <Link onClick={toggleEditing}>수정하기</Link>
                   </li>
                   <li>
                     <Link onClick={onDeleteClick}>삭제하기</Link>
@@ -99,4 +99,4 @@ const FeedMore = ({ isCurrentUser, postId }) => {
   );
 };
 
-export default FeedMore;
+export default CommentMore;
