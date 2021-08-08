@@ -107,8 +107,11 @@ const FeedCreate = ({ username }) => {
       <Nav></Nav>
       <div className="feedCreate">
         <div className="feedCreate__comment">
-          <h3 
-            style={{color: "#fb8267", fontSize: "25px", fontWeight:"bold"}}>게시물 만들기</h3>
+          <h3
+            style={{ color: "#fb8267", fontSize: "25px", fontWeight: "bold" }}
+          >
+            게시물 만들기
+          </h3>
         </div>
 
         <textarea
@@ -117,8 +120,8 @@ const FeedCreate = ({ username }) => {
           onChange={(event) => setDescription(event.target.value)}
           placeholder="내용을 입력해주세요"
           value={description}
-          className="feedCreate__description"></textarea>
-          
+          className="feedCreate__description"
+        ></textarea>
 
         <Button
           variant="contained"
@@ -130,24 +133,10 @@ const FeedCreate = ({ username }) => {
         >
           위치인증하기
         </Button>
-        <Button
-          variant="contained"
-          className="feedCreate__button"
-          color="primary"
-          onClick={handleUpload}
-          className={classes.button}
-        >
-          Post
-        </Button>
-
       </div>
       <div className="feedCreate__bottom">
         <div className="feedCreate__image">
-          <input
-            accept="image/*"
-            type="file"
-            onChange={handleChange}
-          />
+          <input accept="image/*" type="file" onChange={handleChange} />
         </div>
         <div className="feedCreate__button">
           <Button

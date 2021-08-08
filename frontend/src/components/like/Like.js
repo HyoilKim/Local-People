@@ -12,8 +12,6 @@ const Like = ({ postId, nickname, likedUser }) => {
       //리스트 element 중 현재 유저의 닉네임과 일치하면 true 아니면 false
       return true;
     }
-
-    console.log("5"); //for debug
   };
   const [userList, setUserList] = useState([]);
   const [isLike, setIsLike] = useState(likedUser.some(checkUser));
@@ -22,10 +20,8 @@ const Like = ({ postId, nickname, likedUser }) => {
   const handleChange = (event) => {
     if (isLike === false) {
       postLike();
-      console.log("1"); //for debug
     } else {
       deleteLike();
-      console.log("2"); //for debug
     }
 
     return;
@@ -34,7 +30,7 @@ const Like = ({ postId, nickname, likedUser }) => {
     db.collection("feeds")
       .doc(postId)
       .update({ likes: [...userList, nickname] });
-    console.log("3"); //for debug
+
     return;
   };
 
@@ -44,7 +40,7 @@ const Like = ({ postId, nickname, likedUser }) => {
       .update({
         likes: userList.filter((element) => element !== nickname), //db 상에 있는 유저리스트 중 현재 유저와 같은 요소가 없도록 필터링
       });
-    console.log("4"); //for debug
+
     return;
   };
   useEffect(() => {
@@ -59,7 +55,6 @@ const Like = ({ postId, nickname, likedUser }) => {
           }
         });
     }
-    console.log("6"); //for debug
     return;
   }, [postId]);
 
