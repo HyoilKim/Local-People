@@ -101,7 +101,7 @@ const Feed = ({
         <div className="feed__header__left">
           <Avatar
             className="feed__avatar"
-            alt={author}
+            // alt={author}
             src="/static/images/avatar/1.jpeg"
           ></Avatar>
           <h3 style={{marginLeft: "5px", marginTop: "8px"}}>{author}</h3>

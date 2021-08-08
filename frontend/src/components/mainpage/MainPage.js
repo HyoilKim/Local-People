@@ -27,31 +27,34 @@ const MainPage = () => {
   return (
     <div className="app">
       <Nav />
+      <div className="app__feed">
+        <div className="app__body">
+          <div className="app__view__button">
+            <button onClick={handleClick}>
+              {isMap === true ? "피드로 보기" : "지도로 보기"}
+            </button>
+          </div>
 
-      <div className="app__body">
-        <div className="app__view__button">
-          <button>새 소식</button>
-          <button onClick={handleClick}>
-            {isMap === true ? "피드로 보기" : "지도로 보기"}
-          </button>
+          {isMap === true ? (
+            <MarkerView feeds={feeds}></MarkerView>
+          ) : (
+            feeds.map(({ id, feed }) => (
+              <Feed
+                key={id}
+                postId={id}
+                author={feed.username}
+                description={feed.description}
+                imageUrl={feed.imageUrl}
+                likedUser={feed.likes}
+                lat={feed.location.lat}
+                lon={feed.location.lon}
+              ></Feed>
+            ))
+          )}
         </div>
-
-        {isMap === true ? (
+        <div className="app__body__map">
           <MarkerView feeds={feeds}></MarkerView>
-        ) : (
-          feeds.map(({ id, feed }) => (
-            <Feed
-              key={id}
-              postId={id}
-              author={feed.username}
-              description={feed.description}
-              imageUrl={feed.imageUrl}
-              likedUser={feed.likes}
-              lat={feed.location.lat}
-              lon={feed.location.lon}
-            ></Feed>
-          ))
-        )}
+        </div>
       </div>
     </div>
   );

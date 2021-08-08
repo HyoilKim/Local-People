@@ -14,9 +14,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+}
+.app__body__map {
+  display: flex;
 }
 
 .disabled {
   display: none;
+}
+
+.app__feed {
 }
