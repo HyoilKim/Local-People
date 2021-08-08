@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "./redux/actions/user_action";
 import DataFetching from "./components/datafetching/DataFetching";
 import MyPage from "./components/mypage/MyPage";
+import FeedUpdate from "./components/feedupdate/FeedUpdate";
+
 
 function App(props) {
   let history = useHistory();
@@ -48,6 +50,7 @@ function App(props) {
       <Switch>
         <Route exact path="/" component={MainPage}></Route>
         <Route exact path="/create" component={FeedCreate}></Route>
+        <Route exact path="/update" component={FeedUpdate}></Route>
         <Route exact path="/fetchingtest" component={DataFetching}></Route>
         <Route exact path="/login" component={LoginPage}></Route>
         <Route exact path="/mypage" component={MyPage}></Route>
