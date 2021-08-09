@@ -123,7 +123,7 @@ const MarkerView = ({ feeds }) => {
 
       displayMarker(locPosition, message);
     }
-  }, [feeds]);
+  }, [navigator.geolocation, feeds]);
 
   return (
     <div className="map">
