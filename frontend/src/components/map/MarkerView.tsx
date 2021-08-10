@@ -17,7 +17,7 @@ const MarkerView = ({ feeds }) => {
     let container = document.getElementById("mapview");
     let options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-      level: 3,
+      level: 2,
     };
 
     let map = new window.kakao.maps.Map(container, options);
@@ -75,7 +75,7 @@ const MarkerView = ({ feeds }) => {
       });
 
       // 인포윈도우를 마커위에 표시합니다
-      infowindow.open(map, marker);
+      //infowindow.open(map, marker);
 
       // 지도 중심좌표를 접속위치로 변경합니다
       map.setCenter(locPosition);
@@ -109,7 +109,7 @@ const MarkerView = ({ feeds }) => {
           lon = position.coords.longitude; // 경도
 
         let locPosition = new window.kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-          message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+          message = '<div style="padding:5px;"></div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition, message);
@@ -123,7 +123,7 @@ const MarkerView = ({ feeds }) => {
 
       displayMarker(locPosition, message);
     }
-  }, []);
+  }, [feeds]);
 
   return (
     <div className="map">
