@@ -33,7 +33,9 @@ const MainPage = () => {
 
   async function getPosition(options){
     return new Promise(function (resolve, reject) {
+      
       navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      
       
     });
   };
@@ -54,14 +56,18 @@ const MainPage = () => {
     )}
 
   const fetchFeeds = async () => {
+    
     const f = await getFeeds();
     setFeeds(f);
+    console.timeEnd();
   }
 
   const fetchPosition = async () => {
+    
     const p = await getPosition(); //geolocation에서 현재 위치를 받아온다.
     const pObject = {latitude: p.coords.latitude, longitude: p.coords.longitude};
     setCurrentLocation(pObject); //현재위치의 좌표를 currentLocation에 넣는다.
+    
     
   }
 
@@ -74,6 +80,7 @@ const MainPage = () => {
       feed.location.lat,
       feed.location.lon
     ) < 10)})
+
   }
 
 
@@ -81,13 +88,16 @@ const MainPage = () => {
     //this is where the code runs
 
   async function loadFeeds() {
-    console.time();
+    
     const promises = [];
+    
     promises.push(fetchFeeds());
     promises.push(fetchPosition());
+    
     await Promise.all(promises);
+    
     console.log("load complete \n");
-    console.timeEnd();
+    
 
     return new Promise((resolve) => {resolve();})
   }
