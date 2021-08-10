@@ -67,8 +67,8 @@ const MainPage = () => {
       <Nav />
       <div className="app__feed">
         <div className="app__body">
-          {isMap === true ? (
-            <MarkerView feeds={feeds}></MarkerView>
+          {feeds.length == 0 ? (
+            <div>로딩중입니다.</div>
           ) : (
             feeds.map(({ id, feed }) => (
               <Feed
@@ -86,7 +86,8 @@ const MainPage = () => {
         </div>
         <div className="app__map__container">
           <div className="app__map">
-            <MarkerView feeds={feeds}></MarkerView>
+            {feeds.length==0?(<div></div>):(<MarkerView feeds={feeds}></MarkerView>)}
+            
           </div>
         </div>
       </div>
