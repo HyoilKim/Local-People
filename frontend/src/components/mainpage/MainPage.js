@@ -33,27 +33,20 @@ const MainPage = () => {
       
       return d;
     }
+    let getPosition =(options) => {
+      return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      });
+    };
 
     db.collection("feeds")
       .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
         //every single time a new feeds is added, this code runs
-        setFeeds(
-          snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() }))
-        );
-      });
-
-      let getPosition = function (options) {
-        return new Promise(function (resolve, reject) {
-          navigator.geolocation.getCurrentPosition(resolve, reject, options);
-        });
-      };
-
-      
-      getPosition()
+        getPosition()
         .then((position) => {
           setFeeds(
-            feeds.filter(({id, feed}) => getDistanceFromLatLonInKm(
+            snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() })).filter(({id, feed}) => getDistanceFromLatLonInKm(
               position.coords.latitude,
               position.coords.longitude,
               feed.location.lat,
@@ -64,7 +57,9 @@ const MainPage = () => {
         })
         .catch((e) => {
           console.log(e.message);
-        });
+        })
+      });
+
   }, []);
 
   return (
