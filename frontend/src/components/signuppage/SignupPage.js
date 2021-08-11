@@ -122,7 +122,9 @@ function SignupPage() {
     }
 
     const authButton = document.getElementById("authButton");
-
+    const map__button = document.getElementById("map__button")?.remove();
+    
+    
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(function (position) {

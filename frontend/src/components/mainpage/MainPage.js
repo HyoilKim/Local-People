@@ -54,10 +54,9 @@ const MainPage = () => {
           {
             db.collection("users").doc(currentUser.displayName).get().then((doc) => {
               if (doc.exists) {
-                console.log(doc.data().coords);
                 lat = doc.data().coords.lat;
                 lon = doc.data().coords.lon;
-                console.log(doc.data());
+
                 return doc.data();
               }
             }).then((position) => {
@@ -65,7 +64,6 @@ const MainPage = () => {
             .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
               //every single time a new feeds is added, this code runs
-              console.log(position.coords)
                 setFeeds(
                   snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() })).filter(({id, feed}) => getDistanceFromLatLonInKm(
                     position.coords.lat,
@@ -76,7 +74,7 @@ const MainPage = () => {
                   
                 );
             });
-            console.log("effect");
+            
             })
           }
         }else{
@@ -88,7 +86,7 @@ const MainPage = () => {
         console.log(e.message);
       }
     }
-    setTimeout(loadDoc, 1500);
+    setTimeout(loadDoc, 850);
      
 
   }, []);

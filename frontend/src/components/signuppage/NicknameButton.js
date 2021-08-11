@@ -22,6 +22,7 @@ export class NicknameButton extends Component {
 
     addUsersListners = () => {
         const {usersRef} = this.state;
+        let usersArray = [];
         usersRef.on("child_added", DataSnapshot => {
             let user = DataSnapshot.val()
             usersArray.push(user)

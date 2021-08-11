@@ -16,6 +16,7 @@ const Nav = () => {
       <Link className="navbar__logo" to="/">
         로컬피플
       </Link>
+      <Link to="/create">업로드</Link>
       <DropdownCustom username={nickname}></DropdownCustom>
     </div>
   );
