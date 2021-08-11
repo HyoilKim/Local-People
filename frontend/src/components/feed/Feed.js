@@ -46,10 +46,9 @@ const Feed = ({
     console.log(differ);
     setDuration(Math.floor(differ/86400000));
     
-    
-    let unsubscribe;
+   
     if (postId) {
-      unsubscribe = db
+      db
         .collection("feeds")
         .doc(postId)
         .collection("comments")

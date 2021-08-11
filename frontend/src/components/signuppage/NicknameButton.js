@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import "./SignupPage.css"
 import firebase from '../firebase/firebase'
     
@@ -22,7 +22,6 @@ export class NicknameButton extends Component {
 
     addUsersListners = () => {
         const {usersRef} = this.state;
-        let usersArray = [];
         usersRef.on("child_added", DataSnapshot => {
             let user = DataSnapshot.val()
             usersArray.push(user)

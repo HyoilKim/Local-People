@@ -14,9 +14,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  margin-left: 40px;
+}
+.app__body__map {
+  display: flex;
 }
 
 .disabled {
   display: none;
+}
+
+.app__feed {
+  display: flex;
+}
+
+.app__map {
+  position: fixed;
+  padding-top: 150px;
+}
+
+.app__map__container {
+  width: 60%;
+  height: 100%;
 }

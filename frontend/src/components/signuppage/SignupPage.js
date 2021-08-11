@@ -1,11 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState} from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import firebase, { auth, db } from "../firebase/firebase";
+import firebase, { db } from "../firebase/firebase";
 import "./SignupPage.css"
-import { Autorenew } from "@material-ui/icons";
+
 import NicknameButton from "./NicknameButton";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
+
 
 function SignupPage() {
   
@@ -122,7 +122,6 @@ function SignupPage() {
     }
 
     const authButton = document.getElementById("authButton");
-    const map__button = document.getElementById("map__button")?.remove();
 
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -240,6 +239,7 @@ function SignupPage() {
             {errors.email && errors.email.type === "required" && (
               <span>이메일을 입력해주세요.</span>
             )}
+
 
             <label>닉네임</label>
             <div className="name">

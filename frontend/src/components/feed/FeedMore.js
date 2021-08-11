@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import firebase, { db } from "../firebase/firebase";
+import { db } from "../firebase/firebase";
 import { Link } from "react-router-dom";
 import "./Feed.css";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
