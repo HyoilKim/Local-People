@@ -46,8 +46,7 @@ const Feed = ({
     console.log(differ);
     setDuration(Math.floor(differ/86400000));
     
-    
-    
+   
     if (postId) {
       db
         .collection("feeds")

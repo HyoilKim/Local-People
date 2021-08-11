@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import firebase, { db } from "../firebase/firebase";
 import "./SignupPage.css"
+
 import NicknameButton from "./NicknameButton";
 
 
@@ -195,122 +196,120 @@ function SignupPage() {
 
 
   return (
-    <div className="auth-wrapper">
-      <div className="form">
-        <div
-          style={{ textAlign: "center",fontWeight: "bold", height: "40px" }}
-        >
-          <h1>회원가입</h1>
-        </div>
-        <div style={{ marginBottom: "40px" }}>
-          <hr></hr>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="map">
-          <div id="map"></div>
-          <div id="map__button">
-            <button
-              style={{backgroundColor:"#fb8267", borderRadius:"5px"}}
-              id="authButton"
-              value=""
-              onClick={handleClick}
-              disabled={completed}
-            >
-              위치 인증하기
-            </button>
+
+
+      <div className="auth-wrapper">
+        <div className="form">
+          <div
+            style={{ textAlign: "center",fontWeight: "bold", height: "40px" }}
+          >
+            <h1>회원가입</h1>
           </div>
-          <div name="address">{address}</div>
-        </div>
-
-          {<div style={{
-            position: "relative",
-            left: "3%",
-            }}>
-            
-            {errors.loc_certi &&
-            errors.loc_certi.type === "required" && (
-              <span>위치 인증을 클릭해주세요.</span>
-             )}
-          </div> }
-          <label>이메일</label>
-          <input
-            name="email"
-            type="email"
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
-          />
-          {errors.email && errors.email.type === "required" && (
-            <span>이메일을 입력해주세요.</span>
-          )}
-
-          <label>닉네임</label>
-          <div className="name">
-            <div>
-              <input
-              id = "nickname"
-              name="nickname"
-              type="nickname"
-              {...register("nickname", { required: true })}
-              />
+          <div style={{ marginBottom: "40px" }}>
+            <hr></hr>
+          </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="map" style={{alignItems:"center"}}>
+              <div id="map"></div>
+              <div id="map__button">
+                <button
+                  style={{backgroundColor:"#5b63ac", borderRadius:"5px"}}
+                  id="authButton"
+                  value=""
+                  onClick={handleClick}
+                  disabled={completed}
+                >
+                  위치 인증하기
+                </button>
+                {errors.authButton &&
+                errors.authButton.type === "required" && (
+                  <span>위치 인증을 클릭해주세요.</span>
+                 )}
+              </div>
+              <div name="address" style={{
+                color:"white", textAlign:"center", fontSize:"15px"
+              }}>{address}</div>
             </div>
-            <NicknameButton></NicknameButton>
-          </div>
-          {errors.nickname && errors.nickname.type === "required" && (
-            <span>닉네임을 입력해주세요.</span>
-          )}
+            <label>이메일</label>
+            <input
+              name="email"
+              type="email"
+              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            />
+            {errors.email && errors.email.type === "required" && (
+              <span>이메일을 입력해주세요.</span>
+            )}
 
-          <label>비밀번호</label>
-          <input
-            name="password"
-            type="password"
-            {...register("password", { required: true, minLength: 6 })}
-          />
-          {errors.password && errors.password.type === "required" && (
-            <span>비밀번호를 입력해주세요.</span>
-          )}
-          {errors.password && errors.password.type === "minLength" && (
-            <span>비밀번호는 6자 이상이어야 합니다.</span>
-          )}
 
-          <label>비밀번호 확인</label>
-          <input
-            name="password_confirm"
-            type="password"
-            {...register("password_confirm", {
-              required: true,
-              validate: (value) => value === password.current,
-            })}
-          />
-          {errors.password_confirm &&
-            errors.password_confirm.type === "required" && (
+            <label>닉네임</label>
+            <div className="name">
+              <div>
+                <input
+                id = "nickname"
+                name="nickname"
+                type="nickname"
+                {...register("nickname", { required: true })}
+                />
+              </div>
+              {/* <NicknameButton></NicknameButton> */}
+            </div>
+            {errors.nickname && errors.nickname.type === "required" && (
+              <span>닉네임을 입력해주세요.</span>
+            )}
+
+            <label>비밀번호</label>
+            <input
+              name="password"
+              type="password"
+              {...register("password", { required: true, minLength: 6 })}
+            />
+            {errors.password && errors.password.type === "required" && (
               <span>비밀번호를 입력해주세요.</span>
             )}
-          {errors.password_confirm &&
-            errors.password_confirm.type === "validate" && (
-              <span>비밀번호가 일치하지 않습니다.</span>
+            {errors.password && errors.password.type === "minLength" && (
+              <span>비밀번호는 6자 이상이어야 합니다.</span>
             )}
 
-          {errorFromSubmit && <span>{errorFromSubmit}</span>}
+            <label>비밀번호 확인</label>
+            <input
+              name="password_confirm"
+              type="password"
+              {...register("password_confirm", {
+                required: true,
+                validate: (value) => value === password.current,
+              })}
+            />
+            {errors.password_confirm &&
+              errors.password_confirm.type === "required" && (
+                <span>비밀번호를 입력해주세요.</span>
+              )}
+            {errors.password_confirm &&
+              errors.password_confirm.type === "validate" && (
+                <span>비밀번호가 일치하지 않습니다.</span>
+              )}
 
-          <input
-            value="회원가입"
-            type="submit"
-            style={{ marginTop: "40px" }}
-            disabled={loading}
-          />
-          <Link
-            style={{
-              paddingLeft: "115px",
-              textAlign: "center",
-              color: "gray",
-              textDecoration: "none",
-            }}
-            to="login"
-          >
-            계정이 있으신가요?
-          </Link>
-        </form>
+            {errorFromSubmit && <span>{errorFromSubmit}</span>}
+
+            <input
+              value="회원가입"
+              type="submit"
+              style={{ marginTop: "40px" }}
+              disabled={loading}
+            />
+            <Link
+              style={{
+                paddingLeft: "115px",
+                textAlign: "center",
+                color: "white",
+                textDecoration: "none",
+              }}
+              to="login"
+            >
+              계정이 있으신가요?
+            </Link>
+          </form>
+        </div>
       </div>
-    </div>
   );
 }
 

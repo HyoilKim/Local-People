@@ -99,7 +99,7 @@ const MainPage = () => {
       <div className="app__feed">
         <div className="app__body">
           {feeds.length == 0 ? (
-            <div></div>
+            <div>게시물이 아직 없어요...😢</div>
           ) : (
             feeds.map(({ id, feed }) => (
               <Feed

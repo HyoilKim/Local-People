@@ -22,7 +22,7 @@
 
 @import url(https://fonts.googleapis.com/css?family=BenchNine:700);
 #authButton {
-  background-color: #c47135;
+  background-color: #5b63ac;
   border: none;
   color: #ffffff;
   cursor: pointer;
@@ -51,7 +51,7 @@
   width: 24px;
 }
 #authButton:before {
-  border-color: #c47135;
+  border-color: #5b63ac;
   border-right-width: 2px;
   border-top-width: 2px;
   right: -5px;
@@ -59,14 +59,14 @@
 }
 #authButton:after {
   border-bottom-width: 2px;
-  border-color: #c47135;
+  border-color: #5b63ac;
   border-left-width: 2px;
   bottom: -5px;
   left: -5px;
 }
 #authButton:hover,
 #authButton.hover {
-  background-color: #c47135;
+  background-color: #5b63ac;
 }
 #authButton:hover:before,
 #authButton.hover:before,
