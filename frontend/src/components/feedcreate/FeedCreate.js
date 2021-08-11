@@ -29,9 +29,42 @@ const FeedCreate = ({ username }) => {
   let history = useHistory();
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
-  const [progress, setProgress] = useState(0);
+  const [address, setAddress] = useState("");
+
   const handleClick = () => {
     const locationButton = document.getElementById("locationButton");
+    let container = document.getElementById("map");
+    let options = {
+      center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+      level: 3,
+    };
+    let map = new window.kakao.maps.Map(container, options);
+
+    var geocoder = new window.kakao.maps.services.Geocoder();
+
+    function searchAddrFromCoords(coords, callback) {
+      // 좌표로 행정동 주소 정보를 요청합니다
+      geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+    }
+    function displayMarker(locPosition) {
+      // 지도 중심좌표를 접속위치로 변경합니다
+      map.setCenter(locPosition);
+    }
+
+    // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+    function displayCenterInfo(result, status) {
+      
+      if (status === window.kakao.maps.services.Status.OK) {
+        for (var i = 0; i < result.length; i++) {
+          // 행정동의 region_type 값은 'H' 이므로
+          if (result[i].region_type === "H") {
+            
+            setAddress(result[i].address_name);
+            break;
+          }
+        }
+      }
+    }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -39,8 +72,15 @@ const FeedCreate = ({ username }) => {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
         });
+        var lat = position.coords.latitude, // 위도
+        lon = position.coords.longitude; // 경도
+
+        var locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        displayMarker(locPosition);
+        searchAddrFromCoords(map.getCenter(), displayCenterInfo);
         setIsCoords(true);
         locationButton.innerText = "위치인증완료";
+        
       });
     } else {
       console.log("Can't load currentPosition");
@@ -65,7 +105,7 @@ const FeedCreate = ({ username }) => {
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
-          setProgress(progress);
+          
         },
         (error) => {
           //Error function
@@ -88,9 +128,10 @@ const FeedCreate = ({ username }) => {
                 username: currentUser.displayName,
                 likes: [],
                 location: currentCoords,
+                address: address,
               });
 
-              setProgress(0);
+              
               setDescription("");
               setImage(null);
               history.push("/");

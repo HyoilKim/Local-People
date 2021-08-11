@@ -21,6 +21,10 @@ function SignupPage() {
   const [address, setAddress] = useState();
   const [errorFromSubmit, setErrorFromSubmit] = useState("");
   const [loading, setLoading] = useState(false);
+  const [currentCoords, setCurrentCoords] = useState({
+    lat: 33.450701,
+    lon: 126.570667,
+  });
   const password = useRef();
   password.current = watch("password");
 
@@ -36,6 +40,7 @@ function SignupPage() {
       await createdUser.user.updateProfile({
         displayName: data.nickname,
         photoURL: address,
+        
       });
       
       //firebase 데이터베이스에 저장 (이메일 통해)
@@ -45,9 +50,14 @@ function SignupPage() {
         creationTime: createdUser.user.metadata.a,
         location: createdUser.user.photoURL
       });
+
+      await db.collection("users").doc(data.nickname).set({
+        username: data.nickname,
+        coords: currentCoords,
+      });
       
       console.log("createdUser", createdUser);
-      setLoading(false);
+      
       } catch (error) {
         // 이미 생성된 이메일일 때 에러 메세지
       setErrorFromSubmit(error.message);
@@ -87,11 +97,6 @@ function SignupPage() {
         removable: iwRemoveable,
       });
 
-      function searchAddrFromCoords(coords, callback) {
-        // 좌표로 행정동 주소 정보를 요청합니다
-        geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-      }
-
       // 인포윈도우를 마커위에 표시합니다
       infowindow.open(map, marker);
 
@@ -128,7 +133,7 @@ function SignupPage() {
         lon = position.coords.longitude; // 경도
         
         var locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-        
+        setCurrentCoords({lat: lat, lon: lon});
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition, message);
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
@@ -221,7 +226,7 @@ function SignupPage() {
           <div name="address">{address}</div>
         </div>
 
-          {/* <div style={{
+          {<div style={{
             position: "relative",
             left: "3%",
             }}>
@@ -241,7 +246,7 @@ function SignupPage() {
             errors.loc_certi.type === "required" && (
               <span>위치 인증을 클릭해주세요.</span>
              )}
-          </div> */}
+          </div> }
           <label>이메일</label>
           <input
             name="email"

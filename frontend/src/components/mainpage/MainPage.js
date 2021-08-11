@@ -4,16 +4,21 @@ import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase";
 import MarkerView from "../map/MarkerView";
 import Nav from "../nav/Nav";
+import firebase from "../firebase/firebase";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
-  const [isMap, setIsMap] = useState("false");
-  const handleClick = () => {
-    setIsMap(!isMap);
-  };
-
+  const currentUser = firebase.auth().currentUser;
+  const [isFeed, setIsFeed] = useState(false);
+  let data;
+  
   useEffect(() => {
     //this is where the code runs
+    
+    let lat, lon;
+    
+    
+    
     function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
       //두 점의 위경도좌표를 받아 거리 return
       function deg2rad(deg) {
@@ -33,32 +38,55 @@ const MainPage = () => {
       
       return d;
     }
-    let getPosition =(options) => {
-      return new Promise(function (resolve, reject) {
-        navigator.geolocation.getCurrentPosition(resolve, reject, options);
-      });
-    };
+    
+    
 
-    db.collection("feeds")
-      .orderBy("timestamp", "desc")
-      .onSnapshot((snapshot) => {
-        //every single time a new feeds is added, this code runs
-        getPosition()
-        .then((position) => {
-          setFeeds(
-            snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() })).filter(({id, feed}) => getDistanceFromLatLonInKm(
-              position.coords.latitude,
-              position.coords.longitude,
-              feed.location.lat,
-              feed.location.lon
-            ) < 10)
-            
-          );
-        })
-        .catch((e) => {
-          console.log(e.message);
-        })
-      });
+    const loadDoc = async () => {
+      try{
+        const doc = await db.collection("users").doc(currentUser.displayName).get();
+        data = doc.data();
+        if(data)
+        {
+          if(currentUser)
+          {
+            db.collection("users").doc(currentUser.displayName).get().then((doc) => {
+              if (doc.exists) {
+                console.log(doc.data().coords);
+                lat = doc.data().coords.lat;
+                lon = doc.data().coords.lon;
+                console.log(doc.data());
+                return doc.data();
+              }
+            }).then((position) => {
+              db.collection("feeds")
+            .orderBy("timestamp", "desc")
+            .onSnapshot((snapshot) => {
+              //every single time a new feeds is added, this code runs
+              console.log(position.coords)
+                setFeeds(
+                  snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() })).filter(({id, feed}) => getDistanceFromLatLonInKm(
+                    position.coords.lat,
+                    position.coords.lon,
+                    feed.location.lat,
+                    feed.location.lon
+                  ) < 400)
+                  
+                );
+            });
+            console.log("effect");
+            })
+          }
+        }else{
+          console.log("Not found");
+        }
+      
+      }
+      catch(e){
+        console.log(e.message);
+      }
+    }
+    setTimeout(loadDoc, 1500);
+     
 
   }, []);
 
@@ -78,8 +106,6 @@ const MainPage = () => {
                 description={feed.description}
                 imageUrl={feed.imageUrl}
                 likedUser={feed.likes}
-                lat={feed.location.lat}
-                lon={feed.location.lon}
               ></Feed>
             ))
           )}

@@ -15,8 +15,7 @@ const Feed = ({
   description,
   imageUrl,
   likedUser,
-  lat,
-  lon,
+  
 }) => {
   let nickname = "";
   const [comments, setComments] = useState([]);
