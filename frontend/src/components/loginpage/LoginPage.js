@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import firebase from "../firebase/firebase";
+import "./LoginPage.css";
+import { Height } from "@material-ui/icons";
+
 
 function LoginPage() {
   const {
@@ -31,14 +34,15 @@ function LoginPage() {
   };
 
   return (
-    <div className="auth-wrapper">
-      <div style={{ textAlign: "center", fontWeight: "bold", height:"40px" }}>
-        <h1>로그인</h1>
-      </div>
-      <div style={{marginBottom: "40px"}}>
-        <hr></hr>
-      </div>
+    <div className="login">
+      <div className="auth-wrapper">
       <form onSubmit={handleSubmit(onSubmit)}>
+        <div style={{ textAlign: "center", fontWeight: "bold" }}>
+          <h1>로그인</h1>
+        </div>
+        <div style={{marginBottom: "30px"}}>
+          <hr></hr>
+        </div>
         <label>이메일</label>
         <input
           name="email"
@@ -66,13 +70,15 @@ function LoginPage() {
 
         <input value="로그인" type="submit" disabled={loading} />
         <Link
-          style={{ paddingTop:"40px", paddingLeft:"80px", textAlign: "center", color: "gray", textDecoration: "none"}}
+          style={{ paddingTop:"40px", paddingLeft:"80px", textAlign: "center", color: "white", textDecoration: "none"}}
           to="signup"
-        >
+          >
           계정이 없으신가요? 회원가입
+          
         </Link>
       </form>
     </div>
+  </div>
   );
 }
 //update

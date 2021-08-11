@@ -5,8 +5,6 @@ import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import FeedMore from "./FeedMore";
-import UserInfo from "./UserInfo";
-import CommentMore from "./CommentMore";
 
 
 const Feed = ({
@@ -15,13 +13,16 @@ const Feed = ({
   description,
   imageUrl,
   likedUser,
-  lat,
-  lon,
+  userCreationTime,
+  address,
+  
 }) => {
   let nickname = "";
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const currentUser = firebase.auth().currentUser;
+  const [duration, setDuration] = useState();
+  
 
   if (currentUser) {
     nickname = currentUser.displayName;
@@ -40,26 +41,12 @@ const Feed = ({
   };
 
   useEffect(() => {
-    function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
-      //두 점의 위경도좌표를 받아 거리 return
-      function deg2rad(deg) {
-        return deg * (Math.PI / 180);
-      }
-      const R = 6371;
-      const dLat = deg2rad(lat2 - lat1);
-      const dLon = deg2rad(lng2 - lng1);
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(deg2rad(lat1)) *
-          Math.cos(deg2rad(lat2)) *
-          Math.sin(dLon / 2) *
-          Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      const d = R * c;
-      
-      return d;
-    }
-
+    const now = Date.now();
+    const differ = now - userCreationTime;
+    console.log(differ);
+    setDuration(Math.floor(differ/86400000));
+    
+    
     let unsubscribe;
     if (postId) {
       unsubscribe = db
@@ -71,26 +58,7 @@ const Feed = ({
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
     }
-    let getPosition = function (options) {
-      return new Promise(function (resolve, reject) {
-        navigator.geolocation.getCurrentPosition(resolve, reject, options);
-      });
-    };
     
-    getPosition()
-      .then((position) => {
-        console.log(
-          getDistanceFromLatLonInKm(
-            position.coords.latitude,
-            position.coords.longitude,
-            lat,
-            lon
-          )
-        );
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
 
     return; //componentWillUnmount
   }, [postId]);
@@ -101,7 +69,7 @@ const Feed = ({
         <div className="feed__header__left">
           <Avatar
             className="feed__avatar"
-            alt={author}
+            // alt={author}
             src="/static/images/avatar/1.jpeg"
           ></Avatar>
           <h3 style={{marginLeft: "5px", marginTop: "8px"}}>{author}</h3>
@@ -111,7 +79,7 @@ const Feed = ({
               marginTop: "20px",
               fontSize: "7px",
             }}>
-            <UserInfo></UserInfo>
+            {address} 거주 {duration}일차
           </div>
         </div>
         <div style={{width : "20px"}}>

@@ -2,10 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import firebase, { auth, db } from "../firebase/firebase";
-import SignupMap from "../signupmap/SignupMap";
 import "./SignupPage.css"
 import { Autorenew } from "@material-ui/icons";
-import UserInfo from "../feed/UserInfo";
 import NicknameButton from "./NicknameButton";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 
@@ -21,6 +19,10 @@ function SignupPage() {
   const [address, setAddress] = useState();
   const [errorFromSubmit, setErrorFromSubmit] = useState("");
   const [loading, setLoading] = useState(false);
+  const [currentCoords, setCurrentCoords] = useState({
+    lat: 33.450701,
+    lon: 126.570667,
+  });
   const password = useRef();
   password.current = watch("password");
 
@@ -36,6 +38,7 @@ function SignupPage() {
       await createdUser.user.updateProfile({
         displayName: data.nickname,
         photoURL: address,
+        
       });
       
       //firebase 데이터베이스에 저장 (이메일 통해)
@@ -45,9 +48,14 @@ function SignupPage() {
         creationTime: createdUser.user.metadata.a,
         location: createdUser.user.photoURL
       });
+
+      await db.collection("users").doc(data.nickname).set({
+        username: data.nickname,
+        coords: currentCoords,
+      });
       
       console.log("createdUser", createdUser);
-      setLoading(false);
+      
       } catch (error) {
         // 이미 생성된 이메일일 때 에러 메세지
       setErrorFromSubmit(error.message);
@@ -87,11 +95,6 @@ function SignupPage() {
         removable: iwRemoveable,
       });
 
-      function searchAddrFromCoords(coords, callback) {
-        // 좌표로 행정동 주소 정보를 요청합니다
-        geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-      }
-
       // 인포윈도우를 마커위에 표시합니다
       infowindow.open(map, marker);
 
@@ -128,7 +131,7 @@ function SignupPage() {
         lon = position.coords.longitude; // 경도
         
         var locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
-        
+        setCurrentCoords({lat: lat, lon: lon});
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition, message);
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
@@ -194,133 +197,119 @@ function SignupPage() {
 
 
   return (
-    <div className="auth-wrapper">
-      <div className="form">
-        <div
-          style={{ textAlign: "center",fontWeight: "bold", height: "40px" }}
-        >
-          <h1>회원가입</h1>
-        </div>
-        <div style={{ marginBottom: "40px" }}>
-          <hr></hr>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="map">
-          <div id="map"></div>
-          <div id="map__button">
-            <button
-              style={{backgroundColor:"#fb8267", borderRadius:"5px"}}
-              id="authButton"
-              value=""
-              onClick={handleClick}
-              disabled={completed}
-            >
-              위치 인증하기
-            </button>
+
+
+      <div className="auth-wrapper">
+        <div className="form">
+          <div
+            style={{ textAlign: "center",fontWeight: "bold", height: "40px" }}
+          >
+            <h1>회원가입</h1>
           </div>
-          <div name="address">{address}</div>
-        </div>
-
-          {/* <div style={{
-            position: "relative",
-            left: "3%",
-            }}>
-            <button
-              name="dong"
-              style={{
-                backgroundColor: "#ffffff",
-                width: "375px",
-                height: "120px",
-                paddingLeft: "20px",
-              }}
-              // {...register("loc_certi", { required: true })}
-              >
-              <SignupMap></SignupMap>
-            </button>
-            {errors.loc_certi &&
-            errors.loc_certi.type === "required" && (
-              <span>위치 인증을 클릭해주세요.</span>
-             )}
-          </div> */}
-          <label>이메일</label>
-          <input
-            name="email"
-            type="email"
-            {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
-          />
-          {errors.email && errors.email.type === "required" && (
-            <span>이메일을 입력해주세요.</span>
-          )}
-
-          <label>닉네임</label>
-          <div className="name">
-            <div>
-              <input
-              id = "nickname"
-              name="nickname"
-              type="nickname"
-              {...register("nickname", { required: true })}
-              />
+          <div style={{ marginBottom: "40px" }}>
+            <hr></hr>
+          </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="map" style={{alignItems:"center"}}>
+              <div id="map"></div>
+              <div id="map__button">
+                <button
+                  style={{backgroundColor:"#5b63ac", borderRadius:"5px"}}
+                  id="authButton"
+                  value=""
+                  onClick={handleClick}
+                  disabled={completed}
+                >
+                  위치 인증하기
+                </button>
+                {errors.authButton &&
+                errors.authButton.type === "required" && (
+                  <span>위치 인증을 클릭해주세요.</span>
+                 )}
+              </div>
+              <div name="address" style={{
+                color:"white", textAlign:"center", fontSize:"15px"
+              }}>{address}</div>
             </div>
-            <NicknameButton></NicknameButton>
-          </div>
-          {errors.nickname && errors.nickname.type === "required" && (
-            <span>닉네임을 입력해주세요.</span>
-          )}
+            <label>이메일</label>
+            <input
+              name="email"
+              type="email"
+              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+            />
+            {errors.email && errors.email.type === "required" && (
+              <span>이메일을 입력해주세요.</span>
+            )}
 
-          <label>비밀번호</label>
-          <input
-            name="password"
-            type="password"
-            {...register("password", { required: true, minLength: 6 })}
-          />
-          {errors.password && errors.password.type === "required" && (
-            <span>비밀번호를 입력해주세요.</span>
-          )}
-          {errors.password && errors.password.type === "minLength" && (
-            <span>비밀번호는 6자 이상이어야 합니다.</span>
-          )}
+            <label>닉네임</label>
+            <div className="name">
+              <div>
+                <input
+                id = "nickname"
+                name="nickname"
+                type="nickname"
+                {...register("nickname", { required: true })}
+                />
+              </div>
+              {/* <NicknameButton></NicknameButton> */}
+            </div>
+            {errors.nickname && errors.nickname.type === "required" && (
+              <span>닉네임을 입력해주세요.</span>
+            )}
 
-          <label>비밀번호 확인</label>
-          <input
-            name="password_confirm"
-            type="password"
-            {...register("password_confirm", {
-              required: true,
-              validate: (value) => value === password.current,
-            })}
-          />
-          {errors.password_confirm &&
-            errors.password_confirm.type === "required" && (
+            <label>비밀번호</label>
+            <input
+              name="password"
+              type="password"
+              {...register("password", { required: true, minLength: 6 })}
+            />
+            {errors.password && errors.password.type === "required" && (
               <span>비밀번호를 입력해주세요.</span>
             )}
-          {errors.password_confirm &&
-            errors.password_confirm.type === "validate" && (
-              <span>비밀번호가 일치하지 않습니다.</span>
+            {errors.password && errors.password.type === "minLength" && (
+              <span>비밀번호는 6자 이상이어야 합니다.</span>
             )}
 
-          {errorFromSubmit && <span>{errorFromSubmit}</span>}
+            <label>비밀번호 확인</label>
+            <input
+              name="password_confirm"
+              type="password"
+              {...register("password_confirm", {
+                required: true,
+                validate: (value) => value === password.current,
+              })}
+            />
+            {errors.password_confirm &&
+              errors.password_confirm.type === "required" && (
+                <span>비밀번호를 입력해주세요.</span>
+              )}
+            {errors.password_confirm &&
+              errors.password_confirm.type === "validate" && (
+                <span>비밀번호가 일치하지 않습니다.</span>
+              )}
 
-          <input
-            value="회원가입"
-            type="submit"
-            style={{ marginTop: "40px" }}
-            disabled={loading}
-          />
-          <Link
-            style={{
-              paddingLeft: "115px",
-              textAlign: "center",
-              color: "gray",
-              textDecoration: "none",
-            }}
-            to="login"
-          >
-            계정이 있으신가요?
-          </Link>
-        </form>
+            {errorFromSubmit && <span>{errorFromSubmit}</span>}
+
+            <input
+              value="회원가입"
+              type="submit"
+              style={{ marginTop: "40px" }}
+              disabled={loading}
+            />
+            <Link
+              style={{
+                paddingLeft: "115px",
+                textAlign: "center",
+                color: "white",
+                textDecoration: "none",
+              }}
+              to="login"
+            >
+              계정이 있으신가요?
+            </Link>
+          </form>
+        </div>
       </div>
-    </div>
   );
 }
 
