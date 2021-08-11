@@ -9,15 +9,18 @@ import firebase from "../firebase/firebase";
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
   const currentUser = firebase.auth().currentUser;
-  const [isFeed, setIsFeed] = useState(false);
-  let data;
+  const [time,setTime] = useState();
   
+  
+  let data;
+
   useEffect(() => {
     //this is where the code runs
     
     let lat, lon;
+    let currentTime = new Date();
     
-    
+    setTime(currentTime.getTime());
     
     function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
       //두 점의 위경도좌표를 받아 거리 return
@@ -96,7 +99,7 @@ const MainPage = () => {
       <div className="app__feed">
         <div className="app__body">
           {feeds.length == 0 ? (
-            <div>로딩중입니다.</div>
+            <div></div>
           ) : (
             feeds.map(({ id, feed }) => (
               <Feed
@@ -106,6 +109,9 @@ const MainPage = () => {
                 description={feed.description}
                 imageUrl={feed.imageUrl}
                 likedUser={feed.likes}
+                userCreationTime={feed.userCreatedTime}
+                address={feed.address}
+                time={time}
               ></Feed>
             ))
           )}

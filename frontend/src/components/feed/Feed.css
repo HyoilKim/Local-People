@@ -29,7 +29,7 @@
 }
 
 .feed__image {
-  object-fit: scale-down;
+  object-fit: contain;
   aspect-ratio: 1 / 1;
   width: 100%;
   border-top: 1px solid lightgray;
@@ -37,7 +37,7 @@
 }
 
 .feed__section {
-  object-fit: scale-down;
+  object-fit: contain;
   display: flex;
   padding-left: 10px;
 }

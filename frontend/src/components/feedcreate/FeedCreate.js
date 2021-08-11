@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FeedCreate = ({ username }) => {
   const currentUser = firebase.auth().currentUser;
+  console.log(currentUser.metadata.a);
   const classes = useStyles();
   const [isCoords, setIsCoords] = useState(false);
   const [currentCoords, setCurrentCoords] = useState({
@@ -129,6 +130,7 @@ const FeedCreate = ({ username }) => {
                 likes: [],
                 location: currentCoords,
                 address: address,
+                userCreatedTime: Number(currentUser.metadata.a),
               });
 
               

@@ -5,8 +5,6 @@ import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import FeedMore from "./FeedMore";
-import UserInfo from "./UserInfo";
-import CommentMore from "./CommentMore";
 
 
 const Feed = ({
@@ -15,12 +13,16 @@ const Feed = ({
   description,
   imageUrl,
   likedUser,
+  userCreationTime,
+  address,
   
 }) => {
   let nickname = "";
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const currentUser = firebase.auth().currentUser;
+  const [duration, setDuration] = useState();
+  
 
   if (currentUser) {
     nickname = currentUser.displayName;
@@ -39,10 +41,15 @@ const Feed = ({
   };
 
   useEffect(() => {
+    const now = Date.now();
+    const differ = now - userCreationTime;
+    console.log(differ);
+    setDuration(Math.floor(differ/86400000));
     
-    let unsubscribe;
+    
+    
     if (postId) {
-      unsubscribe = db
+      db
         .collection("feeds")
         .doc(postId)
         .collection("comments")
@@ -72,7 +79,7 @@ const Feed = ({
               marginTop: "20px",
               fontSize: "7px",
             }}>
-            <UserInfo></UserInfo>
+            {address} 거주 {duration}일차
           </div>
         </div>
         <div style={{width : "20px"}}>

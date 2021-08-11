@@ -1,6 +1,6 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-import firebase, {db} from "./components/firebase/firebase";
+import {useEffect } from "react";
+import firebase from "./components/firebase/firebase";
 import { Switch, Route, useHistory } from "react-router-dom";
 import SignupPage from "./components/signuppage/SignupPage";
 import LoginPage from "./components/loginpage/LoginPage";
