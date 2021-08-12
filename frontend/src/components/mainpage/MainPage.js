@@ -86,7 +86,7 @@ const MainPage = () => {
         console.log(e.message);
       }
     }
-    setTimeout(loadDoc, 850);
+    setTimeout(loadDoc, 1500);
      
 
   }, []);

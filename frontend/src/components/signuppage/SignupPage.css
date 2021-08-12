@@ -1,12 +1,35 @@
 .name {
   display: flex;
   flex-direction: row;
+  height: 38px;
+  margin-bottom: 10px;
 }
 
 #nickname {
-  width: 270px;
+  width: 280px;
   height: 38px;
   margin: 0px;
+  display: flex;
+  flex-direction: row;
+}
+
+.nicknameinput {
+  display: flex;
+  flex-direction: row;
+  height: 38px;
+}
+
+#nicknameCheck {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0px;
+  margin-left: 8px;
+  margin-bottom: 5px;
+  padding: 10px 15px;
+  text-align: center;
+  height: 38px;
+  font-size: 12px;
+  font-weight: 1000;
 }
 
 #button {
