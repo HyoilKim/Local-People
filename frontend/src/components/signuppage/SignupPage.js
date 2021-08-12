@@ -44,19 +44,23 @@ function SignupPage() {
       
       console.log(nicknameList);
       const checkUser = nicknameList.filter((element) => (element == nickname));
-      if(checkUser.length === 0 && nickname.length > 0) {
-        
-
-        setCheckError("사용가능");
-        setDpNameCheck(true);
-      }
-      else {
-        if(nickname.length !== 0) {setCheckError("이미 다른 유저가 사용중인 닉네임입니다.");
+      setTimeout(() => {
+        if(checkUser.length === 0 && nickname.length > 0) {
+  
+  
+          setCheckError("사용가능");
+          setDpNameCheck(true);
+        }
+        else {
+          if(nickname.length !== 0) {setCheckError("이미 다른 유저가 사용중인 닉네임입니다.");
+          }
+  
+          else setCheckError("");
+          setDpNameCheck(false);
         }
 
-        else setCheckError("");
-        setDpNameCheck(false);
-      }
+      }, 5000)
+      
     
   }
 
@@ -64,9 +68,15 @@ function SignupPage() {
     try {
       setLoading(true);
       
+      
       if(!dpNameCheck) {
-        setCheckError('중복확인 버튼을 눌러주세요');
-        throw new Error('닉네임을 확인해주세요.');
+        if(!data.nickname) {
+          setCheckError("닉네임을 입력해주세요.")
+          throw new Error ('닉네임을 입력해주세요.')
+        } else {
+          setCheckError('중복확인 버튼을 눌러주세요');
+          throw new Error('닉네임을 확인해주세요.');
+        }
       }
 
       //firebase에서 이메일과 비밀번호로 유저 생성
