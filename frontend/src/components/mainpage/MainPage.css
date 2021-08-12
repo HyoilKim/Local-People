@@ -32,7 +32,6 @@
   width: 100%;
 }
 .app__map {
-  padding-top: 150px;
   border: lightgray;
   height: 100%;
   position: fixed;
