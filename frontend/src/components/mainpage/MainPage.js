@@ -97,7 +97,9 @@ const MainPage = () => {
       <div className="app__feed">
         <div className="app__body">
           {feeds.length == 0 ? (
-            <div>게시물이 아직 없어요...😢</div>
+            <div className="waitment">
+              <span>게시물이 아직 없어요...😢</span>
+            </div>
           ) : (
             feeds.map(({ id, feed }) => (
               <Feed

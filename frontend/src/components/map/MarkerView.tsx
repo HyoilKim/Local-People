@@ -127,7 +127,6 @@ const MarkerView = ({ feeds }) => {
 
   return (
     <div className="map">
-      <div className=""></div>
       <div id="mapview"></div>
     </div>
   );

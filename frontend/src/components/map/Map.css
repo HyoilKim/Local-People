@@ -1,10 +1,14 @@
 .map {
   height: 100%;
+
+  padding-left: 30px;
 }
+
 #mapview {
   width: 380px;
-  height: 370px;
+  height: 500px;
 }
+
 #dong {
   display: flex;
   margin: auto;
@@ -17,60 +21,4 @@
 
 #mapview {
   z-index: 0;
-}
-
-@import url(https://fonts.googleapis.com/css?family=BenchNine:700);
-#authButton {
-  background-color: #5b63ac;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
-  display: inline-block;
-  font-family: "BenchNine", Arial, sans-serif;
-  font-size: 1em;
-  font-size: 15px;
-  line-height: 1.5em;
-  margin: 5px 15px;
-  outline: none;
-  padding: 12px 40px 10px;
-  position: relative;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-#authButton:before,
-#authButton:after {
-  border-color: transparent;
-  -webkit-transition: all 0.1s;
-  transition: all 0.1s;
-  border-style: solid;
-  border-width: 0;
-  content: "";
-  height: 24px;
-  position: absolute;
-  width: 24px;
-}
-#authButton:before {
-  border-color: #5b63ac;
-  border-right-width: 2px;
-  border-top-width: 2px;
-  right: -5px;
-  top: -5px;
-}
-#authButton:after {
-  border-bottom-width: 2px;
-  border-color: #5b63ac;
-  border-left-width: 2px;
-  bottom: -5px;
-  left: -5px;
-}
-#authButton:hover,
-#authButton.hover {
-  background-color: #5b63ac;
-}
-#authButton:hover:before,
-#authButton.hover:before,
-#authButton:hover:after,
-#authButton.hover:after {
-  height: 100%;
-  width: 100%;
 }
