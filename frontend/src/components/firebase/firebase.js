@@ -5,13 +5,13 @@ import "firebase/storage";
 import "firebase/firestore";
 
 var firebaseConfig = {
-  apiKey: "AIzaSyDzulYmNvZSc8SUcwXMIJmcNyYr4JHU0es",
-  authDomain: "login-and-signup-5fc8b.firebaseapp.com",
-  projectId: "login-and-signup-5fc8b",
-  storageBucket: "login-and-signup-5fc8b.appspot.com",
-  messagingSenderId: "382906376942",
-  appId: "1:382906376942:web:7306be3117ac0deceac9ff",
-  measurementId: "G-3548B5KZQ6",
+  apiKey: "AIzaSyDRhJhanXZ-aRszdNtTxcFdBJC-5G9iVRQ",
+    authDomain: "localpeople.firebaseapp.com",
+    databaseURL: "https://localpeople-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "localpeople",
+    storageBucket: "localpeople.appspot.com",
+    messagingSenderId: "416210388254",
+    appId: "1:416210388254:web:0e78b0eb4137367d35f50f"
 };
 
 // Initialize Firebase

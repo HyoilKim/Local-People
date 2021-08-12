@@ -103,7 +103,8 @@ function SignupPage() {
   };
 
   let completed = false;
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     let container = document.getElementById("map");
     let options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
