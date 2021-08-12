@@ -1,7 +1,7 @@
 .map {
   display: flex;
   flex-direction: column;
-  max-height: 50px;
+  /* max-height: 50px; */
   justify-content: center;
   align-items: center;
   padding-left: 50%;
