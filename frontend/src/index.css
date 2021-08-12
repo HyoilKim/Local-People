@@ -20,11 +20,12 @@ code {
   flex-direction: column;
   justify-content: center;
   padding: 60px;
-  padding-left: 270px;
+  padding-left: 180px;
+  padding-bottom: 0px;
   margin: 0px auto;
   width: 100%;
   max-width: 400px;
-  min-height: 750px;
+  height: 590px;
   border-color: black;
   border-radius: 5px;
   float: left;
@@ -49,7 +50,8 @@ code {
 
 .auth-wrapper span::before {
   display: inline;
-  content: "⚠ ";
+  padding-top: 10px;
+  content: "";
 }
 
 .auth-wrapper input {
@@ -119,12 +121,33 @@ code {
 .auth-wrapper button[type="button"] {
   display: block;
   appearance: none;
-  background: #333;
+  background: #5b63ac;
   color: white;
   border: none;
   text-transform: uppercase;
   padding: 10px 20px;
   border-radius: 4px;
+}
+
+.auth-wrapper .name {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.auth-wrapper .nicknameinput {
+  display: flex;
+}
+
+.auth-wrapper #nicknameCheck {
+  position: relative;
+}
+
+.auth-wrapper #nicknameCheck__error {
+  display: inline;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-size: 15px;
 }
 
 .auth-wrapper hr {

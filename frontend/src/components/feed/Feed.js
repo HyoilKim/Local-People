@@ -22,6 +22,7 @@ const Feed = ({
   const [comment, setComment] = useState("");
   const currentUser = firebase.auth().currentUser;
   const [duration, setDuration] = useState();
+  const [dong, setDong] = useState("");
   
 
   if (currentUser) {
@@ -36,7 +37,7 @@ const Feed = ({
       username: nickname,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    
+      
     setComment("");
   };
 
@@ -45,6 +46,10 @@ const Feed = ({
     const differ = now - userCreationTime;
     console.log(differ);
     setDuration(Math.floor(differ/86400000));
+    const arr = address.split(' ');
+    setDong(arr[arr.length - 1]);
+    console.log(arr);
+
     
    
     if (postId) {
@@ -78,7 +83,7 @@ const Feed = ({
               marginTop: "20px",
               fontSize: "7px",
             }}>
-            {address} 거주 {duration}일차
+            {dong} 거주 {duration}일차
           </div>
         </div>
         <div style={{width : "20px"}}>

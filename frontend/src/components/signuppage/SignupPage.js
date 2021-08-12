@@ -2,15 +2,14 @@ import { useRef, useState} from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import firebase, { db } from "../firebase/firebase";
-import "./SignupPage.css"
-
-import NicknameButton from "./NicknameButton";
-
+import "./SignupPage.css";
+import "./SignupMap.css";
 
 function SignupPage() {
   
   const {
     register,
+    getValues,
     watch,
     formState: { errors },
     handleSubmit,
@@ -25,10 +24,48 @@ function SignupPage() {
   });
   const password = useRef();
   password.current = watch("password");
+  let nicknameList = [];
+  let nickname = "";
+  const [checkError, setCheckError] = useState('');
+  const [dpNameCheck, setDpNameCheck] = useState(false);
+
+
+  const onNicknameClick = async (e) => {
+      e.preventDefault();
+      nickname = getValues("nickname");
+
+      console.log(nickname);
+      await firebase.database().ref("users").on('child_added', (snapshot) => {
+        const data = snapshot.val();
+        nicknameList.push(data.nickname);
+        
+      });
+      
+      console.log(nicknameList);
+      const checkUser = nicknameList.filter((element) => (element == nickname));
+      if(checkUser.length === 0 && nickname.length > 0) {
+        
+
+        setCheckError("사용가능");
+        setDpNameCheck(true);
+      }
+      else {
+        if(nickname.length !== 0) {setCheckError("이미 다른 유저가 사용중인 닉네임입니다.");
+        }
+        else setCheckError("닉네임을 입력해주세요");
+        setDpNameCheck(false);
+      }
+  }
 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
+      
+      if(!dpNameCheck) {
+        setCheckError('중복확인 버튼을 눌러주세요');
+        throw new Error('닉네임을 확인해주세요.');
+      }
+
       //firebase에서 이메일과 비밀번호로 유저 생성
       let createdUser = await firebase
       .auth()
@@ -54,8 +91,6 @@ function SignupPage() {
         coords: currentCoords,
       });
       
-      console.log("createdUser", createdUser);
-      
       } catch (error) {
         // 이미 생성된 이메일일 때 에러 메세지
       setErrorFromSubmit(error.message);
@@ -65,9 +100,10 @@ function SignupPage() {
       }, 5000);
     }
   };
-  
+
   let completed = false;
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     let container = document.getElementById("map");
     let options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
@@ -122,6 +158,8 @@ function SignupPage() {
     }
 
     const authButton = document.getElementById("authButton");
+    const map__button = document.getElementById("map__button")?.remove();
+
 
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -151,53 +189,7 @@ function SignupPage() {
       }
     }
   };
-
-  // const onClick = async (event) => {
-    // const [nickNameCheck, setNickNameCheck] = useState(false);
-    // const [checkError, setCheckError] = useState("");
-
-    // let createdNickname = await firebase.database().ref("users").once("value", gotUserData);
-    
-    // function gotUserData(snapshot) {
-    //   snapshot.forEach(userSnapshot => {
-    //     var nickname = userSnapshot.val().nickname;
-    //     console.log(nickname);
-    //   });
-    // }
-
-    // if (createdUser.user.displayName == createdNickname) {
-    //   setCheckError("사용가능");
-    // }
-    // else {
-    //   setCheckError("이미 다른 사용자가 사용 중입니다.");
-    // }
-  // }
-
-  // const [dpNameCheck, setDpNameCheck] = useState(false);
-  // const onClick = async (data) => {
-  //   let userNickname = await firebase.database.nickname
-
-  //   if (data.nickname == userNickname) {
-  //     const IDcheck = await db
-  //       .collection(data.nickname)
-  //       .get();
-  //     if (IDcheck.docs.length == 0 && data.nickname.length > 0 ) {
-  //       setDpNameCheck(true);
-  //       setErrorFromSubmit("사용가능");
-  //     }
-  //     else {
-  //       if (data.nickname.length != 0) setErrorFromSubmit("이미 다른 사용자가 사용 중 입니다.");
-  //       else setErrorFromSubmit("");
-  //       setDpNameCheck(false);
-  //     }
-  //   }
-
-  // }
-
-
   return (
-
-
       <div className="auth-wrapper">
         <div className="form">
           <div
@@ -205,7 +197,7 @@ function SignupPage() {
           >
             <h1>회원가입</h1>
           </div>
-          <div style={{ marginBottom: "40px" }}>
+          <div style={{ marginBottom: "25px" }}>
             <hr></hr>
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -214,20 +206,25 @@ function SignupPage() {
               <div id="map__button">
                 <button
                   style={{backgroundColor:"#5b63ac", borderRadius:"5px"}}
+                  name="authButton"
+                  type="authButton"
                   id="authButton"
                   value=""
                   onClick={handleClick}
                   disabled={completed}
+                  // {...register("authButton", { required: true})}
                 >
                   위치 인증하기
                 </button>
+                <br></br>
+                <br></br>
                 {errors.authButton &&
                 errors.authButton.type === "required" && (
                   <span>위치 인증을 클릭해주세요.</span>
                  )}
               </div>
               <div name="address" style={{
-                color:"white", textAlign:"center", fontSize:"15px"
+                color:"white", paddingTop:"10px", textAlign:"center", fontSize:"15px"
               }}>{address}</div>
             </div>
             <label>이메일</label>
@@ -243,19 +240,25 @@ function SignupPage() {
 
             <label>닉네임</label>
             <div className="name">
-              <div>
+              <div className="nicknameinput">
                 <input
                 id = "nickname"
                 name="nickname"
-                type="nickname"
+                type="text"
                 {...register("nickname", { required: true })}
                 />
+              <button 
+                id="nicknameCheck"
+                name="nicknameCheck"
+                type="button"
+                onClick={onNicknameClick}
+                >중복 확인</button>
               </div>
-              {/* <NicknameButton></NicknameButton> */}
+              {/* {errors.nickname && errors.nickname.type === "required" && (
+              <span style={{marginTop: "5px"}}>닉네임을 입력해주세요.</span>
+              )} */}
+              <span style={{marginTop: "5px"}}>{checkError}</span>
             </div>
-            {errors.nickname && errors.nickname.type === "required" && (
-              <span>닉네임을 입력해주세요.</span>
-            )}
 
             <label>비밀번호</label>
             <input
