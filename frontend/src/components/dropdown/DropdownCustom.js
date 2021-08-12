@@ -32,7 +32,7 @@ const DropdownCustom = ({ username }) => {
             <Link to="/mypage">마이페이지</Link>
           </li>
           <li>
-            <Link to="/create">업로드</Link>
+            
           </li>
           <li>
             <Link to="/login" onClick={handleLogout}>

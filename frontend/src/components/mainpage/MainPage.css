@@ -9,15 +9,10 @@
   height: 100%;
 }
 
-.app__body {
-  padding-top: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: 40px;
-}
+
 .app__body__map {
-  display: flex;
+  
+  justify-content: center;
 }
 
 .disabled {
@@ -26,11 +21,17 @@
 
 .app__feed {
   display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+.app__body {
+  padding-top: 80px;
 }
 
 .app__map {
-  position: fixed;
   padding-top: 150px;
+  border: lightgray;
 }
 
 .app__map__container {

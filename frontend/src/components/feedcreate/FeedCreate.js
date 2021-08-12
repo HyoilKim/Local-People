@@ -96,7 +96,13 @@ const FeedCreate = ({ username }) => {
   };
 
   const handleUpload = () => {
+    if(image == null)
+    {
+      alert("이미지를 업로드해주세요.");
+      return;
+    }
     if (isCoords === true) {
+      
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
 
       uploadTask.on(

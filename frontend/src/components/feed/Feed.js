@@ -43,21 +43,17 @@ const Feed = ({
 
   useEffect(() => {
     const now = Date.now();
-    const differ = now - userCreationTime;
-    console.log(differ);
-    setDuration(Math.floor(differ/86400000));
+    const differ = now - userCreationTime;    
+    setDuration(Math.floor(differ/86400000) + 1);
     const arr = address.split(' ');
     setDong(arr[arr.length - 1]);
-    console.log(arr);
-
-    
    
     if (postId) {
       db
         .collection("feeds")
         .doc(postId)
         .collection("comments")
-        .orderBy("timestamp", "desc")
+        .orderBy("timestamp")
         .onSnapshot((snapshot) => {
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
@@ -80,8 +76,10 @@ const Feed = ({
           <div
             style={{
               marginLeft: "5px",
-              marginTop: "20px",
-              fontSize: "7px",
+              marginTop: "15px",
+              justifyContent: "center",
+              fontSize: "10px",
+              alignItems: "center",
             }}>
             {dong} 거주 {duration}일차
           </div>

@@ -26,7 +26,8 @@ function SignupPage() {
   password.current = watch("password");
   let nicknameList = [];
   let nickname = "";
-  const [checkError, setCheckError] = useState('');
+
+  const [checkError, setCheckError] = useState("");
   const [dpNameCheck, setDpNameCheck] = useState(false);
 
 
@@ -52,9 +53,11 @@ function SignupPage() {
       else {
         if(nickname.length !== 0) {setCheckError("이미 다른 유저가 사용중인 닉네임입니다.");
         }
-        else setCheckError("닉네임을 입력해주세요");
+
+        else setCheckError("");
         setDpNameCheck(false);
       }
+    
   }
 
   const onSubmit = async (data) => {
@@ -189,6 +192,7 @@ function SignupPage() {
       }
     }
   };
+
   return (
       <div className="auth-wrapper">
         <div className="form">
@@ -245,7 +249,7 @@ function SignupPage() {
                 id = "nickname"
                 name="nickname"
                 type="text"
-                {...register("nickname", { required: true })}
+                {...register("nickname", {required: true})}
                 />
               <button 
                 id="nicknameCheck"

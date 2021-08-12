@@ -23,7 +23,6 @@ function App(props) {
     firebase.auth().onAuthStateChanged(function (user) {
       // user 있으면 로그인 된 / user 없으면 안 된 상태
       if (user) {
-        console.log(user);
         history.push("/");
         dispatch(setUser(user));
       } else {

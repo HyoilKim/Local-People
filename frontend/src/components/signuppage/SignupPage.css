@@ -32,6 +32,25 @@
   font-weight: 1000;
 }
 
+.nicknameinput {
+  display: flex;
+  flex-direction: row;
+  height: 38px;
+}
+
+#nicknameCheck {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0px;
+  margin-left: 8px;
+  margin-bottom: 5px;
+  padding: 10px 15px;
+  text-align: center;
+  height: 38px;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
 .nickname__button__box {
   margin-top: 0px;
 }
