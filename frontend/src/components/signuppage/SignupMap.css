@@ -1,25 +1,21 @@
 .map {
   display: flex;
   flex-direction: column;
-  height: 50px;
+  max-height: 50px;
+  justify-content: center;
   align-items: center;
-}
-#mapview {
-  width: 380px;
-  height: 370px;
-}
-#dong {
-  display: flex;
-  margin: auto;
+  padding-left: 50%;
 }
 
-.map__button {
+#map {
   display: flex;
-  margin: auto;
+  flex-direction: column;
+  justify-content: center;
 }
 
-#mapview {
-  z-index: 0;
+#map__button {
+  display: flex;
+  margin: auto;
 }
 
 @import url(https://fonts.googleapis.com/css?family=BenchNine:700);
@@ -38,7 +34,7 @@
   padding: 12px 40px 10px;
   position: relative;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 100;
 }
 #authButton:before,
 #authButton:after {

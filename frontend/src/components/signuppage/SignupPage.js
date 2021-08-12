@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import firebase, { db } from "../firebase/firebase";
 import "./SignupPage.css";
 import "./SignupMap.css";
+import { useEffect } from "react";
+
 
 function SignupPage() {
   
@@ -24,30 +26,35 @@ function SignupPage() {
   });
   const password = useRef();
   password.current = watch("password");
-  let nicknameList = [];
+  let userList = [];
+  let [nicknameList, setNicknameList] = useState([]);
   let nickname = "";
 
   const [checkError, setCheckError] = useState("");
   const [dpNameCheck, setDpNameCheck] = useState(false);
 
+  useEffect(() => {
+      firebase.database().ref("users").on('child_added', (snapshot) => {
+      const data = snapshot.val();
+      userList.push(data.nickname);
+    });
+    setNicknameList(userList);
+  },[]);
 
-  const onNicknameClick = async (e) => {
+  const onNicknameClick = (e) => {
       e.preventDefault();
       nickname = getValues("nickname");
-
+      if(nickname.length == 0)
+      {
+        setCheckError("닉네임을 입력해주세요");
+        setDpNameCheck(false);
+        return;
+      }
       console.log(nickname);
-      await firebase.database().ref("users").on('child_added', (snapshot) => {
-        const data = snapshot.val();
-        nicknameList.push(data.nickname);
-        
-      });
       
       console.log(nicknameList);
       const checkUser = nicknameList.filter((element) => (element == nickname));
-      setTimeout(() => {
-        if(checkUser.length === 0 && nickname.length > 0) {
-  
-  
+        if(checkUser.length === 0 && nickname.length > 0) {  
           setCheckError("사용가능");
           setDpNameCheck(true);
         }
@@ -58,9 +65,7 @@ function SignupPage() {
           else setCheckError("");
           setDpNameCheck(false);
         }
-
-      }, 5000)
-      
+     
     
   }
 
@@ -70,14 +75,9 @@ function SignupPage() {
       
       
       if(!dpNameCheck) {
-        if(!data.nickname) {
-          setCheckError("닉네임을 입력해주세요.")
-          throw new Error ('닉네임을 입력해주세요.')
-        } else {
           setCheckError('중복확인 버튼을 눌러주세요');
           throw new Error('닉네임을 확인해주세요.');
         }
-      }
 
       //firebase에서 이메일과 비밀번호로 유저 생성
       let createdUser = await firebase
@@ -204,6 +204,7 @@ function SignupPage() {
   };
 
   return (
+    <div className="signupbody">
       <div className="auth-wrapper">
         <div className="form">
           <div
@@ -215,27 +216,28 @@ function SignupPage() {
             <hr></hr>
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="map" style={{alignItems:"center"}}>
-              <div id="map"></div>
-              <div id="map__button">
-                <button
-                  style={{backgroundColor:"#5b63ac", borderRadius:"5px"}}
-                  name="authButton"
-                  type="authButton"
-                  id="authButton"
-                  value=""
-                  onClick={handleClick}
-                  disabled={completed}
-                  // {...register("authButton", { required: true})}
-                >
-                  위치 인증하기
-                </button>
-                <br></br>
-                <br></br>
-                {errors.authButton &&
-                errors.authButton.type === "required" && (
-                  <span>위치 인증을 클릭해주세요.</span>
-                 )}
+            <div className="map">
+              <div id="map">
+                <div id="map__button">
+                  <button
+                    style={{backgroundColor:"#5b63ac", borderRadius:"5px"}}
+                    name="authButton"
+                    type="authButton"
+                    id="authButton"
+                    value=""
+                    onClick={handleClick}
+                    disabled={completed}
+                    // {...register("authButton", { required: true})}
+                  >
+                    위치 인증하기
+                  </button>
+                  <br></br>
+                  <br></br>
+                  {errors.authButton &&
+                  errors.authButton.type === "required" && (
+                    <span>위치 인증을 클릭해주세요.</span>
+                   )}
+                </div>
               </div>
               <div name="address" style={{
                 color:"white", paddingTop:"10px", textAlign:"center", fontSize:"15px"
@@ -268,9 +270,9 @@ function SignupPage() {
                 onClick={onNicknameClick}
                 >중복 확인</button>
               </div>
-              {/* {errors.nickname && errors.nickname.type === "required" && (
+              {errors.nickname && errors.nickname.type === "required" && (
               <span style={{marginTop: "5px"}}>닉네임을 입력해주세요.</span>
-              )} */}
+              )}
               <span style={{marginTop: "5px"}}>{checkError}</span>
             </div>
 
@@ -327,6 +329,7 @@ function SignupPage() {
           </form>
         </div>
       </div>
+    </div>
   );
 }
 
