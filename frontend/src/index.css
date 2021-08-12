@@ -49,7 +49,7 @@ code {
 
 .auth-wrapper span::before {
   display: inline;
-  content: "⚠ ";
+  content: "";
 }
 
 .auth-wrapper input {

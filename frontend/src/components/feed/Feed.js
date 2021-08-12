@@ -45,7 +45,7 @@ const Feed = ({
     const now = Date.now();
     const differ = now - userCreationTime;
     
-    setDuration(Math.floor(differ/86400000));
+    setDuration(Math.floor(differ/86400000) + 1);
     const arr = address.split(' ');
     setDong(arr[arr.length - 1]);
    
@@ -54,7 +54,7 @@ const Feed = ({
         .collection("feeds")
         .doc(postId)
         .collection("comments")
-        .orderBy("timestamp", "desc")
+        .orderBy("timestamp")
         .onSnapshot((snapshot) => {
           setComments(snapshot.docs.map((doc) => doc.data()));
         });

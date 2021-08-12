@@ -11,6 +11,7 @@
 
 .app__body {
   padding-top: 80px;
+  padding-left: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,6 +32,7 @@
 .app__map {
   position: fixed;
   padding-top: 150px;
+  border: lightgray;
 }
 
 .app__map__container {
