@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import firebase, { db } from "../firebase/firebase";
 import "./SignupPage.css";
 import "./SignupMap.css";
+import { useEffect } from "react";
 
 function SignupPage() {
   
@@ -24,23 +25,31 @@ function SignupPage() {
   });
   const password = useRef();
   password.current = watch("password");
-  let nicknameList = [];
+  let userList = [];
+  let [nicknameList, setNicknameList] = useState([]);
   let nickname = "";
 
   const [checkError, setCheckError] = useState("");
   const [dpNameCheck, setDpNameCheck] = useState(false);
 
+  useEffect(() => {
+      firebase.database().ref("users").on('child_added', (snapshot) => {
+      const data = snapshot.val();
+      userList.push(data.nickname);
+    });
+    setNicknameList(userList);
+  },[]);
 
-  const onNicknameClick = async (e) => {
+  const onNicknameClick = (e) => {
       e.preventDefault();
       nickname = getValues("nickname");
-
+      if(nickname.length == 0)
+      {
+        setCheckError("닉네임을 입력해주세요");
+        setDpNameCheck(false);
+        return;
+      }
       console.log(nickname);
-      await firebase.database().ref("users").on('child_added', (snapshot) => {
-        const data = snapshot.val();
-        nicknameList.push(data.nickname);
-        
-      });
       
       console.log(nicknameList);
       const checkUser = nicknameList.filter((element) => (element == nickname));
@@ -56,16 +65,15 @@ function SignupPage() {
 
         else setCheckError("");
         setDpNameCheck(false);
-      }
-    
+      };
   }
 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      
+
       if(!dpNameCheck) {
-        setCheckError('중복확인 버튼을 눌러주세요');
+        setCheckError("중복확인 버튼을 눌러주세요");
         throw new Error('닉네임을 확인해주세요.');
       }
 
