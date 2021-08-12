@@ -17,7 +17,7 @@ const MarkerView = ({ feeds }) => {
     let container = document.getElementById("mapview");
     let options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-      level: 2,
+      level: 4,
     };
 
     let map = new window.kakao.maps.Map(container, options);

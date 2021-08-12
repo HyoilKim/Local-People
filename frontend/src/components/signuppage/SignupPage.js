@@ -46,6 +46,7 @@ function SignupPage() {
       if(nickname.length == 0)
       {
         setCheckError("닉네임을 입력해주세요");
+        setErrorFromSubmit("");
         setDpNameCheck(false);
         return;
       }
@@ -63,7 +64,7 @@ function SignupPage() {
         if(nickname.length !== 0) {setCheckError("이미 다른 유저가 사용중인 닉네임입니다.");
         }
 
-        else setCheckError("");
+        else setCheckError("닉네임을 입력해주세요.");
         setDpNameCheck(false);
       };
   }
@@ -266,9 +267,9 @@ function SignupPage() {
                 onClick={onNicknameClick}
                 >중복 확인</button>
               </div>
-              {/* {errors.nickname && errors.nickname.type === "required" && (
+              {errors.nickname && errors.nickname.type === "required" && (
               <span style={{marginTop: "5px"}}>닉네임을 입력해주세요.</span>
-              )} */}
+              )}
               <span style={{marginTop: "5px"}}>{checkError}</span>
             </div>
 
