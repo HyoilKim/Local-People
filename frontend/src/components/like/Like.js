@@ -55,7 +55,9 @@ const Like = ({ postId, nickname, likedUser }) => {
           }
         });
     }
-    return;
+    return () => {
+      console.log("cleanup");
+    };
   }, [postId]);
 
   return (

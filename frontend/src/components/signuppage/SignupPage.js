@@ -47,6 +47,7 @@ function SignupPage() {
       if(nickname.length == 0)
       {
         setCheckError("닉네임을 입력해주세요");
+        setErrorFromSubmit("");
         setDpNameCheck(false);
         return;
       }
@@ -58,6 +59,7 @@ function SignupPage() {
           setCheckError("사용가능");
           setDpNameCheck(true);
         }
+
         else {
           if(nickname.length !== 0) {setCheckError("이미 다른 유저가 사용중인 닉네임입니다.");
           }
@@ -66,7 +68,7 @@ function SignupPage() {
           setDpNameCheck(false);
         }
      
-    
+   
   }
 
   const onSubmit = async (data) => {

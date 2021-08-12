@@ -84,10 +84,14 @@ const FeedMore = ({ isCurrentUser, postId }) => {
               >
                 <ul>
                   <li>
-                    <Link to="/update" onClick={toggleEditing}>수정하기</Link>
+                    <Link to="/update" onClick={toggleEditing}>
+                      수정하기
+                    </Link>
                   </li>
                   <li>
-                    <Link onClick={onDeleteClick}>삭제하기</Link>
+                    <Link to="/" onClick={onDeleteClick}>
+                      삭제하기
+                    </Link>
                   </li>
                 </ul>
               </nav>

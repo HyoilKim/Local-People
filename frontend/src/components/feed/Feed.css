@@ -146,3 +146,19 @@
   padding: 15px 20px;
   display: block;
 }
+
+.feed__morebutton {
+  background-color: transparent;
+  color: gray;
+  border: none;
+}
+
+.feed__morebutton:hover {
+  cursor: pointer;
+}
+
+.comment__title {
+  background-color: transparent;
+  color: gray;
+  font-size: small;
+}

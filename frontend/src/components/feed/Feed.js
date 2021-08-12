@@ -5,7 +5,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import FeedMore from "./FeedMore";
-
+import Comment from "./Comment";
 
 const Feed = ({
   postId,
@@ -15,7 +15,6 @@ const Feed = ({
   likedUser,
   userCreationTime,
   address,
-  
 }) => {
   let nickname = "";
   const [comments, setComments] = useState([]);
@@ -23,11 +22,34 @@ const Feed = ({
   const currentUser = firebase.auth().currentUser;
   const [duration, setDuration] = useState();
   const [dong, setDong] = useState("");
-  
+  const [limit, setLimit] = useState(30);
+
+  const toggleEllipsis = (str, limit) => {
+    return {
+      string: str.slice(0, limit),
+      isShowMore: str.length > limit,
+    };
+  };
+
+  const [commentLimit, setCommentLimit] = useState(-2);
+
+  const toggleComments = (arr, limit) => {
+    return {
+      result: arr.slice(commentLimit),
+      isShowMore: arr.length > -1 * commentLimit,
+    };
+  };
+
+  const onClickMoreComments = (arr) => () => {
+    setCommentLimit(arr.length);
+  };
+
+  const onClickMore = (str) => () => {
+    setLimit(str.length);
+  };
 
   if (currentUser) {
     nickname = currentUser.displayName;
-    
   }
 
   const postComment = (event) => {
@@ -37,20 +59,19 @@ const Feed = ({
       username: nickname,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
-      
+
     setComment("");
   };
 
   useEffect(() => {
     const now = Date.now();
-    const differ = now - userCreationTime;    
-    setDuration(Math.floor(differ/86400000) + 1);
-    const arr = address.split(' ');
+    const differ = now - userCreationTime;
+    setDuration(Math.floor(differ / 86400000) + 1);
+    const arr = address.split(" ");
     setDong(arr[arr.length - 1]);
-   
+
     if (postId) {
-      db
-        .collection("feeds")
+      db.collection("feeds")
         .doc(postId)
         .collection("comments")
         .orderBy("timestamp")
@@ -58,9 +79,10 @@ const Feed = ({
           setComments(snapshot.docs.map((doc) => doc.data()));
         });
     }
-    
 
-    return; //componentWillUnmount
+    return () => {
+      console.log("feed clean");
+    }; //componentWillUnmount
   }, [postId]);
 
   return (
@@ -72,7 +94,7 @@ const Feed = ({
             // alt={author}
             src="/static/images/avatar/1.jpeg"
           ></Avatar>
-          <h3 style={{marginLeft: "5px", marginTop: "8px"}}>{author}</h3>
+          <h3 style={{ marginLeft: "5px", marginTop: "8px" }}>{author}</h3>
           <div
             style={{
               marginLeft: "5px",
@@ -80,11 +102,12 @@ const Feed = ({
               justifyContent: "center",
               fontSize: "10px",
               alignItems: "center",
-            }}>
+            }}
+          >
             {dong} 거주 {duration}일차
           </div>
         </div>
-        <div style={{width : "20px"}}>
+        <div style={{ width: "20px" }}>
           <FeedMore
             isCurrentUser={author === nickname}
             postId={postId}
@@ -100,14 +123,26 @@ const Feed = ({
         <Like postId={postId} nickname={nickname} likedUser={likedUser}></Like>
       </div>
 
-
       <h4 className="feed__text">
-        <strong>{author}</strong>: {description}
+        <strong>{author}</strong>: {toggleEllipsis(description, limit).string}
+        {toggleEllipsis(description, limit).isShowMore && (
+          <button
+            className="feed__morebutton"
+            onClick={onClickMore(description)}
+          >
+            ..더보기
+          </button>
+        )}
       </h4>
       {/*username + description */}
       <div className="feed__comments">
+        {comments.length !== 0 ? (
+          <p className="comment__title">댓글</p>
+        ) : (
+          <p></p>
+        )}
         {comments.map((comment) => (
-          <p>
+          <p key={comment.timestamp}>
             <strong>{comment.username}</strong>&nbsp;{comment.text}
           </p>
         ))}
