@@ -98,6 +98,8 @@ function SignupPage() {
         username: data.nickname,
         coords: currentCoords,
       });
+
+      console.log("createdUser", createdUser)
     } catch (error) {
       // 이미 생성된 이메일일 때 에러 메세지
       setErrorFromSubmit(error.message);
@@ -209,41 +211,6 @@ function SignupPage() {
             <hr></hr>
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="map__signup">
-              <div id="map">
-                <div id="map__button">
-                  <button
-                    style={{ backgroundColor: "#5b63ac", borderRadius: "5px" }}
-                    name="authButton"
-                    type="authButton"
-                    id="authButton"
-                    value=""
-                    onClick={handleClick}
-                    disabled={completed}
-                    // {...register("authButton", { required: true})}
-                  >
-                    위치 인증하기
-                  </button>
-                  <br></br>
-                  <br></br>
-                  {errors.authButton &&
-                    errors.authButton.type === "required" && (
-                      <span>위치 인증을 클릭해주세요.</span>
-                    )}
-                </div>
-              </div>
-              <div
-                name="address"
-                style={{
-                  color: "white",
-                  paddingTop: "10px",
-                  textAlign: "center",
-                  fontSize: "15px",
-                }}
-              >
-                {address}
-              </div>
-            </div>
             <label>이메일</label>
             <input
               name="email"
@@ -252,7 +219,7 @@ function SignupPage() {
             />
             {errors.email && errors.email.type === "required" && (
               <span>이메일을 입력해주세요.</span>
-            )}
+              )}
 
             <label>닉네임</label>
             <div className="name">
@@ -274,7 +241,7 @@ function SignupPage() {
               </div>
               {errors.nickname && errors.nickname.type === "required" && (
                 <span style={{ marginTop: "5px" }}>닉네임을 입력해주세요.</span>
-              )}
+                )}
               <span style={{ marginTop: "5px" }}>{checkError}</span>
             </div>
 
@@ -289,7 +256,7 @@ function SignupPage() {
             )}
             {errors.password && errors.password.type === "minLength" && (
               <span>비밀번호는 6자 이상이어야 합니다.</span>
-            )}
+              )}
 
             <label>비밀번호 확인</label>
             <input
@@ -303,18 +270,53 @@ function SignupPage() {
             {errors.password_confirm &&
               errors.password_confirm.type === "required" && (
                 <span>비밀번호를 입력해주세요.</span>
-              )}
+                )}
             {errors.password_confirm &&
               errors.password_confirm.type === "validate" && (
                 <span>비밀번호가 일치하지 않습니다.</span>
-              )}
+                )}
 
+            <div className="map__signup">
+              <div id="map">
+                <div id="map__button">
+                  <button
+                    style={{ backgroundColor: "#5b63ac", borderRadius: "5px", marginTop:"15px" }}
+                    name="authButton"
+                    type="authButton"
+                    id="authButton"
+                    value=""
+                    onClick={handleClick}
+                    disabled={completed}
+                    // {...register("authButton", { required: true})}
+                  >
+                    위치 인증하기
+                  </button>
+                  <br></br>
+                  <br></br>
+                  {errors.authButton &&
+                    errors.authButton.type === "required" && (
+                      <span>위치 인증을 클릭해주세요.</span>
+                      )}
+                </div>
+              </div>
+              <div
+                name="address"
+                style={{
+                  color: "white",
+                  paddingTop: "10px",
+                  textAlign: "center",
+                  fontSize: "15px",
+                }}
+              >
+                {address}
+              </div>
+            </div>
             {errorFromSubmit && <span>{errorFromSubmit}</span>}
 
             <input
               value="회원가입"
               type="submit"
-              style={{ marginTop: "40px" }}
+              style={{ marginTop: "20px" }}
               disabled={loading}
             />
             <Link

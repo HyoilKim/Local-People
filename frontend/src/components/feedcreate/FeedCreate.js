@@ -164,30 +164,30 @@ const FeedCreate = ({ username }) => {
         </div>
 
         <textarea
-          name=""
-          id=""
+          name="textarea"
+          id="textarea"
           onChange={(event) => setDescription(event.target.value)}
-          placeholder="내용을 입력해주세요"
+          placeholder="당신의 로컬 정보를 공유해주세요!"
           value={description}
           className="feedCreate__description"
         ></textarea>
 
-        <Button
-          variant="contained"
-          className="feedCreate__button"
-          color="primary"
-          onClick={handleClick}
-          className={classes.button}
-          id="locationButton"
-        >
-          위치인증하기
-        </Button>
       </div>
       <div className="feedCreate__bottom">
-        <div className="feedCreate__image">
-          <input accept="image/*" type="file" onChange={handleChange} />
-        </div>
-        <div className="feedCreate__button">
+        <div className="feedCreate__buttons">
+          <div className="feedCreate__image">
+            <input accept="image/*" type="file" onChange={handleChange} />
+          </div>
+          <Button
+            variant="contained"
+            className="feedCreate__button__location"
+            color="primary"
+            onClick={handleClick}
+            className={classes.button}
+            id="locationButton"
+          >
+            위치인증하기
+          </Button>
           <Button
             variant="contained"
             background

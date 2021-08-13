@@ -44,3 +44,7 @@
   overflow-x: hidden;
   overflow-y: hidden;
 }
+
+.waitment {
+  margin: 0 auto;
+}
