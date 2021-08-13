@@ -1,6 +1,6 @@
 import {
     SET_USER,
-    CLEAR_USER
+    CLEAR_USER,
 } from './types';
 
 

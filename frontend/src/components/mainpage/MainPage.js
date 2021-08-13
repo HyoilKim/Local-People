@@ -99,7 +99,7 @@ const MainPage = () => {
         <div className="app__body">
           {feeds.length == 0 ? (
             <div className="waitment">
-              <span>잠시만 기다려주세요😊</span>
+              {/* <span>잠시만 기다려주세요..</span> */}
             </div>
           ) : (
             feeds.map(({ id, feed }) => (

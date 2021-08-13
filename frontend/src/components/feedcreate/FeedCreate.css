@@ -50,3 +50,18 @@
   justify-content: center;
   margin-top: 30px;
 }
+
+#textarea {
+  resize: both;
+  height: 300px;
+  width: 500px;
+}
+
+.feedCreate__buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.feedCreate__button__location {
+  margin-top: 200px;
+}
