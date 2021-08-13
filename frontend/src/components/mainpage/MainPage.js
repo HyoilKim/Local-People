@@ -12,7 +12,6 @@ const MainPage = () => {
   const currentUser = firebase.auth().currentUser;
   const [time, setTime] = useState();
   const [userCoords, setUserCoords] = useState({});
-  const [userAvatarUrl, setUserAvatarUrl] = useState("");
 
   let data;
 
@@ -60,9 +59,6 @@ const MainPage = () => {
                 if (doc.exists) {
                   lat = doc.data().coords.lat;
                   lon = doc.data().coords.lon;
-                  if (doc.data().userAvatarUrl !== null) {
-                    setUserAvatarUrl(doc.data().userImage);
-                  }
                   setUserCoords({ lat: lat, lon: lon });
                   return doc.data();
                 }
@@ -100,7 +96,7 @@ const MainPage = () => {
 
   return (
     <div className="app">
-      <Nav userAvatarUrl={userAvatarUrl}/>
+      <Nav />
       <div className="app__feed">
         <div className="app__body">
           {feeds.length == 0 ? (

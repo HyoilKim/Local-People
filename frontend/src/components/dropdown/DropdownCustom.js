@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./Dropdown.css";
 import { Avatar } from "@material-ui/core";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
@@ -8,14 +8,30 @@ import firebase, { db } from "../firebase/firebase";
 import { Link } from "react-router-dom";
 import mime from "mime-types";
 
-const DropdownCustom = ({ username, userAvatarUrl }) => {
+const DropdownCustom = ({ username }) => {
   const user = useSelector((state) => state.user.currentUser);
   const dropdownRef = useRef(null);
+  const [userImageURL, setUserImageURL] = useState();
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const onClick = () => setIsActive(!isActive);
   const handleLogout = () => {
     firebase.auth().signOut();
   };
+
+  useEffect(() => {
+    if (user) {
+      db.collection("users")
+        .doc(user.displayName)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            if (doc.data().userAvatarUrl !== null) {
+              setUserImageURL(doc.data().userImage);
+            }
+          }
+        });
+    }
+  }, []);
 
   const inputOpenImageRef = useRef();
 
@@ -53,7 +69,7 @@ const DropdownCustom = ({ username, userAvatarUrl }) => {
         <Avatar
           className="feed__avatar"
           alt={username}
-          src={userAvatarUrl}
+          src={userImageURL}
         ></Avatar>
       </button>
       <nav
