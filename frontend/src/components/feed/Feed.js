@@ -40,6 +40,22 @@ const Feed = ({
     };
   };
 
+  const deleteComment = (id) => () => {
+    if (postId) {
+      db.collection("feeds")
+        .doc(postId)
+        .collection("comments")
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log("your comments successfully deleted!");
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+    }
+  };
+
   const onClickMoreComments = (arr) => () => {
     setCommentLimit(arr.length);
   };
@@ -66,7 +82,7 @@ const Feed = ({
   useEffect(() => {
     const now = Date.now();
     const differ = now - userCreationTime;
-    setDuration(Math.floor(differ / 86400000) + 1);
+    setDuration(Math.ceil(differ / 86400000));
     const arr = address.split(" ");
     setDong(arr[arr.length - 1]);
 
@@ -76,13 +92,13 @@ const Feed = ({
         .collection("comments")
         .orderBy("timestamp")
         .onSnapshot((snapshot) => {
-          setComments(snapshot.docs.map((doc) => doc.data()));
+          setComments(
+            snapshot.docs.map((doc) => ({ id: doc.id, comment: doc.data() }))
+          );
         });
     }
 
-    return () => {
-      console.log("feed clean");
-    }; //componentWillUnmount
+    return () => {}; //componentWillUnmount
   }, [postId]);
 
   return (
@@ -141,9 +157,19 @@ const Feed = ({
         ) : (
           <p></p>
         )}
-        {comments.map((comment) => (
-          <p key={comment.timestamp}>
+        {comments.map(({ id, comment }) => (
+          <p key={comment.timestamp} className="comment__section">
             <strong>{comment.username}</strong>&nbsp;{comment.text}
+            {comment.username == nickname ? (
+              <button
+                onClick={deleteComment(id)}
+                className="comment_delete_button"
+              >
+                X
+              </button>
+            ) : (
+              <div></div>
+            )}
           </p>
         ))}
       </div>

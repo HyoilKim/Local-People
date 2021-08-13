@@ -17,7 +17,7 @@ const MarkerView = ({ feeds }) => {
     let container = document.getElementById("mapview");
     let options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-      level: 4,
+      level: 3,
     };
 
     let map = new window.kakao.maps.Map(container, options);
@@ -36,7 +36,7 @@ const MarkerView = ({ feeds }) => {
     let geocoder = new window.kakao.maps.services.Geocoder();
 
     var imageSrc =
-      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+      "https://t1.daumcdn.net/locadivmg/locadivmages/07/mapapidoc/markerStar.png";
 
     for (var i = 0; i < positions.length; i++) {
       // 마커 이미지의 이미지 크기 입니다
@@ -127,7 +127,45 @@ const MarkerView = ({ feeds }) => {
 
   return (
     <div className="map">
-      <div id="mapview"></div>
+      <div className="mapview__container">
+        <div className="mapview__header">
+          <p className="mapview__header__quote">내 근처 피드</p>
+        </div>
+        <div id="mapview"></div>
+        <div className="mapview__footer">
+          {/*<div className="ixdEe">
+            <div className="K5OFK">
+              <a className="l93RR">소개</a>
+            </div>
+            <div className="K5OFK">
+              도움말
+              <a className="l93RR">소개</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">홍보 센터</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">API</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">채용 정보</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">개인정보처리방침</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">약관위치</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">인기 계정</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">해시태그언어</a>
+            </div>
+          </div>
+          © 2021 INSTAGRAM FROM FACEBOOK */}
+        </div>
+      </div>
     </div>
   );
 };

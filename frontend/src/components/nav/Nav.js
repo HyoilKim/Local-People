@@ -14,19 +14,44 @@ const Nav = () => {
     //현재 유저가 로그인 상태이면 닉네임을 표시한다.
     nickname = currentUser.displayName;
   }
+
   useEffect(()=> {
     userImage = firebase.storage().ref().child(`user_images/${currentUser.uid}`)
+
     nickname = currentUser.displayName;
-  },[currentUser])
+  }, [currentUser]);
 
   return (
-    <div className="navbar">
-      <Link className="navbar__logo" to="/">
-        로컬피플
-      </Link>
-      <Link to="/"><i class="fas fa-home" style={{fontSize:"20px", color:"#9575cd"}}></i></Link>
-      <Link to="/create"><i class="fas fa-edit" style={{fontSize:"20px", color:"#9575cd"}}></i></Link>
-      <DropdownCustom username={nickname}></DropdownCustom>
+
+    <div className="navbar__container">
+      <div className="navbar">
+        <div className="navbar__logo">
+          <div className="Igw0E rBNOH  eGOV_  ybXk5  _4EzTm  ">
+            <div className="cq2ai">
+              <Link className="logo__link" to="/">
+                <div className="s4Iyt">로컬피플</div>
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="navbar__menu">
+          <div className="navbar__post">
+            <div className="navbar__icon">
+              <Link className="link__color" to="/">
+                <i class="fas fa-home" style={{ fontSize: "20px" }}></i>
+              </Link>
+            </div>
+            <div className="navbar__icon">
+              <Link className="link__color" to="/create">
+                <i class="fas fa-edit" style={{ fontSize: "20px" }}></i>
+              </Link>
+            </div>
+          </div>
+          <div>
+            <DropdownCustom username={nickname}></DropdownCustom>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

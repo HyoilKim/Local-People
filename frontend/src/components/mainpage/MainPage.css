@@ -2,6 +2,12 @@
   margin: 0;
 }
 
+@media screen and (max-width: 1200px) {
+  #outer_btn_right {
+    display: none;
+  }
+}
+
 .app {
   background-color: #f1f0f0;
   margin: auto 1px;
@@ -22,11 +28,14 @@
 
 .app__feed {
   display: flex;
-  width: 80%;
+  width: 100%;
   justify-content: center;
   justify-items: center;
   align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
 }
+
 .app__body {
   padding-top: 80px;
   width: 100%;
