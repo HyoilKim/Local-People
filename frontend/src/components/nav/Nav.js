@@ -5,9 +5,9 @@ import DropdownCustom from "../dropdown/DropdownCustom";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const Nav = () => {
+const Nav = ({ userAvatarUrl }) => {
   const currentUser = firebase.auth().currentUser;
-  const user = useSelector(state => state.user.currentUser)
+  const user = useSelector((state) => state.user.currentUser);
   let nickname = "";
   let userImage = "";
   if (currentUser) {
@@ -15,14 +15,16 @@ const Nav = () => {
     nickname = currentUser.displayName;
   }
 
-  useEffect(()=> {
-    userImage = firebase.storage().ref().child(`user_images/${currentUser.uid}`)
+  useEffect(() => {
+    userImage = firebase
+      .storage()
+      .ref()
+      .child(`user_images/${currentUser.uid}`);
 
     nickname = currentUser.displayName;
   }, [currentUser]);
 
   return (
-
     <div className="navbar__container">
       <div className="navbar">
         <div className="navbar__logo">
@@ -48,7 +50,10 @@ const Nav = () => {
             </div>
           </div>
           <div>
-            <DropdownCustom username={nickname}></DropdownCustom>
+            <DropdownCustom
+              username={nickname}
+              userAvatarUrl={userAvatarUrl}
+            ></DropdownCustom>
           </div>
         </div>
       </div>
