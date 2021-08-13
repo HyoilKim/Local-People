@@ -70,6 +70,7 @@
 
 .feed__comments {
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 .menu-container {
@@ -161,4 +162,23 @@
   background-color: transparent;
   color: gray;
   font-size: small;
+}
+
+.comment_delete_button {
+  background-color: rgb(250, 250, 250);
+  color: white;
+  font-size: small;
+  border: lightgray 1px;
+  margin-left: auto;
+  border-radius: 3%;
+}
+
+.comment_delete_button:hover {
+  cursor: pointer;
+  color: red;
+  background-color: lightgray;
+}
+
+.comment__section {
+  display: flex;
 }
