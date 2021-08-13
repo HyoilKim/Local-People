@@ -155,7 +155,7 @@ const Feed = ({
         {comments.length !== 0 ? (
           <p className="comment__title">댓글</p>
         ) : (
-          <p></p>
+          <div></div>
         )}
         {comments.map(({ id, comment }) => (
           <p key={comment.timestamp} className="comment__section">
@@ -168,7 +168,7 @@ const Feed = ({
                 X
               </button>
             ) : (
-              <div></div>
+              <span></span>
             )}
           </p>
         ))}
