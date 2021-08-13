@@ -78,3 +78,9 @@ ul,
 ol {
   list-style: none;
 }
+
+.mapview__header__quote {
+  font-weight: 700;
+  margin-top: 10px;
+  color: #9575cd;
+}

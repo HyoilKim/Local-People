@@ -81,6 +81,7 @@ const FeedMore = ({ isCurrentUser, postId }) => {
               <nav
                 ref={dropdownRef}
                 className={`menu ${isActive ? "active" : "inactive"}`}
+                style={{width:"105px", textAlign:"center"}}
               >
                 <ul>
                   <li>

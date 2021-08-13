@@ -132,10 +132,15 @@ const MarkerView = ({ feeds, userCoords }) => {
     <div className="map">
       <div className="mapview__container">
         <div className="mapview__header">
-          <p className="mapview__header__quote">내 근처 피드</p>
+          <p className="mapview__header__quote">우리 동네 로컬 생활</p>
         </div>
         <div id="mapview"></div>
         <div className="mapview__footer">
+          <div style={{textAlign:"center", marginTop:"3px"}}>
+            <span>코로나 블루로 멀어진 이웃 사이,
+              <br></br>
+              ‘로컬피플’로 조금 더 가까이 다가가보세요!</span>
+          </div>
           {/*<div className="ixdEe">
             <div className="K5OFK">
               <a className="l93RR">소개</a>
