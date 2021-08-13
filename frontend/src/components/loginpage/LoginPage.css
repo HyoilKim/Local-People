@@ -1,3 +1,119 @@
 .loginbody {
   width: 100%;
 }
+
+@media all and (max-width: 414px) {
+  .mobile__login__body {
+    width: 100vw;
+    min-width: 80px;
+    max-width: 400px;
+    display: "flex";
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding-top: 23%;
+    background-image: url("../../background.jpg");
+  }
+
+  .mobile__auth-wrapper {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100%;
+  }
+
+  .mobile__login__body form {
+    width: 88%;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mobile__auth-wrapper h1 {
+    font-weight: 1000;
+    text-align: center;
+    padding-bottom: 20px;
+    letter-spacing: 10px;
+    color: #fafafa;
+  }
+
+  .mobile__auth-wrapper span {
+    color: white;
+  }
+
+  .mobile__auth-wrapper span::before {
+    display: inline;
+    padding-top: 10px;
+    content: "";
+  }
+
+  .mobile__auth-wrapper input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid black;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  .mobile__auth-wrapper label {
+    line-height: 2;
+    text-align: left;
+    display: block;
+    margin: 5px 0;
+    font-size: 14px;
+    font-weight: 200;
+    color: #fafafa;
+  }
+
+  .mobile__auth-wrapper button[type="submit"],
+  .mobile__auth-wrapper input[type="submit"] {
+    background: #5b63ac;
+    color: white;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 3px;
+  }
+
+  .mobile__auth-wrapper button[type="submit"]:hover,
+  .mobile__auth-wrapper input[type="submit"]:hover {
+    background: #8893e4;
+  }
+
+  .mobile__auth-wrapper button[type="submit"]:active,
+  .mobile__auth-wrapper input[type="button"]:active,
+  .mobile__auth-wrapper input[type="submit"]:active {
+    transition: 0.3s all;
+    transform: translateY(3px);
+    border: 1px solid transparent;
+    opacity: 0.8;
+  }
+
+  .mobile__auth-wrapper input:disabled {
+    opacity: 0.4;
+  }
+
+  .mobile__auth-wrapper input[type="button"]:hover {
+    transition: 0.3s all;
+  }
+
+  .mobile__auth-wrapper button[type="submit"],
+  .mobile__auth-wrapper input[type="button"],
+  .mobile__auth-wrapper input[type="submit"] {
+    -webkit-appearance: none;
+  }
+
+  .mobile__link {
+    margin: 0 auto;
+    text-align: center;
+  }
+}
