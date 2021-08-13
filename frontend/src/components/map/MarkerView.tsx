@@ -12,7 +12,7 @@ interface MarkerInfo {
   latlng: any;
 }
 
-const MarkerView = ({ feeds }) => {
+const MarkerView = ({ feeds, userCoords }) => {
   useEffect(() => {
     let container = document.getElementById("mapview");
     let options = {
@@ -108,7 +108,10 @@ const MarkerView = ({ feeds }) => {
         let lat = position.coords.latitude, // 위도
           lon = position.coords.longitude; // 경도
 
-        let locPosition = new window.kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        let locPosition = new window.kakao.maps.LatLng(
+            userCoords.lat,
+            userCoords.lon
+          ), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
           message = '<div style="padding:5px;"></div>'; // 인포윈도우에 표시될 내용입니다
 
         // 마커와 인포윈도우를 표시합니다

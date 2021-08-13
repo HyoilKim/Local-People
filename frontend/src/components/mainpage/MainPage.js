@@ -5,11 +5,13 @@ import { db } from "../firebase/firebase";
 import MarkerView from "../map/MarkerView";
 import Nav from "../nav/Nav";
 import firebase from "../firebase/firebase";
+import { setUser } from "../../redux/actions/user_action";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
   const currentUser = firebase.auth().currentUser;
   const [time, setTime] = useState();
+  const [userCoords, setUserCoords] = useState({});
 
   let data;
 
@@ -57,7 +59,7 @@ const MainPage = () => {
                 if (doc.exists) {
                   lat = doc.data().coords.lat;
                   lon = doc.data().coords.lon;
-
+                  setUserCoords({lat: lat, lon: lon});
                   return doc.data();
                 }
               })
@@ -122,7 +124,7 @@ const MainPage = () => {
             {feeds.length == 0 ? (
               <div></div>
             ) : (
-              <MarkerView feeds={feeds}></MarkerView>
+              <MarkerView feeds={feeds} userCoords={userCoords}></MarkerView>
             )}
           </div>
         </div>
