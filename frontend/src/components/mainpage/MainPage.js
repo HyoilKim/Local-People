@@ -9,19 +9,18 @@ import firebase from "../firebase/firebase";
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
   const currentUser = firebase.auth().currentUser;
-  const [time,setTime] = useState();
-  
-  
+  const [time, setTime] = useState();
+
   let data;
 
   useEffect(() => {
     //this is where the code runs
-    
+
     let lat, lon;
     let currentTime = new Date();
-    
+
     setTime(currentTime.getTime());
-    
+
     function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
       //두 점의 위경도좌표를 받아 거리 return
       function deg2rad(deg) {
@@ -38,57 +37,59 @@ const MainPage = () => {
           Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       const d = R * c;
-      
+
       return d;
     }
-    
-    
 
     const loadDoc = async () => {
-      try{
-        const doc = await db.collection("users").doc(currentUser.displayName).get();
+      try {
+        const doc = await db
+          .collection("users")
+          .doc(currentUser.displayName)
+          .get();
         data = doc.data();
-        if(data)
-        {
-          if(currentUser)
-          {
-            db.collection("users").doc(currentUser.displayName).get().then((doc) => {
-              if (doc.exists) {
-                lat = doc.data().coords.lat;
-                lon = doc.data().coords.lon;
+        if (data) {
+          if (currentUser) {
+            db.collection("users")
+              .doc(currentUser.displayName)
+              .get()
+              .then((doc) => {
+                if (doc.exists) {
+                  lat = doc.data().coords.lat;
+                  lon = doc.data().coords.lon;
 
-                return doc.data();
-              }
-            }).then((position) => {
-              db.collection("feeds")
-            .orderBy("timestamp", "desc")
-            .onSnapshot((snapshot) => {
-              //every single time a new feeds is added, this code runs
-                setFeeds(
-                  snapshot.docs.map((doc) => ({ id: doc.id, feed: doc.data() })).filter(({id, feed}) => getDistanceFromLatLonInKm(
-                    position.coords.lat,
-                    position.coords.lon,
-                    feed.location.lat,
-                    feed.location.lon
-                  ) < 400)
-                  
-                );
-            });
-            
-            })
+                  return doc.data();
+                }
+              })
+              .then((position) => {
+                db.collection("feeds")
+                  .orderBy("timestamp", "desc")
+                  .onSnapshot((snapshot) => {
+                    //every single time a new feeds is added, this code runs
+                    setFeeds(
+                      snapshot.docs
+                        .map((doc) => ({ id: doc.id, feed: doc.data() }))
+                        .filter(
+                          ({ id, feed }) =>
+                            getDistanceFromLatLonInKm(
+                              position.coords.lat,
+                              position.coords.lon,
+                              feed.location.lat,
+                              feed.location.lon
+                            ) < 400
+                        )
+                    );
+                  });
+              });
           }
-        }else{
+        } else {
           console.log("Not found");
         }
-      
-      }
-      catch(e){
+      } catch (e) {
         console.log(e.message);
       }
-    }
+    };
     setTimeout(loadDoc, 1500);
-     
-
   }, []);
 
   return (
@@ -98,7 +99,7 @@ const MainPage = () => {
         <div className="app__body">
           {feeds.length == 0 ? (
             <div className="waitment">
-              <span>게시물이 아직 없어요...😢</span>
+              <span>잠시만 기다려주세요😊</span>
             </div>
           ) : (
             feeds.map(({ id, feed }) => (
@@ -116,10 +117,13 @@ const MainPage = () => {
             ))
           )}
         </div>
-        <div className="app__map__container">
+        <div className="app__map__container" id="outer_btn_right">
           <div className="app__map">
-            {feeds.length==0?(<div></div>):(<MarkerView feeds={feeds}></MarkerView>)}
-            
+            {feeds.length == 0 ? (
+              <div></div>
+            ) : (
+              <MarkerView feeds={feeds}></MarkerView>
+            )}
           </div>
         </div>
       </div>

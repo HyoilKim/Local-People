@@ -48,7 +48,7 @@ const Feed = ({
         .doc(id)
         .delete()
         .then(() => {
-          console.log("Document successfully deleted!");
+          console.log("your comments successfully deleted!");
         })
         .catch((error) => {
           console.error("Error removing document: ", error);
@@ -82,7 +82,7 @@ const Feed = ({
   useEffect(() => {
     const now = Date.now();
     const differ = now - userCreationTime;
-    setDuration(Math.floor(differ / 86400000) + 1);
+    setDuration(Math.ceil(differ / 86400000));
     const arr = address.split(" ");
     setDong(arr[arr.length - 1]);
 

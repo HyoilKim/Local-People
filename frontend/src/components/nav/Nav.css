@@ -1,15 +1,27 @@
+.navbar__container {
+  align-items: center;
+  background-color: rgba(var(--d87, 255, 255, 255), 1);
+  border-bottom: 1px solid rgba(var(--b6a, 219, 219, 219), 1);
+  height: 54px;
+  position: fixed;
+  top: 0;
+  transition: height 0.2s ease-in-out;
+  width: 100%;
+  z-index: 3;
+}
 .navbar {
-  padding-top: 0.4%;
-  padding-bottom: 0.5%;
+  padding: 0 13px;
   background-color: white;
   border-bottom: 1px solid rgb(228, 226, 226);
-  object-fit: contain;
-  position: fixed;
   width: 100%;
-  z-index: 1;
+  z-index: 10;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  height: 54px;
+  max-width: 1300px;
+  transition: height 0.2s ease-in-out;
+  margin: 0 auto;
 }
 
 .navbar input {
@@ -28,17 +40,72 @@
 }
 
 .navbar__logo {
+  -webkit-box-flex: 1;
+  min-width: 40px;
+  flex: 1;
+}
+.Igw0E {
+  align-content: stretch;
+}
+
+.rBNOH {
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.s4Iyt {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.ybXk5 {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.eGOV_ {
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.cq2ai {
+  margin-top: 7px;
+  -webkit-transition: opacity 0.1s ease-out;
+  transition: opacity 0.1s ease-out;
+}
+
+._4EzTm {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  width: 259px;
+}
+
+.logo__link {
   font-family: Helvetica;
   font-weight: bold;
   font-size: 25px;
   border: 1px solid transparent;
   text-decoration: none;
-
-  color: #df78ef;
+  color: #9575cd;
 }
+
 .navbar__post {
   color: black;
   text-align: center;
+  align-items: center;
+  min-width: 100px;
+  padding-left: 30px;
+  display: flex;
 }
 
 .logo:hover {
@@ -50,7 +117,19 @@
   cursor: pointer;
   text-align: center;
 }
+
 .navbar__menu {
-  position: absolute;
-  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 24px;
+}
+
+.navbar__icon {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.link__color {
+  color: #9575cd;
 }
