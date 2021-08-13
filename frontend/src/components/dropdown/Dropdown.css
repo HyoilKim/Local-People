@@ -7,7 +7,7 @@
 
 .menu-trigger {
   background: #ffffff;
-  border-radius: 90px;
+  border-radius: 15px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -40,8 +40,8 @@
   border-radius: 8px;
   position: absolute;
   top: 60px;
-  right: 68%;
-  width: 300px;
+  right: 22%;
+  width: 260px;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
   opacity: 0;
   visibility: hidden;
@@ -69,7 +69,6 @@
 .menu li a {
   text-decoration: none;
   color: #333333;
-  padding: 15px 20px;
-  padding-top: 5px;
+  padding: 10px 20px;
   display: block;
 }

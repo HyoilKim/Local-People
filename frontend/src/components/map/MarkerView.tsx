@@ -36,7 +36,7 @@ const MarkerView = ({ feeds }) => {
     let geocoder = new window.kakao.maps.services.Geocoder();
 
     var imageSrc =
-      "https://t1.daumcdn.net/locadivmg/locadivmages/07/mapapidoc/markerStar.png";
+      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
     for (var i = 0; i < positions.length; i++) {
       // 마커 이미지의 이미지 크기 입니다
