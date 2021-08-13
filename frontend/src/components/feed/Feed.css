@@ -165,10 +165,10 @@
 }
 
 .comment_delete_button {
-  background-color: rgb(250, 250, 250);
+  background-color: rgb(236, 236, 236);
   color: white;
   font-size: small;
-  border: lightgray 1px;
+  border: rgb(182, 182, 182) 1px;
   margin-left: auto;
   border-radius: 3%;
 }

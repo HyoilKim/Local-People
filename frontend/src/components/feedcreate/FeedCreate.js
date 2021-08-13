@@ -6,6 +6,7 @@ import firebase from "../firebase/firebase";
 import Nav from "../nav/Nav";
 import { useHistory } from "react-router-dom";
 import "./FeedCreate.css";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,8 +20,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FeedCreate = ({ username }) => {
+  function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
+    //두 점의 위경도좌표를 받아 거리 return
+    function deg2rad(deg) {
+      return deg * (Math.PI / 180);
+    }
+    const R = 6371;
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lng2 - lng1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = R * c;
+
+    return d;
+  }
   const currentUser = firebase.auth().currentUser;
   console.log(currentUser.metadata.a);
+  const [signUpCoords, setSignUpCoords] = useState({});
   const classes = useStyles();
   const [isCoords, setIsCoords] = useState(false);
   const [currentCoords, setCurrentCoords] = useState({
@@ -31,6 +52,15 @@ const FeedCreate = ({ username }) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [address, setAddress] = useState("");
+
+  useEffect(() => {
+    db.collection("users")
+      .doc(currentUser.displayName)
+      .get()
+      .then((doc) => {
+        setSignUpCoords(doc.data().coords);
+      });
+  }, [currentUser]);
 
   const handleClick = () => {
     const locationButton = document.getElementById("locationButton");
@@ -54,12 +84,10 @@ const FeedCreate = ({ username }) => {
 
     // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
     function displayCenterInfo(result, status) {
-      
       if (status === window.kakao.maps.services.Status.OK) {
         for (var i = 0; i < result.length; i++) {
           // 행정동의 region_type 값은 'H' 이므로
           if (result[i].region_type === "H") {
-            
             setAddress(result[i].address_name);
             break;
           }
@@ -74,14 +102,13 @@ const FeedCreate = ({ username }) => {
           lon: position.coords.longitude,
         });
         var lat = position.coords.latitude, // 위도
-        lon = position.coords.longitude; // 경도
+          lon = position.coords.longitude; // 경도
 
         var locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
         displayMarker(locPosition);
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
         setIsCoords(true);
         locationButton.innerText = "위치인증완료";
-        
       });
     } else {
       console.log("Can't load currentPosition");
@@ -96,13 +123,25 @@ const FeedCreate = ({ username }) => {
   };
 
   const handleUpload = () => {
-    if(image == null)
-    {
+    if (
+      getDistanceFromLatLonInKm(
+        currentCoords.lat,
+        currentCoords.lon,
+        signUpCoords.lat,
+        signUpCoords.lon
+      ) > 10 &&
+      isCoords === true
+    ) {
+      alert(
+        "가입하신 곳의 위치와 너무 떨어져 있어요..동네에서 게시물을 업로드해주세요!"
+      );
+      return;
+    }
+    if (image == null) {
       alert("이미지를 업로드해주세요.");
       return;
     }
     if (isCoords === true) {
-      
       const uploadTask = storage.ref(`images/${image.name}`).put(image);
 
       uploadTask.on(
@@ -112,7 +151,6 @@ const FeedCreate = ({ username }) => {
           const progress = Math.round(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
-          
         },
         (error) => {
           //Error function
@@ -139,7 +177,6 @@ const FeedCreate = ({ username }) => {
                 userCreatedTime: Number(currentUser.metadata.a),
               });
 
-              
               setDescription("");
               setImage(null);
               history.push("/");
@@ -171,7 +208,6 @@ const FeedCreate = ({ username }) => {
           value={description}
           className="feedCreate__description"
         ></textarea>
-
       </div>
       <div className="feedCreate__bottom">
         <div className="feedCreate__buttons">
