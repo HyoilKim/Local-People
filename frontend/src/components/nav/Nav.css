@@ -103,8 +103,9 @@
   color: black;
   text-align: center;
   align-items: center;
-  min-width: 100px;
-  padding-left: 30px;
+  max-width: 140px;
+  padding-left: 60px;
+  padding-right: 5px;
   display: flex;
 }
 
