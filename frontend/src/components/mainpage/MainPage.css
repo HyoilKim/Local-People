@@ -34,11 +34,13 @@
   align-items: center;
   max-width: 1300px;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
 .app__body {
   padding-top: 80px;
   width: 100%;
+  overflow-x: hidden;
 }
 .app__map {
   border: lightgray;
