@@ -23,6 +23,7 @@ const Feed = ({
   const [duration, setDuration] = useState();
   const [dong, setDong] = useState("");
   const [limit, setLimit] = useState(30);
+  const [userImageURL, setUserImageURL] = useState("");
 
   const toggleEllipsis = (str, limit) => {
     return {
@@ -96,6 +97,16 @@ const Feed = ({
             snapshot.docs.map((doc) => ({ id: doc.id, comment: doc.data() }))
           );
         });
+      db.collection("users")
+        .doc(author)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            if (doc.data().userAvatarUrl !== null) {
+              setUserImageURL(doc.data().userImage);
+            }
+          }
+        });
     }
 
     return () => {}; //componentWillUnmount
@@ -108,7 +119,7 @@ const Feed = ({
           <Avatar
             className="feed__avatar"
             // alt={author}
-            src="/static/images/avatar/1.jpeg"
+            src={userImageURL}
           ></Avatar>
           <h3 style={{ marginLeft: "5px", marginTop: "8px" }}>{author}</h3>
           <div

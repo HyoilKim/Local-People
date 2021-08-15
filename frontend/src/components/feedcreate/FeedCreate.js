@@ -1,12 +1,10 @@
-import { React, useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { db, storage } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
-import Nav from "../nav/Nav";
 import { useHistory } from "react-router-dom";
 import "./FeedCreate.css";
-import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FeedCreate = ({ username }) => {
+  const [uploadOnce, setUploadOnce] = useState(false);
+
   function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
     //두 점의 위경도좌표를 받아 거리 return
     function deg2rad(deg) {
@@ -40,7 +40,6 @@ const FeedCreate = ({ username }) => {
     return d;
   }
   const currentUser = firebase.auth().currentUser;
-  console.log(currentUser.metadata.a);
   const [signUpCoords, setSignUpCoords] = useState({});
   const classes = useStyles();
   const [isCoords, setIsCoords] = useState(false);
@@ -124,6 +123,7 @@ const FeedCreate = ({ username }) => {
   };
 
   const handleUpload = () => {
+    setUploadOnce(true);
     if (
       getDistanceFromLatLonInKm(
         currentCoords.lat,
@@ -133,12 +133,14 @@ const FeedCreate = ({ username }) => {
       ) > 6 &&
       isCoords === true
     ) {
+      setUploadOnce(false);
       alert(
         "가입하신 곳의 위치와 너무 떨어져 있어요..동네에서 게시물을 업로드해주세요!"
       );
       return;
     }
     if (image == null) {
+      setUploadOnce(false);
       alert("이미지를 업로드해주세요.");
       return;
     }
@@ -156,6 +158,7 @@ const FeedCreate = ({ username }) => {
         (error) => {
           //Error function
           console.log(error);
+          setUploadOnce(false);
           alert(error.message);
         },
         () => {
@@ -185,22 +188,14 @@ const FeedCreate = ({ username }) => {
         }
       );
     } else {
+      setUploadOnce(false);
       alert("위치인증이 필요합니다.");
     }
   };
 
   return (
     <div className="container">
-      <Nav></Nav>
       <div className="feedCreate">
-        <div className="feedCreate__comment">
-          <h3
-            style={{ color: "#fb8267", fontSize: "25px", fontWeight: "bold" }}
-          >
-            게시물 만들기
-          </h3>
-        </div>
-
         <textarea
           name="textarea"
           id="textarea"
@@ -231,6 +226,7 @@ const FeedCreate = ({ username }) => {
             color="primary"
             onClick={handleUpload}
             className={classes.button}
+            disabled={uploadOnce}
           >
             업로드
           </Button>

@@ -75,18 +75,24 @@ function LoginPage() {
             {errorFromSubmit && <span>{errorFromSubmit}</span>}
 
             <input value="로그인" type="submit" disabled={loading} />
-            <Link
-              style={{
-                paddingTop: "40px",
-                paddingLeft: "80px",
-                textAlign: "center",
-                color: "white",
-                textDecoration: "none",
-              }}
-              to="signup"
+            <div
+              style={{ textAlign: "center", color: "white", marginTop: "40px" }}
             >
-              계정이 없으신가요? 회원가입
-            </Link>
+              <div>
+                계정이 없으신가요?
+                <Link
+                  style={{
+                    paddingLeft: "10px",
+                    textAlign: "center",
+                    color: "white",
+                    textDecoration: "none",
+                  }}
+                  to="signup"
+                >
+                  회원가입
+                </Link>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -130,19 +136,23 @@ function LoginPage() {
             {errorFromSubmit && <span>{errorFromSubmit}</span>}
 
             <input value="로그인" type="submit" disabled={loading} />
-            <div style={{ textAlign: "center" }}>
-              <Link
-                style={{
-                  paddingTop: "40px",
-                  textAlign: "center",
-                  color: "white",
-                  textDecoration: "none",
-                }}
-                className="mobile__link"
-                to="signup"
-              >
-                계정이 없으신가요? 회원가입
-              </Link>
+            <div
+              style={{ textAlign: "center", color: "white", marginTop: "40px" }}
+            >
+              <div>
+                계정이 없으신가요?
+                <Link
+                  style={{
+                    paddingLeft: "10px",
+                    textAlign: "center",
+                    color: "white",
+                    textDecoration: "none",
+                  }}
+                  to="signup"
+                >
+                  회원가입
+                </Link>
+              </div>
             </div>
           </form>
         </div>
@@ -186,18 +196,24 @@ function LoginPage() {
           {errorFromSubmit && <span>{errorFromSubmit}</span>}
 
           <input value="로그인" type="submit" disabled={loading} />
-          <Link
-            style={{
-              paddingTop: "40px",
-              paddingLeft: "80px",
-              textAlign: "center",
-              color: "white",
-              textDecoration: "none",
-            }}
-            to="signup"
+          <div
+            style={{ textAlign: "center", color: "white", marginTop: "40px" }}
           >
-            계정이 없으신가요? 회원가입
-          </Link>
+            <div>
+              계정이 없으신가요?
+              <Link
+                style={{
+                  paddingLeft: "10px",
+                  textAlign: "center",
+                  color: "white",
+                  textDecoration: "none",
+                }}
+                to="signup"
+              >
+                회원가입
+              </Link>
+            </div>
+          </div>
         </form>
       </div>
     </div>

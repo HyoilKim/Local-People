@@ -2,10 +2,24 @@ import "./Nav.css";
 import { Link } from "react-router-dom";
 import firebase from "../firebase/firebase";
 import DropdownCustom from "../dropdown/DropdownCustom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import Modal from "react-modal";
+import FeedCreate from "../feedcreate/FeedCreate";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
 const Nav = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const currentUser = firebase.auth().currentUser;
   const user = useSelector((state) => state.user.currentUser);
   let nickname = "";
@@ -38,8 +52,37 @@ const Nav = () => {
               </Link>
             </div>
             <div className="navbar__icon">
-              <Link className="link__color" to="/create">
-                <i class="fas fa-edit" style={{ fontSize: "20px" }}></i>
+              <Modal
+                style={customStyles}
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)}
+              >
+                <h3
+                  style={{
+                    color: "#9575cd",
+                    fontSize: "25px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  게시물 만들기
+                </h3>
+                <div className="X_button">
+                  <button
+                    className="exit__button"
+                    onClick={() => setModalIsOpen(false)}
+                  >
+                    X
+                  </button>
+                </div>
+                <hr style={{ marginTop: "5px" }}></hr>
+                <FeedCreate></FeedCreate>
+              </Modal>
+              <Link
+                className="link__color"
+                onClick={() => setModalIsOpen(true)}
+              >
+                <i className="fas fa-edit" style={{ fontSize: "20px" }}></i>
               </Link>
             </div>
           </div>
