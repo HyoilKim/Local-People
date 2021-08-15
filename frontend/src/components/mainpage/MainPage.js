@@ -85,13 +85,13 @@ const MainPage = () => {
               });
           }
         } else {
-          console.log("Not found");
+          alert("아직 동네 게시물이 없어요.");
         }
       } catch (e) {
         console.log(e.message);
       }
     };
-    setTimeout(loadDoc, 1500);
+    setTimeout(loadDoc, 1380);
   }, []);
 
   return (

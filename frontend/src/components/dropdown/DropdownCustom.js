@@ -3,7 +3,7 @@ import "./Dropdown.css";
 import { Avatar } from "@material-ui/core";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 import Map from "./DropdownMap";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import firebase, { db } from "../firebase/firebase";
 import { Link } from "react-router-dom";
 import mime from "mime-types";

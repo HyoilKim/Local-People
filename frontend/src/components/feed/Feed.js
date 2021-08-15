@@ -34,13 +34,6 @@ const Feed = ({
 
   const [commentLimit, setCommentLimit] = useState(-2);
 
-  const toggleComments = (arr, limit) => {
-    return {
-      result: arr.slice(commentLimit),
-      isShowMore: arr.length > -1 * commentLimit,
-    };
-  };
-
   const deleteComment = (id) => () => {
     if (postId) {
       db.collection("feeds")
