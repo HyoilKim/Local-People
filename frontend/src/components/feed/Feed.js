@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Feed.css";
+import "./Feed.scss";
 import Like from "../like/Like";
 import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
@@ -135,9 +135,10 @@ const Feed = ({
         </div>
         {/*header -> profileimage + username */}
       </div>
-
-      <img className="feed__image" src={imageUrl} alt="feed__image" />
-      {/*image*/}
+      <div className="image__container">
+        <img className="feed__image" src={imageUrl} alt="feed__image" />
+        {/*image*/}
+      </div>
 
       <div className="feed__section">
         <Like postId={postId} nickname={nickname} likedUser={likedUser}></Like>

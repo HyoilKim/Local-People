@@ -31,7 +31,7 @@ const DropdownCustom = ({ username }) => {
           }
         });
     }
-  }, []);
+  }, [user]);
 
   const inputOpenImageRef = useRef();
 

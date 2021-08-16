@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import firebase, { db } from "../firebase/firebase";
 import { Link } from "react-router-dom";
-import "./Feed.css";
+import "./Feed.scss";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 
 const ITEM_HEIGHT = 10;
