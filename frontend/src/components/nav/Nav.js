@@ -34,6 +34,10 @@ const useStyles = makeStyles((theme) => ({
 
 Modal.setAppElement("#root");
 const Nav = ({ username }) => {
+  const clickHome = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
     //두 점의 위경도좌표를 받아 거리 return
     function deg2rad(deg) {
@@ -223,7 +227,7 @@ const Nav = ({ username }) => {
         <div className="navbar__logo">
           <div className="Igw0E rBNOH  eGOV_  ybXk5  _4EzTm  ">
             <div className="cq2ai">
-              <Link className="logo__link" to="/">
+              <Link className="logo__link" onClick={clickHome}>
                 <div className="s4Iyt">로컬피플</div>
               </Link>
             </div>
@@ -232,7 +236,7 @@ const Nav = ({ username }) => {
         <div className="navbar__menu">
           <div className="navbar__post">
             <div className="navbar__icon">
-              <Link className="link__color" to="/">
+              <Link className="link__color" onClick={clickHome}>
                 <i class="fas fa-home" style={{ fontSize: "20px" }}></i>
               </Link>
             </div>
