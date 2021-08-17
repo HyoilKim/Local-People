@@ -1,7 +1,6 @@
-import React, {useState} from "react";
 import "./Nav.css";
 import { Link, useHistory } from "react-router-dom";
-import firebase, { db, storage} from "../firebase/firebase";
+import firebase, { db, storage } from "../firebase/firebase";
 import DropdownCustom from "../dropdown/DropdownCustom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -13,15 +12,14 @@ import Button from "@material-ui/core/Button";
 
 const customStyles = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
   },
 };
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-Modal.setAppElement("#root")
+Modal.setAppElement("#root");
 const Nav = ({ username }) => {
   function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
     //두 점의 위경도좌표를 받아 거리 return
@@ -70,7 +68,7 @@ const Nav = ({ username }) => {
   const [address, setAddress] = useState("");
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const user = useSelector(state => state.user.currentUser)
+  const user = useSelector((state) => state.user.currentUser);
 
   let nickname = "";
   if (currentUser) {
@@ -82,11 +80,11 @@ const Nav = ({ username }) => {
     nickname = currentUser.displayName;
 
     db.collection("users")
-    .doc(currentUser.displayName)
-    .get()
-    .then((doc) => {
-      setSignUpCoords(doc.data().coords);
-    });
+      .doc(currentUser.displayName)
+      .get()
+      .then((doc) => {
+        setSignUpCoords(doc.data().coords);
+      });
   }, [currentUser]);
 
   const handleClick = () => {
@@ -211,7 +209,6 @@ const Nav = ({ username }) => {
               // window.location.reload();
               // setModalIsOpen(false);
               // window.location.replace("/");
-              
             });
         }
       );
@@ -240,78 +237,89 @@ const Nav = ({ username }) => {
               </Link>
             </div>
             <div className="navbar__icon">
-
-              <Link className="link__color" onClick={()=> setModalIsOpen(true)}>
+              <Link
+                className="link__color"
+                onClick={() => setModalIsOpen(true)}
+              >
                 <i class="fas fa-edit" style={{ fontSize: "20px" }}></i>
-
               </Link>
-                <Modal
-                  style={customStyles}
-                  isOpen={modalIsOpen}
-                  onRequestClose={()=>setModalIsOpen(false)}
+              <Modal
+                style={customStyles}
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)}
+              >
+                <h3
+                  style={{
+                    color: "#9575cd",
+                    fontSize: "25px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    paddingBottom: "10px",
+                  }}
                 >
-                  <h3
-                    style={{ color: "#9575cd", fontSize: "25px", fontWeight: "bold", textAlign:"center", paddingBottom: "10px"}}
+                  게시물 만들기
+                </h3>
+                <div className="X_button">
+                  <button
+                    className="exit__button"
+                    onClick={() => setModalIsOpen(false)}
                   >
-                    게시물 만들기
-                  </h3>
-                  <div className="X_button">
-                    <button
-                    className="exit__button" 
-                    onClick={() => setModalIsOpen(false)}>X</button>
+                    X
+                  </button>
+                </div>
+                <hr></hr>
+                <div className="container">
+                  <div className="feedCreate">
+                    <textarea
+                      name="textarea"
+                      id="textarea"
+                      onChange={(event) => setDescription(event.target.value)}
+                      placeholder="당신의 로컬 정보를 공유해주세요!"
+                      value={description}
+                      className="feedCreate__description"
+                    ></textarea>
                   </div>
-                  <hr></hr>
-                  <div className="container">
-                    <div className="feedCreate">
-
-                      <textarea
-                        name="textarea"
-                        id="textarea"
-                        onChange={(event) => setDescription(event.target.value)}
-                        placeholder="당신의 로컬 정보를 공유해주세요!"
-                        value={description}
-                        className="feedCreate__description"
-                      ></textarea>
-                    </div>
-                    <div className="feedCreate__bottom">
-                      <div className="feedCreate__buttons">
-                        <div className="image__and__location__buttons">
-                          <div className="feedCreate__image__container">
-
-                            <div className="feedCreate__image">
-                              <input accept="image/*" type="file" onChange={handleChange} />
-                            </div>
-
-                          </div>
-
-                          <div className="feedCreate__location__container">
-                            <Button
-                              variant="contained"
-                              className="feedCreate__button__location"
-                              color="primary"
-                              onClick={handleClick}
-                              className={classes.button}
-                              id="locationButton"
-                              >
-                              위치인증하기
-                            </Button>
+                  <div className="feedCreate__bottom">
+                    <div className="feedCreate__buttons">
+                      <div className="image__and__location__buttons">
+                        <div className="feedCreate__image__container">
+                          <div className="feedCreate__image">
+                            <input
+                              accept="image/*"
+                              type="file"
+                              onChange={handleChange}
+                            />
                           </div>
                         </div>
-                        <div className="feedCreate__upload__container">
+
+                        <div className="feedCreate__location__container">
                           <Button
-                            id="uploadButton"
                             variant="contained"
+                            className="feedCreate__button__location"
                             color="primary"
-                            onClick={handleUpload}
+                            onClick={handleClick}
                             className={classes.button}
+                            id="locationButton"
                           >
-                            업로드
+                            위치인증하기
                           </Button>
                         </div>
                       </div>
+                      <div className="feedCreate__upload__container">
+                        <Button
+                          id="uploadButton"
+                          variant="contained"
+                          color="primary"
+                          onClick={handleUpload}
+                          className={classes.button}
+                        >
+                          업로드
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </Modal>
+                </div>
+              </Modal>
             </div>
           </div>
           <div>
