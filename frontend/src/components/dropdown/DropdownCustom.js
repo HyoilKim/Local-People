@@ -1,48 +1,66 @@
-import React, { useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./Dropdown.css";
 import { Avatar } from "@material-ui/core";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 import Map from "./DropdownMap";
-import { useDispatch, useSelector } from "react-redux";
-import firebase, {db} from "../firebase/firebase";
+import { useSelector } from "react-redux";
+import firebase, { db } from "../firebase/firebase";
 import { Link } from "react-router-dom";
 import mime from "mime-types";
 
 const DropdownCustom = ({ username }) => {
-  const user = useSelector(state => state.user.currentUser)
+  const user = useSelector((state) => state.user.currentUser);
   const dropdownRef = useRef(null);
+  const [userImageURL, setUserImageURL] = useState();
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const onClick = () => setIsActive(!isActive);
   const handleLogout = () => {
     firebase.auth().signOut();
   };
 
+  useEffect(() => {
+    if (user) {
+      db.collection("users")
+        .doc(user.displayName)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            if (doc.data().userAvatarUrl !== null) {
+              setUserImageURL(doc.data().userImage);
+            }
+          }
+        });
+    }
+  }, [user]);
+
   const inputOpenImageRef = useRef();
 
   const handleOpenImageRef = () => {
     inputOpenImageRef.current.click();
-  }
+  };
 
   const handleUploadImage = async (event) => {
     const file = event.target.files[0];
 
-    const metadata = {contentType: mime.lookup(file.name)};
+    const metadata = { contentType: mime.lookup(file.name) };
 
     try {
-      let uploadTaskSnapshot = await firebase.storage().ref()
+      let uploadTaskSnapshot = await firebase
+        .storage()
+        .ref()
         .child(`user_images/${user.uid}`)
-        .put(file, metadata)
+        .put(file, metadata);
 
       await uploadTaskSnapshot.ref.getDownloadURL().then((url) => {
-        console.log(typeof(url));
-        console.log(db.collection.doc(username));
-        db.collection("users").doc(username).update({userImage: url});
-        });
-        
+        console.log(typeof url);
+        console.log(db.collection("users").doc(username));
+        var snapshot = db.collection("users").doc(username);
+        snapshot.update({ userImage: url });
+      });
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
-  }
+  };
 
   return (
     <div className="menu-container">
@@ -51,7 +69,7 @@ const DropdownCustom = ({ username }) => {
         <Avatar
           className="feed__avatar"
           alt={username}
-          src="/static/images/avatar/1.jpeg"
+          src={userImageURL}
         ></Avatar>
       </button>
       <nav
@@ -60,20 +78,16 @@ const DropdownCustom = ({ username }) => {
       >
         <ul>
           <li>
-            <Link onClick={handleOpenImageRef}>
-              프로필 사진 변경
-            </Link>
+            <Link onClick={handleOpenImageRef}>프로필 사진 변경</Link>
           </li>
-          <li>
-            
-          </li>
+          <li></li>
           <li>
             <Link to="/login" onClick={handleLogout}>
               로그아웃
             </Link>
           </li>
           <li>
-            <a style={{paddingBottom:"10px"}}>
+            <a style={{ paddingBottom: "10px" }}>
               <Map></Map>
             </a>
           </li>
@@ -84,8 +98,8 @@ const DropdownCustom = ({ username }) => {
         accept="image/jpeg, image/png"
         type="file"
         ref={inputOpenImageRef}
-        style={{display:"none"}}>
-      </input>
+        style={{ display: "none" }}
+      ></input>
     </div>
   );
 };

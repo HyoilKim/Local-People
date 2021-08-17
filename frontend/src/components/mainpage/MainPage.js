@@ -59,7 +59,7 @@ const MainPage = () => {
                 if (doc.exists) {
                   lat = doc.data().coords.lat;
                   lon = doc.data().coords.lon;
-                  setUserCoords({lat: lat, lon: lon});
+                  setUserCoords({ lat: lat, lon: lon });
                   return doc.data();
                 }
               })
@@ -78,20 +78,20 @@ const MainPage = () => {
                               position.coords.lon,
                               feed.location.lat,
                               feed.location.lon
-                            ) < 400
+                            ) < 100
                         )
                     );
                   });
               });
           }
         } else {
-          console.log("Not found");
+          alert("아직 동네 게시물이 없어요.");
         }
       } catch (e) {
         console.log(e.message);
       }
     };
-    setTimeout(loadDoc, 1500);
+    setTimeout(loadDoc, 1380);
   }, []);
 
   return (

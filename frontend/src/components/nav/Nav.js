@@ -3,7 +3,7 @@ import "./Nav.css";
 import { Link, useHistory } from "react-router-dom";
 import firebase, { db, storage} from "../firebase/firebase";
 import DropdownCustom from "../dropdown/DropdownCustom";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Modal from "react-modal";
 import FeedCreate from "../feedcreate/FeedCreate";
@@ -71,16 +71,14 @@ const Nav = ({ username }) => {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const user = useSelector(state => state.user.currentUser)
+
   let nickname = "";
-  let userImage = "";
   if (currentUser) {
     //현재 유저가 로그인 상태이면 닉네임을 표시한다.
     nickname = currentUser.displayName;
   }
 
-  useEffect(()=> {
-    userImage = firebase.storage().ref().child(`user_images/${currentUser.uid}`)
-
+  useEffect(() => {
     nickname = currentUser.displayName;
 
     db.collection("users")
@@ -223,7 +221,6 @@ const Nav = ({ username }) => {
   };
 
   return (
-
     <div className="navbar__container">
       <div className="navbar">
         <div className="navbar__logo">
@@ -243,8 +240,10 @@ const Nav = ({ username }) => {
               </Link>
             </div>
             <div className="navbar__icon">
+
               <Link className="link__color" onClick={()=> setModalIsOpen(true)}>
                 <i class="fas fa-edit" style={{ fontSize: "20px" }}></i>
+
               </Link>
                 <Modal
                   style={customStyles}

@@ -5,6 +5,7 @@ import firebase, { db } from "../firebase/firebase";
 import "./SignupPage.css";
 import "./SignupMap.css";
 import { useEffect } from "react";
+import { isMobile, isTablet } from "react-device-detect";
 
 function SignupPage() {
   const {
@@ -99,7 +100,7 @@ function SignupPage() {
         coords: currentCoords,
       });
 
-      console.log("createdUser", createdUser)
+      console.log("createdUser", createdUser);
     } catch (error) {
       // 이미 생성된 이메일일 때 에러 메세지
       setErrorFromSubmit(error.message);
@@ -197,6 +198,312 @@ function SignupPage() {
       }
     }
   };
+  if (isTablet) {
+    return (
+      <div className="signupbody">
+        <div className="auth-wrapper">
+          <div className="form">
+            <div
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                height: "40px",
+              }}
+            >
+              <h1>회원가입</h1>
+            </div>
+            <div style={{ marginBottom: "25px" }}>
+              <hr></hr>
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <label>이메일</label>
+              <input
+                name="email"
+                type="email"
+                {...register("email", {
+                  required: true,
+                  pattern: /^\S+@\S+$/i,
+                })}
+              />
+              {errors.email && errors.email.type === "required" && (
+                <span>이메일을 입력해주세요.</span>
+              )}
+
+              <label>닉네임</label>
+              <div className="name">
+                <div className="nicknameinput">
+                  <input
+                    id="nickname"
+                    name="nickname"
+                    type="text"
+                    {...register("nickname", { required: true })}
+                  />
+                  <button
+                    id="nicknameCheck"
+                    name="nicknameCheck"
+                    type="button"
+                    onClick={onNicknameClick}
+                  >
+                    중복 확인
+                  </button>
+                </div>
+                {errors.nickname && errors.nickname.type === "required" && (
+                  <span style={{ marginTop: "5px" }}>
+                    닉네임을 입력해주세요.
+                  </span>
+                )}
+                <span style={{ marginTop: "5px" }}>{checkError}</span>
+              </div>
+
+              <label>비밀번호</label>
+              <input
+                name="password"
+                type="password"
+                {...register("password", { required: true, minLength: 6 })}
+              />
+              {errors.password && errors.password.type === "required" && (
+                <span>비밀번호를 입력해주세요.</span>
+              )}
+              {errors.password && errors.password.type === "minLength" && (
+                <span>비밀번호는 6자 이상이어야 합니다.</span>
+              )}
+
+              <label>비밀번호 확인</label>
+              <input
+                name="password_confirm"
+                type="password"
+                {...register("password_confirm", {
+                  required: true,
+                  validate: (value) => value === password.current,
+                })}
+              />
+              {errors.password_confirm &&
+                errors.password_confirm.type === "required" && (
+                  <span>비밀번호를 입력해주세요.</span>
+                )}
+              {errors.password_confirm &&
+                errors.password_confirm.type === "validate" && (
+                  <span>비밀번호가 일치하지 않습니다.</span>
+                )}
+
+              <div className="map__signup">
+                <div id="map">
+                  <div id="map__button">
+                    <button
+                      style={{
+                        backgroundColor: "#5b63ac",
+                        borderRadius: "5px",
+                        marginTop: "15px",
+                      }}
+                      name="authButton"
+                      type="authButton"
+                      id="authButton"
+                      value=""
+                      onClick={handleClick}
+                      disabled={completed}
+                      // {...register("authButton", { required: true})}
+                    >
+                      위치 인증하기
+                    </button>
+                    <br></br>
+                    <br></br>
+                    {errors.authButton &&
+                      errors.authButton.type === "required" && (
+                        <span>위치 인증을 클릭해주세요.</span>
+                      )}
+                  </div>
+                </div>
+                <div
+                  name="address"
+                  style={{
+                    color: "white",
+                    paddingTop: "10px",
+                    textAlign: "center",
+                    fontSize: "15px",
+                  }}
+                >
+                  {address}
+                </div>
+              </div>
+              {errorFromSubmit && <span>{errorFromSubmit}</span>}
+
+              <input
+                value="회원가입"
+                type="submit"
+                style={{ marginTop: "20px" }}
+                disabled={loading}
+              />
+              <Link
+                style={{
+                  paddingLeft: "115px",
+                  textAlign: "center",
+                  color: "white",
+                  textDecoration: "none",
+                }}
+                to="login"
+              >
+                계정이 있으신가요?
+              </Link>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <div className="mobile__login__body loginbody">
+        <div className="mobile__auth-wrapper">
+          <div className="form">
+            <div
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                height: "40px",
+              }}
+            >
+              <h1>회원가입</h1>
+            </div>
+            <div style={{ marginBottom: "25px" }}>
+              <hr></hr>
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <label>이메일</label>
+              <input
+                name="email"
+                type="email"
+                {...register("email", {
+                  required: true,
+                  pattern: /^\S+@\S+$/i,
+                })}
+              />
+              {errors.email && errors.email.type === "required" && (
+                <span>이메일을 입력해주세요.</span>
+              )}
+
+              <label>닉네임</label>
+              <div className="name">
+                <div className="nicknameinput">
+                  <input
+                    id="nickname"
+                    name="nickname"
+                    type="text"
+                    {...register("nickname", { required: true })}
+                  />
+                  <button
+                    id="nicknameCheck"
+                    name="nicknameCheck"
+                    type="button"
+                    onClick={onNicknameClick}
+                  >
+                    중복 확인
+                  </button>
+                </div>
+                {errors.nickname && errors.nickname.type === "required" && (
+                  <span style={{ marginTop: "5px" }}>
+                    닉네임을 입력해주세요.
+                  </span>
+                )}
+                <span style={{ marginTop: "5px" }}>{checkError}</span>
+              </div>
+
+              <label>비밀번호</label>
+              <input
+                name="password"
+                type="password"
+                {...register("password", { required: true, minLength: 6 })}
+              />
+              {errors.password && errors.password.type === "required" && (
+                <span>비밀번호를 입력해주세요.</span>
+              )}
+              {errors.password && errors.password.type === "minLength" && (
+                <span>비밀번호는 6자 이상이어야 합니다.</span>
+              )}
+
+              <label>비밀번호 확인</label>
+              <input
+                name="password_confirm"
+                type="password"
+                {...register("password_confirm", {
+                  required: true,
+                  validate: (value) => value === password.current,
+                })}
+              />
+              {errors.password_confirm &&
+                errors.password_confirm.type === "required" && (
+                  <span>비밀번호를 입력해주세요.</span>
+                )}
+              {errors.password_confirm &&
+                errors.password_confirm.type === "validate" && (
+                  <span>비밀번호가 일치하지 않습니다.</span>
+                )}
+
+              <div className="map__signup">
+                <div id="map">
+                  <div id="map__button">
+                    <button
+                      style={{
+                        backgroundColor: "#5b63ac",
+                        borderRadius: "5px",
+                        marginTop: "15px",
+                      }}
+                      name="authButton"
+                      type="authButton"
+                      id="authButton"
+                      value=""
+                      onClick={handleClick}
+                      disabled={completed}
+                      // {...register("authButton", { required: true})}
+                    >
+                      위치 인증하기
+                    </button>
+                    <br></br>
+                    <br></br>
+                    {errors.authButton &&
+                      errors.authButton.type === "required" && (
+                        <span>위치 인증을 클릭해주세요.</span>
+                      )}
+                  </div>
+                </div>
+                <div
+                  name="address"
+                  style={{
+                    color: "white",
+                    paddingTop: "10px",
+                    textAlign: "center",
+                    fontSize: "15px",
+                  }}
+                >
+                  {address}
+                </div>
+              </div>
+              {errorFromSubmit && <span>{errorFromSubmit}</span>}
+
+              <input
+                value="회원가입"
+                type="submit"
+                style={{ marginTop: "20px" }}
+                disabled={loading}
+              />
+              <div style={{ textAlign: "center" }}>
+                <Link
+                  style={{
+                    textAlign: "center",
+                    color: "white",
+                    textDecoration: "none",
+                  }}
+                  to="login"
+                >
+                  계정이 있으신가요? 로그인
+                </Link>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="signupbody">
@@ -219,7 +526,7 @@ function SignupPage() {
             />
             {errors.email && errors.email.type === "required" && (
               <span>이메일을 입력해주세요.</span>
-              )}
+            )}
 
             <label>닉네임</label>
             <div className="name">
@@ -241,7 +548,7 @@ function SignupPage() {
               </div>
               {errors.nickname && errors.nickname.type === "required" && (
                 <span style={{ marginTop: "5px" }}>닉네임을 입력해주세요.</span>
-                )}
+              )}
               <span style={{ marginTop: "5px" }}>{checkError}</span>
             </div>
 
@@ -256,7 +563,7 @@ function SignupPage() {
             )}
             {errors.password && errors.password.type === "minLength" && (
               <span>비밀번호는 6자 이상이어야 합니다.</span>
-              )}
+            )}
 
             <label>비밀번호 확인</label>
             <input
@@ -270,17 +577,21 @@ function SignupPage() {
             {errors.password_confirm &&
               errors.password_confirm.type === "required" && (
                 <span>비밀번호를 입력해주세요.</span>
-                )}
+              )}
             {errors.password_confirm &&
               errors.password_confirm.type === "validate" && (
                 <span>비밀번호가 일치하지 않습니다.</span>
-                )}
+              )}
 
             <div className="map__signup">
               <div id="map">
                 <div id="map__button">
                   <button
-                    style={{ backgroundColor: "#5b63ac", borderRadius: "5px", marginTop:"15px" }}
+                    style={{
+                      backgroundColor: "#5b63ac",
+                      borderRadius: "5px",
+                      marginTop: "15px",
+                    }}
                     name="authButton"
                     type="authButton"
                     id="authButton"
@@ -296,7 +607,7 @@ function SignupPage() {
                   {errors.authButton &&
                     errors.authButton.type === "required" && (
                       <span>위치 인증을 클릭해주세요.</span>
-                      )}
+                    )}
                 </div>
               </div>
               <div

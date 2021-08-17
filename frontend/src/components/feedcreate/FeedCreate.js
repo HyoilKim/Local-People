@@ -1,12 +1,10 @@
-import { React, useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { db, storage } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
-import Nav from "../nav/Nav";
 import { useHistory } from "react-router-dom";
 import "./FeedCreate.css";
-import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FeedCreate = ({ username }) => {
+  const [uploadOnce, setUploadOnce] = useState(false);
+
   function getDistanceFromLatLonInKm(lat1, lng1, lat2, lng2) {
     //두 점의 위경도좌표를 받아 거리 return
     function deg2rad(deg) {
@@ -40,7 +40,6 @@ const FeedCreate = ({ username }) => {
     return d;
   }
   const currentUser = firebase.auth().currentUser;
-  console.log(currentUser.metadata.a);
   const [signUpCoords, setSignUpCoords] = useState({});
   const classes = useStyles();
   const [isCoords, setIsCoords] = useState(false);
@@ -80,7 +79,7 @@ const FeedCreate = ({ username }) => {
       geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
     }
     function displayMarker(locPosition) {
-      // 지도 중심좌표를 접속위치로 변경합니다
+      // 지도 중심좌표를 회원가입 당시 설정한 위치로 변경합니다
       map.setCenter(locPosition);
     }
 
@@ -103,10 +102,11 @@ const FeedCreate = ({ username }) => {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
         });
-        var lat = position.coords.latitude, // 위도
-          lon = position.coords.longitude; // 경도
 
-        var locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        var locPosition = new window.kakao.maps.LatLng(
+          signUpCoords.lat,
+          signUpCoords.lon
+        ); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
         displayMarker(locPosition);
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
         setIsCoords(true);
@@ -130,21 +130,24 @@ const FeedCreate = ({ username }) => {
   // }
 
   const handleUpload = () => {
+    setUploadOnce(true);
     if (
       getDistanceFromLatLonInKm(
         currentCoords.lat,
         currentCoords.lon,
         signUpCoords.lat,
         signUpCoords.lon
-      ) > 10 &&
+      ) > 6 &&
       isCoords === true
     ) {
+      setUploadOnce(false);
       alert(
         "가입하신 곳의 위치와 너무 떨어져 있어요..동네에서 게시물을 업로드해주세요!"
       );
       return;
     }
     if (image == null) {
+      setUploadOnce(false);
       alert("이미지를 업로드해주세요.");
       return;
     }
@@ -162,6 +165,7 @@ const FeedCreate = ({ username }) => {
         (error) => {
           //Error function
           console.log(error);
+          setUploadOnce(false);
           alert(error.message);
         },
         () => {
@@ -196,6 +200,7 @@ const FeedCreate = ({ username }) => {
         }
       );
     } else {
+      setUploadOnce(false);
       alert("위치인증이 필요합니다.");
     }
   };
@@ -248,6 +253,7 @@ const FeedCreate = ({ username }) => {
               업로드
             </Button>
           </div>
+
         </div>
       </div>
     </div>

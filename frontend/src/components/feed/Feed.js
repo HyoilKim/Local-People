@@ -23,6 +23,7 @@ const Feed = ({
   const [duration, setDuration] = useState();
   const [dong, setDong] = useState("");
   const [limit, setLimit] = useState(30);
+  const [userImageURL, setUserImageURL] = useState("");
 
   const toggleEllipsis = (str, limit) => {
     return {
@@ -32,13 +33,6 @@ const Feed = ({
   };
 
   const [commentLimit, setCommentLimit] = useState(-2);
-
-  const toggleComments = (arr, limit) => {
-    return {
-      result: arr.slice(commentLimit),
-      isShowMore: arr.length > -1 * commentLimit,
-    };
-  };
 
   const deleteComment = (id) => () => {
     if (postId) {
@@ -96,6 +90,16 @@ const Feed = ({
             snapshot.docs.map((doc) => ({ id: doc.id, comment: doc.data() }))
           );
         });
+      db.collection("users")
+        .doc(author)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            if (doc.data().userAvatarUrl !== null) {
+              setUserImageURL(doc.data().userImage);
+            }
+          }
+        });
     }
 
     return () => {}; //componentWillUnmount
@@ -108,7 +112,7 @@ const Feed = ({
           <Avatar
             className="feed__avatar"
             // alt={author}
-            src="/static/images/avatar/1.jpeg"
+            src={userImageURL}
           ></Avatar>
           <h3 style={{ marginLeft: "5px", marginTop: "8px" }}>{author}</h3>
           <div
@@ -131,9 +135,10 @@ const Feed = ({
         </div>
         {/*header -> profileimage + username */}
       </div>
-
-      <img className="feed__image" src={imageUrl} alt="feed__image" />
-      {/*image*/}
+      <div className="image__container">
+        <img className="feed__image" src={imageUrl} alt="feed__image" />
+        {/*image*/}
+      </div>
 
       <div className="feed__section">
         <Like postId={postId} nickname={nickname} likedUser={likedUser}></Like>

@@ -7,6 +7,9 @@
   -moz-osx-font-smoothing: grayscale;
   background-color: #fafafa;
 }
+html {
+  overflow-x: hidden;
+}
 
 .loginbody,
 .signupbody {
@@ -14,7 +17,7 @@
   background-image: url("./background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 }
 
@@ -39,6 +42,8 @@ code {
   border-radius: 5px;
   float: left;
 }
+
+
 
 .auth-wrapper form {
   width: 375px;
