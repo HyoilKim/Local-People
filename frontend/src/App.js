@@ -5,10 +5,8 @@ import { Switch, Route, useHistory } from "react-router-dom";
 import SignupPage from "./components/signuppage/SignupPage";
 import LoginPage from "./components/loginpage/LoginPage";
 import MainPage from "./components/mainpage/MainPage";
-import FeedCreate from "./components/feedcreate/FeedCreate";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, clearUser } from "./redux/actions/user_action";
-import FeedUpdate from "./components/feedupdate/FeedUpdate";
 
 
 function App(props) {
@@ -48,8 +46,6 @@ function App(props) {
     return (
       <Switch>
         <Route exact path="/" component={MainPage}></Route>
-        <Route exact path="/create" component={FeedCreate}></Route>
-        <Route exact path="/update" component={FeedUpdate}></Route>
         <Route exact path="/login" component={LoginPage}></Route>
         <Route exact path="/signup" component={SignupPage}></Route>
       </Switch>

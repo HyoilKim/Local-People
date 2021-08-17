@@ -175,7 +175,7 @@
 
 .comment_delete_button:hover {
   cursor: pointer;
-  color: red;
+  color: #9575cd;
   background-color: lightgray;
 }
 

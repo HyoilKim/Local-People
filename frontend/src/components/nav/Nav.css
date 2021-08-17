@@ -134,3 +134,33 @@
 .link__color {
   color: #9575cd;
 }
+
+.ReactModal__Content--after-open {
+  margin: 0;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  height: 53%;
+  width: 35%;
+}
+
+.exit__button {
+  background-color: rgb(236, 236, 236);
+  color: white;
+  font-size: small;
+  border: rgb(182, 182, 182) 1px;
+  margin-left: auto;
+  border-radius: 3%;
+}
+
+.exit__button:hover {
+  cursor: pointer;
+  color: #9575cd;
+  background-color: lightgray;
+}
+
+.X_button {
+  top: 15px;
+  right: 16px;
+  position: absolute;
+}

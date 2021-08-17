@@ -52,6 +52,8 @@ const FeedCreate = ({ username }) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [address, setAddress] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
 
   useEffect(() => {
     db.collection("users")
@@ -122,6 +124,11 @@ const FeedCreate = ({ username }) => {
     }
   };
 
+  // const deleteModal = () => {
+  //   let exitButton = document.getElementsByClassName("exit__button");
+  //   console.log("delete", exitButton)
+  // }
+
   const handleUpload = () => {
     if (
       getDistanceFromLatLonInKm(
@@ -179,7 +186,12 @@ const FeedCreate = ({ username }) => {
 
               setDescription("");
               setImage(null);
-              history.push("/");
+
+              // history.push('/');
+              // window.location.reload();
+              // setModalIsOpen(false);
+              // window.location.replace("/");
+              
             });
         }
       );
@@ -190,15 +202,7 @@ const FeedCreate = ({ username }) => {
 
   return (
     <div className="container">
-      <Nav></Nav>
       <div className="feedCreate">
-        <div className="feedCreate__comment">
-          <h3
-            style={{ color: "#fb8267", fontSize: "25px", fontWeight: "bold" }}
-          >
-            게시물 만들기
-          </h3>
-        </div>
 
         <textarea
           name="textarea"
@@ -211,33 +215,41 @@ const FeedCreate = ({ username }) => {
       </div>
       <div className="feedCreate__bottom">
         <div className="feedCreate__buttons">
-          <div className="feedCreate__image">
-            <input accept="image/*" type="file" onChange={handleChange} />
+          <div className="image__and__location__buttons">
+            <div className="feedCreate__image__container">
+
+              <div className="feedCreate__image">
+                <input accept="image/*" type="file" onChange={handleChange} />
+              </div>
+            
+            </div>
+            
+            <div className="feedCreate__location__container">
+              <Button
+                variant="contained"
+                className="feedCreate__button__location"
+                color="primary"
+                onClick={handleClick}
+                className={classes.button}
+                id="locationButton"
+                >
+                위치인증하기
+              </Button>
+            </div>
           </div>
-          <Button
-            variant="contained"
-            className="feedCreate__button__location"
-            color="primary"
-            onClick={handleClick}
-            className={classes.button}
-            id="locationButton"
-          >
-            위치인증하기
-          </Button>
-          <Button
-            variant="contained"
-            background
-            color="primary"
-            onClick={handleUpload}
-            className={classes.button}
-          >
-            업로드
-          </Button>
+          <div className="feedCreate__upload__container">
+            <Button
+              id="uploadButton"
+              variant="contained"
+              color="primary"
+              onClick={handleUpload}
+              className={classes.button}
+            >
+              업로드
+            </Button>
+          </div>
         </div>
       </div>
-      {/* <div className="feedCreate__progress">
-        <progress value={progress} max="100"></progress>
-      </div> */}
     </div>
   );
 };
