@@ -20,6 +20,7 @@ const customStyles = {
   },
 };
 
+Modal.setAppElement("#root")
 const FeedMore = ({ isCurrentUser, postId }) => {
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
@@ -55,6 +56,7 @@ const FeedMore = ({ isCurrentUser, postId }) => {
     });
     setModalIsOpen(false);
   };
+
   const onChange = (event) => {
     const {
       target: { value },
@@ -86,10 +88,9 @@ const FeedMore = ({ isCurrentUser, postId }) => {
               >
                 <ul>
                   <li>
-                    {/* <Link onClick={()=> setModalIsOpen(true)}>
+                    <Link onClick={()=> setModalIsOpen(true)}>
                       수정하기
-                    </Link>*/}
-                    
+                    </Link> 
                     <Modal
                       style={customStyles}
                       isOpen={modalIsOpen}

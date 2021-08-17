@@ -1,4 +1,3 @@
-import React, {useState} from "react";
 import "./Nav.css";
 import { Link, useHistory } from "react-router-dom";
 import firebase, { db, storage} from "../firebase/firebase";
@@ -131,7 +130,7 @@ const Nav = ({ username }) => {
         var lat = position.coords.latitude, // 위도
           lon = position.coords.longitude; // 경도
 
-        var locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        var locPosition = new window.kakao.maps.LatLng(signUpCoords.lat, signUpCoords.lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
         displayMarker(locPosition);
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
         setIsCoords(true);
