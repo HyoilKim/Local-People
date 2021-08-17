@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Feed.scss";
+import "./Feed.css";
 import Like from "../like/Like";
 import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
