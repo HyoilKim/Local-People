@@ -130,10 +130,12 @@ const Nav = ({ username }) => {
           lon: position.coords.longitude,
         });
 
+
         var locPosition = new window.kakao.maps.LatLng(
           signUpCoords.lat,
           signUpCoords.lon
         ); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+
         displayMarker(locPosition);
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
         setIsCoords(true);

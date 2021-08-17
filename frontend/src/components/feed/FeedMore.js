@@ -20,6 +20,7 @@ const customStyles = {
   },
 };
 
+Modal.setAppElement("#root")
 const FeedMore = ({ isCurrentUser, postId }) => {
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
@@ -54,6 +55,7 @@ const FeedMore = ({ isCurrentUser, postId }) => {
     });
     setModalIsOpen(false);
   };
+
   const onChange = (event) => {
     const {
       target: { value },
@@ -71,33 +73,29 @@ const FeedMore = ({ isCurrentUser, postId }) => {
 
   return (
     <div className="menu-container">
-      <>
-        {isCurrentUser && (
-          <>
-            <button onClick={onClick} className="menu-trigger">
-              <MoreVertIcon />
-            </button>
-            <nav
-              ref={dropdownRef}
-              className={`menu ${isActive ? "active" : "inactive"}`}
-              style={{ width: "105px", textAlign: "center" }}
-            >
-              <ul>
-                <li>
-                  {<Link onClick={() => setModalIsOpen(true)}>수정하기</Link>}
 
-                  <Modal
-                    style={customStyles}
-                    isOpen={modalIsOpen}
-                    onRequestClose={() => setModalIsOpen(false)}
-                  >
-                    <h3
-                      style={{
-                        color: "#9575cd",
-                        fontSize: "25px",
-                        fontWeight: "bold",
-                        textAlign: "center",
-                      }}
+      
+        <>
+          {isCurrentUser && (
+            <>
+              <button onClick={onClick} className="menu-trigger">
+                <MoreVertIcon />
+              </button>
+              <nav
+                ref={dropdownRef}
+                className={`menu ${isActive ? "active" : "inactive"}`}
+                style={{width:"105px", textAlign:"center"}}
+              >
+                <ul>
+                  <li>
+                    <Link onClick={()=> setModalIsOpen(true)}>
+                      수정하기
+                    </Link> 
+                    <Modal
+                      style={customStyles}
+                      isOpen={modalIsOpen}
+                      onRequestClose={()=>setModalIsOpen(false)}
+
                     >
                       게시물 수정하기
                     </h3>

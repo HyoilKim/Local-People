@@ -78,11 +78,6 @@ const FeedUpdate = ({ username }) => {
   return (
     <div className="container">
       <div className="feedCreate">
-        <div className="feedCreate__comment">
-          <h3 
-            style={{color: "#fb8267", fontSize: "25px", fontWeight:"bold"}}>게시물 수정</h3>
-        </div>
-
         <textarea
           name=""
           id=""
