@@ -9,16 +9,13 @@ import { setUser } from "../../redux/actions/user_action";
 
 const MainPage = () => {
   const [feeds, setFeeds] = useState([]);
-  const currentUser = firebase.auth().currentUser;
+  let currentUser = firebase.auth().currentUser;
   const [time, setTime] = useState();
-  const [userCoords, setUserCoords] = useState({});
-
-  let data;
+  const [currentCoords, setCurrentCoords] = useState({});
 
   useEffect(() => {
     //this is where the code runs
 
-    let lat, lon;
     let currentTime = new Date();
 
     setTime(currentTime.getTime());
@@ -45,53 +42,43 @@ const MainPage = () => {
 
     const loadDoc = async () => {
       try {
-        const doc = await db
-          .collection("users")
-          .doc(currentUser.displayName)
-          .get();
-        data = doc.data();
-        if (data) {
-          if (currentUser) {
-            db.collection("users")
-              .doc(currentUser.displayName)
-              .get()
-              .then((doc) => {
-                if (doc.exists) {
-                  lat = doc.data().coords.lat;
-                  lon = doc.data().coords.lon;
-                  setUserCoords({ lat: lat, lon: lon });
-                  return doc.data();
-                }
-              })
-              .then((position) => {
-                db.collection("feeds")
-                  .orderBy("timestamp", "desc")
-                  .onSnapshot((snapshot) => {
-                    //every single time a new feeds is added, this code runs
-                    setFeeds(
-                      snapshot.docs
-                        .map((doc) => ({ id: doc.id, feed: doc.data() }))
-                        .filter(
-                          ({ id, feed }) =>
-                            getDistanceFromLatLonInKm(
-                              position.coords.lat,
-                              position.coords.lon,
-                              feed.location.lat,
-                              feed.location.lon
-                            ) < 100
-                        )
-                    );
-                  });
+        var lat, lon;
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            setCurrentCoords({
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+            });
+            lat = position.coords.latitude;
+            lon = position.coords.longitude;
+            db.collection("feeds")
+              .orderBy("timestamp", "desc")
+              .onSnapshot((snapshot) => {
+                //every single time a new feeds is added, this code runs
+                setFeeds(
+                  snapshot.docs
+                    .map((doc) => ({ id: doc.id, feed: doc.data() }))
+                    .filter(
+                      ({ id, feed }) =>
+                        getDistanceFromLatLonInKm(
+                          lat,
+                          lon,
+                          feed.location.lat,
+                          feed.location.lon
+                        ) < 100
+                    )
+                );
               });
-          }
+          });
         } else {
-          alert("아직 동네 게시물이 없어요.");
+          console.log("Can't load currentPosition");
+          alert("위치인증실패");
         }
       } catch (e) {
         console.log(e.message);
       }
     };
-    setTimeout(loadDoc, 1380);
+    setTimeout(loadDoc, 1500);
   }, []);
 
   return (
@@ -124,7 +111,7 @@ const MainPage = () => {
             {feeds.length == 0 ? (
               <div></div>
             ) : (
-              <MarkerView feeds={feeds} userCoords={userCoords}></MarkerView>
+              <MarkerView feeds={feeds} userCoords={currentCoords}></MarkerView>
             )}
           </div>
         </div>

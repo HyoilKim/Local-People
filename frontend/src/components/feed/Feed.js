@@ -69,7 +69,6 @@ const Feed = ({
       username: nickname,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
-
     setComment("");
   };
 
