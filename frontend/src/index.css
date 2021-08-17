@@ -15,6 +15,7 @@ html {
 .signupbody {
   margin: 0;
   background-image: url("./background.jpg");
+  background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
   height: 100vh;
@@ -34,9 +35,9 @@ code {
   padding-left: 180px;
   padding-bottom: 0px;
   margin: 0px auto;
-  width: 100%;
+  width: 100vw;
   max-width: 400px;
-  height: 590px;
+  height: 90vh;
   border-color: black;
   border-radius: 5px;
   float: left;

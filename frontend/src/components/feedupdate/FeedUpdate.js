@@ -25,6 +25,7 @@ const FeedUpdate = ({ username }) => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -76,7 +77,6 @@ const FeedUpdate = ({ username }) => {
 
   return (
     <div className="container">
-      <Nav></Nav>
       <div className="feedCreate">
         <div className="feedCreate__comment">
           <h3 
@@ -108,7 +108,7 @@ const FeedUpdate = ({ username }) => {
             onClick={handleUpload}
             className={classes.button}
           >
-            업로드
+            수정
           </Button>
         </div>
       </div>

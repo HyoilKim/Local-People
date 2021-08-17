@@ -4,8 +4,21 @@ import { db } from "../firebase/firebase";
 import { Link } from "react-router-dom";
 import "./Feed.css";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
+import Modal from "react-modal";
+import FeedUpdate from "../feedupdate/FeedUpdate";
 
 const ITEM_HEIGHT = 30;
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
 
 const FeedMore = ({ isCurrentUser, postId }) => {
   const dropdownRef = useRef(null);
@@ -14,8 +27,8 @@ const FeedMore = ({ isCurrentUser, postId }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const [editing, setEditing] = useState(false);
   const [newFeed, setNewFeed] = useState(postId.description);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const onDeleteClick = async () => {
     const ok = window.confirm("정말 삭제하시겠습니까?");
@@ -26,6 +39,7 @@ const FeedMore = ({ isCurrentUser, postId }) => {
         .delete()
         .then(() => {
           console.log("Document successfully deleted!");
+          setModalIsOpen(true);
         })
         .catch((error) => {
           console.error("Error removing document: ", error);
@@ -33,13 +47,13 @@ const FeedMore = ({ isCurrentUser, postId }) => {
     }
   };
 
-  const toggleEditing = () => setEditing((prev) => !prev);
+  
   const onSubmit = async (event) => {
     event.preventDefault();
     await db.collection("feeds").doc(`${postId}`).update({
       description: newFeed,
     });
-    setEditing(false);
+    setModalIsOpen(false);
   };
   const onChange = (event) => {
     const {
@@ -58,20 +72,7 @@ const FeedMore = ({ isCurrentUser, postId }) => {
 
   return (
     <div className="menu-container">
-      {editing ? (
-        <>
-          <form onSubmit={onSubmit}>
-            <input
-              type="text"
-              value={newFeed}
-              onChange={onChange}
-              required
-            ></input>
-            <input type="submit" value="Update Feed"></input>
-          </form>
-          <button onClick={toggleEditing}>취소</button>
-        </>
-      ) : (
+      
         <>
           {isCurrentUser && (
             <>
@@ -85,9 +86,29 @@ const FeedMore = ({ isCurrentUser, postId }) => {
               >
                 <ul>
                   <li>
-                    <Link to="/update" onClick={toggleEditing}>
+                    {/* <Link onClick={()=> setModalIsOpen(true)}>
                       수정하기
-                    </Link>
+                    </Link>*/}
+                    
+                    <Modal
+                      style={customStyles}
+                      isOpen={modalIsOpen}
+                      onRequestClose={()=>setModalIsOpen(false)}
+                    >
+                      <h3
+                        style={{ color: "#9575cd", fontSize: "25px", fontWeight: "bold", textAlign:"center"}}
+                      >
+                        게시물 수정하기
+                      </h3>
+                      <div className="X_button">
+                        <button 
+                        className="exit__button" 
+                        onClick={() => {setModalIsOpen(false)
+                        setIsActive(false)}}>X</button>
+                      </div>
+                      <hr style={{marginTop:"5px"}}></hr>
+                      <FeedUpdate></FeedUpdate>
+                    </Modal>
                   </li>
                   <li>
                     <Link to="/" onClick={onDeleteClick}>
@@ -99,7 +120,7 @@ const FeedMore = ({ isCurrentUser, postId }) => {
             </>
           )}
         </>
-      )}
+      
     </div>
   );
 };
