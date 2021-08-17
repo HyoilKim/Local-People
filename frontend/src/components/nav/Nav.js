@@ -58,7 +58,6 @@ const Nav = ({ username }) => {
     return d;
   }
   const currentUser = firebase.auth().currentUser;
-  console.log(currentUser.metadata.a);
   const [signUpCoords, setSignUpCoords] = useState({});
   const classes = useStyles();
   const [isCoords, setIsCoords] = useState(false);
@@ -130,10 +129,11 @@ const Nav = ({ username }) => {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
         });
-        var lat = position.coords.latitude, // 위도
-          lon = position.coords.longitude; // 경도
 
-        var locPosition = new window.kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+        var locPosition = new window.kakao.maps.LatLng(
+          signUpCoords.lat,
+          signUpCoords.lon
+        ); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
         displayMarker(locPosition);
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
         setIsCoords(true);
@@ -158,7 +158,7 @@ const Nav = ({ username }) => {
         currentCoords.lon,
         signUpCoords.lat,
         signUpCoords.lon
-      ) > 10 &&
+      ) > 6 &&
       isCoords === true
     ) {
       alert(

@@ -11,12 +11,12 @@ const ITEM_HEIGHT = 30;
 
 const customStyles = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
   },
 };
 
@@ -47,7 +47,6 @@ const FeedMore = ({ isCurrentUser, postId }) => {
     }
   };
 
-  
   const onSubmit = async (event) => {
     event.preventDefault();
     await db.collection("feeds").doc(`${postId}`).update({
@@ -72,55 +71,61 @@ const FeedMore = ({ isCurrentUser, postId }) => {
 
   return (
     <div className="menu-container">
-      
-        <>
-          {isCurrentUser && (
-            <>
-              <button onClick={onClick} className="menu-trigger">
-                <MoreVertIcon />
-              </button>
-              <nav
-                ref={dropdownRef}
-                className={`menu ${isActive ? "active" : "inactive"}`}
-                style={{width:"105px", textAlign:"center"}}
-              >
-                <ul>
-                  <li>
-                    {/* <Link onClick={()=> setModalIsOpen(true)}>
-                      수정하기
-                    </Link>*/}
-                    
-                    <Modal
-                      style={customStyles}
-                      isOpen={modalIsOpen}
-                      onRequestClose={()=>setModalIsOpen(false)}
+      <>
+        {isCurrentUser && (
+          <>
+            <button onClick={onClick} className="menu-trigger">
+              <MoreVertIcon />
+            </button>
+            <nav
+              ref={dropdownRef}
+              className={`menu ${isActive ? "active" : "inactive"}`}
+              style={{ width: "105px", textAlign: "center" }}
+            >
+              <ul>
+                <li>
+                  {<Link onClick={() => setModalIsOpen(true)}>수정하기</Link>}
+
+                  <Modal
+                    style={customStyles}
+                    isOpen={modalIsOpen}
+                    onRequestClose={() => setModalIsOpen(false)}
+                  >
+                    <h3
+                      style={{
+                        color: "#9575cd",
+                        fontSize: "25px",
+                        fontWeight: "bold",
+                        textAlign: "center",
+                      }}
                     >
-                      <h3
-                        style={{ color: "#9575cd", fontSize: "25px", fontWeight: "bold", textAlign:"center"}}
+                      게시물 수정하기
+                    </h3>
+                    <div className="X_button">
+                      <button
+                        className="exit__button"
+                        onClick={() => {
+                          setModalIsOpen(false);
+                          setIsActive(false);
+                        }}
                       >
-                        게시물 수정하기
-                      </h3>
-                      <div className="X_button">
-                        <button 
-                        className="exit__button" 
-                        onClick={() => {setModalIsOpen(false)
-                        setIsActive(false)}}>X</button>
-                      </div>
-                      <hr style={{marginTop:"5px"}}></hr>
-                      <FeedUpdate></FeedUpdate>
-                    </Modal>
-                  </li>
-                  <li>
-                    <Link to="/" onClick={onDeleteClick}>
-                      삭제하기
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-            </>
-          )}
-        </>
-      
+                        X
+                      </button>
+                    </div>
+                    <hr style={{ marginTop: "5px" }}></hr>
+                    <FeedUpdate></FeedUpdate>
+                  </Modal>
+                </li>
+                <li>
+                  <Link to="/" onClick={onDeleteClick}>
+                    삭제하기
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </>
+        )}
+      </>
     </div>
   );
 };
