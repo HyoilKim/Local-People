@@ -105,7 +105,7 @@ const Feed = ({
   }, [postId]);
 
   return (
-    <div className="feed">
+    <div className="feed" id={postId}>
       <div className="feed__header">
         <div className="feed__header__left">
           <Avatar

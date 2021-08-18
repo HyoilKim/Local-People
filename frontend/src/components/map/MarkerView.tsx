@@ -13,6 +13,7 @@ interface MarkerInfo {
   username: string;
   imageUrl: string;
   description: string;
+  id: string;
 }
 
 const MarkerView = ({ feeds, userCoords }) => {
@@ -38,6 +39,7 @@ const MarkerView = ({ feeds, userCoords }) => {
         username: feeds[i].feed.username,
         imageUrl: feeds[i].feed.imageUrl,
         description: feeds[i].feed.description,
+        id: feeds[i].id,
       });
     }
     // 주소-좌표 변환 객체를 생성합니다
@@ -99,6 +101,17 @@ const MarkerView = ({ feeds, userCoords }) => {
       });
       window.kakao.maps.event.addListener(marker1, "mouseout", function () {
         overlay.setMap(null);
+      });
+
+      window.kakao.maps.event.addListener(marker1, "click", function () {
+        const feedId = document.getElementById(pos.id);
+        if (feedId) {
+          feedId.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "nearest",
+          });
+        }
       });
       overlay.setMap(null);
       marker1.setMap(map); //지도에 마커를 표시
