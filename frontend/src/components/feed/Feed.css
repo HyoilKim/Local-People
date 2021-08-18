@@ -209,3 +209,43 @@
 .comment__section {
   display: flex;
 }
+
+.feedEdit {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedEdit__description {
+  border-color: black;
+  font-size: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  resize: both;
+  height: 220px;
+  width: 85%;
+  padding-top: 0px;
+  resize: none;
+}
+
+.feedEdit__button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 25px;
+  width: 75%;
+  align-items: center;
+  vertical-align: middle;
+}
+
+/* .feedEdit__image {
+  max-width: 350px;
+  border-color: black;
+} */
+#edit__button {
+  background-color: #9575cd;
+  width: 100%;
+  color: #fafafa;
+  font-size: 15px;
+}
