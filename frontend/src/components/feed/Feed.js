@@ -130,6 +130,7 @@ const Feed = ({
           <FeedMore
             isCurrentUser={author === nickname}
             postId={postId}
+            description={description}
           ></FeedMore>
         </div>
         {/*header -> profileimage + username */}

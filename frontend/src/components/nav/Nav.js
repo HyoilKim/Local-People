@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
   input: {
     display: "none",
   },
+  button: {
+    fontSize: "12px",
+  },
 }));
 
 Modal.setAppElement("#root");
@@ -129,7 +132,6 @@ const Nav = ({ username }) => {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
         });
-
 
         var locPosition = new window.kakao.maps.LatLng(
           signUpCoords.lat,

@@ -21,27 +21,26 @@ const customStyles = {
   },
 };
 
-Modal.setAppElement("#root")
-const FeedMore = ({ isCurrentUser, postId }) => {
+Modal.setAppElement("#root");
+const FeedMore = ({ isCurrentUser, postId, description }) => {
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const onClick = () => setIsActive(!isActive);
-  
-  
+
   const onDeleteClick = async () => {
     const ok = window.confirm("정말 삭제하시겠습니까?");
     if (ok) {
       await db
-      .collection("feeds")
-      .doc(`${postId}`)
-      .delete()
-      .then(() => {
-        console.log("삭제되었습니다!");
-        setModalIsOpen(true);
-      })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
-      });
+        .collection("feeds")
+        .doc(`${postId}`)
+        .delete()
+        .then(() => {
+          console.log("삭제되었습니다!");
+          setModalIsOpen(true);
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
     }
   };
 
@@ -53,7 +52,7 @@ const FeedMore = ({ isCurrentUser, postId }) => {
   // for update image
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  
+
   const toggleEditing = () => setEditing((prev) => !prev);
 
   // const handleChange = (e) => {
@@ -61,14 +60,14 @@ const FeedMore = ({ isCurrentUser, postId }) => {
   //     setImage(e.target.files[0]);
   //   }
   // };
-  
+
   const onChange = (event) => {
     const {
       target: { value },
     } = event;
     setNewFeed(value);
   };
-  
+
   const onSubmit = async (event) => {
     event.preventDefault();
     await db.collection("feeds").doc(`${postId}`).update({
@@ -78,65 +77,75 @@ const FeedMore = ({ isCurrentUser, postId }) => {
     setModalIsOpen(false);
     setEditing(false);
   };
-  
 
   return (
     <div className="menu-container">
       {editing ? (
         <>
-        <Modal
-          style={customStyles}
-          isOpen={modalIsOpen}
-          onRequestClose={()=>{setModalIsOpen(false)
-          toggleEditing()}}
-        >
-          <form onSubmit={onSubmit}>
+          <Modal
+            style={customStyles}
+            isOpen={modalIsOpen}
+            onRequestClose={() => {
+              setModalIsOpen(false);
+              toggleEditing();
+            }}
+          >
+            <form onSubmit={onSubmit}>
               <h3
-                style={{ color: "#9575cd", fontSize: "25px", fontWeight: "bold", textAlign:"center"}}
+                style={{
+                  color: "#9575cd",
+                  fontSize: "25px",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
               >
                 게시물 수정
               </h3>
               <div className="X_button">
-                <button 
-                className="exit__button" 
-                onClick={() => {setModalIsOpen(false)
-                setIsActive(false)
-                toggleEditing()}}>X</button>
+                <button
+                  className="exit__button"
+                  onClick={() => {
+                    setModalIsOpen(false);
+                    setIsActive(false);
+                    toggleEditing();
+                  }}
+                >
+                  X
+                </button>
               </div>
-            <hr style={{marginTop:"8px"}}></hr>
-            <div className="feedEdit">
-              <textarea
-                type="text"
-                placeholder="내용을 입력해주세요."
-                value={newFeed}
-                required
-                onChange={onChange}
-                className="feedEdit__description"
-              ></textarea>
-              {/* <div className="feedEdit__image">
+              <hr style={{ marginTop: "8px" }}></hr>
+              <div className="feedEdit">
+                <textarea
+                  type="text"
+                  placeholder={description}
+                  value={newFeed}
+                  required
+                  onChange={onChange}
+                  className="feedEdit__description"
+                ></textarea>
+                {/* <div className="feedEdit__image">
                 <input
                   accept="image/*"
                   type="file"
                   onChange={handleChange}
                 />
               </div> */}
-              <div className="feedEdit__button">
-                <Button 
-                  variant="contained"
-                  type="submit"
-                  value="Update Feed"
-                  backgroundcolor="primary"
-                  id="edit__button"
-                >
-                  수정하기
-                </Button>
+                <div className="feedEdit__button">
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    value="Update Feed"
+                    backgroundcolor="primary"
+                    id="edit__button"
+                  >
+                    수정하기
+                  </Button>
+                </div>
               </div>
-            </div>
-          </form>
-        </Modal>
+            </form>
+          </Modal>
         </>
       ) : (
-
         <>
           {isCurrentUser && (
             <>
@@ -146,16 +155,20 @@ const FeedMore = ({ isCurrentUser, postId }) => {
               <nav
                 ref={dropdownRef}
                 className={`menu ${isActive ? "active" : "inactive"}`}
-                style={{width:"105px", textAlign:"center"}}
+                style={{ width: "105px", textAlign: "center" }}
                 id="button_nav"
               >
                 <ul>
                   <li>
-                    <Link onClick={() => {setModalIsOpen(true)
-                      setIsActive(false)
-                      toggleEditing()}}>
+                    <Link
+                      onClick={() => {
+                        setModalIsOpen(true);
+                        setIsActive(false);
+                        toggleEditing();
+                      }}
+                    >
                       수정하기
-                    </Link> 
+                    </Link>
                   </li>
                   <li>
                     <Link to="/" onClick={onDeleteClick}>
@@ -164,9 +177,9 @@ const FeedMore = ({ isCurrentUser, postId }) => {
                   </li>
                 </ul>
               </nav>
-          </>
-        )}
-      </>
+            </>
+          )}
+        </>
       )}
     </div>
   );
