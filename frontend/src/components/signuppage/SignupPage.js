@@ -28,6 +28,7 @@ function SignupPage() {
   let userList = [];
   let [nicknameList, setNicknameList] = useState([]);
   let nickname = "";
+  const [completed, setCompleted] = useState(false);
 
   const [checkError, setCheckError] = useState("");
   const [dpNameCheck, setDpNameCheck] = useState(false);
@@ -70,6 +71,9 @@ function SignupPage() {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
+      if (!completed) {
+        throw new Error("위치인증을 해주세요.");
+      }
 
       if (!dpNameCheck) {
         setCheckError("중복확인 버튼을 눌러주세요");
@@ -100,6 +104,8 @@ function SignupPage() {
         coords: currentCoords,
       });
 
+      window.location.reload();
+
       console.log("createdUser", createdUser);
     } catch (error) {
       // 이미 생성된 이메일일 때 에러 메세지
@@ -111,7 +117,6 @@ function SignupPage() {
     }
   };
 
-  let completed = false;
   const handleClick = (e) => {
     e.preventDefault();
     let container = document.getElementById("map");
@@ -181,7 +186,7 @@ function SignupPage() {
         // 마커와 인포윈도우를 표시합니다
         displayMarker(locPosition, message);
         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-        completed = true;
+        setCompleted(true);
         if (authButton) {
           authButton.innerText = "위치 인증 완료";
         }
@@ -628,7 +633,7 @@ function SignupPage() {
               value="회원가입"
               type="submit"
               style={{ marginTop: "20px" }}
-              disabled={loading}
+              disabled={loading || !completed}
             />
             <Link
               style={{
