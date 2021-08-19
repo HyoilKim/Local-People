@@ -55,7 +55,7 @@ const Like = ({ postId, nickname, likedUser }) => {
           }
         });
     }
-    return;
+    return () => {};
   }, [postId]);
 
   return (

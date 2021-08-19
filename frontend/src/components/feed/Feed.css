@@ -1,10 +1,10 @@
 .feed {
   background-color: white;
-  width: 98%;
+  width: 90%;
   height: 100%;
-  max-width: 700px;
+  max-width: 650px;
   border: 2px solid #d8d7d7;
-  margin-bottom: 40px;
+  margin-bottom: 3%;
   border-radius: 1%;
   display: flex;
   justify-content: center;
@@ -28,11 +28,39 @@
   flex-direction: row;
 }
 
-.feed__image {
-  object-fit: contain;
+.image__container {
+  background-color: white;
   width: 100%;
+  height: attr(width);
   border-top: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
+  overflow: hidden;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  position: relative; /* If you want text inside of it */
+}
+
+.feed__image {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.feed__image {
+  object-fit: contain;
+  max-height: 100%;
+  max-width: 100%;
+  min-width: 100%;
+}
+
+.long_width {
+  min-width: 100%;
+}
+
+.long_height {
+  min-height: 100%;
 }
 
 .feed__section {
@@ -69,6 +97,7 @@
 
 .feed__comments {
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 .menu-container {
@@ -144,4 +173,79 @@
   color: #333333;
   padding: 15px 20px;
   display: block;
+}
+
+.feed__morebutton {
+  background-color: transparent;
+  color: gray;
+  border: none;
+}
+
+.feed__morebutton:hover {
+  cursor: pointer;
+}
+
+.comment__title {
+  background-color: transparent;
+  color: gray;
+  font-size: small;
+}
+
+.comment_delete_button {
+  background-color: rgb(236, 236, 236);
+  color: white;
+  font-size: small;
+  border: rgb(182, 182, 182) 1px;
+  margin-left: auto;
+  border-radius: 3%;
+}
+
+.comment_delete_button:hover {
+  cursor: pointer;
+  color: #9575cd;
+  background-color: lightgray;
+}
+
+.comment__section {
+  display: flex;
+}
+
+.feedEdit {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedEdit__description {
+  border-color: black;
+  font-size: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  resize: both;
+  height: 220px;
+  width: 85%;
+  padding-top: 0px;
+  resize: none;
+}
+
+.feedEdit__button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 25px;
+  width: 75%;
+  align-items: center;
+  vertical-align: middle;
+}
+
+/* .feedEdit__image {
+  max-width: 350px;
+  border-color: black;
+} */
+#edit__button {
+  background-color: #9575cd;
+  width: 100%;
+  color: #fafafa;
+  font-size: 15px;
 }

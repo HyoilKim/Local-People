@@ -1,73 +1,30 @@
-.name {
-  display: flex;
-  flex-direction: row;
-  height: 38px;
-  margin-bottom: 10px;
+.loginbody {
+  width: 100%;
 }
 
-#nickname {
-  width: 280px;
-  height: 38px;
-  margin: 0px;
-  display: flex;
-  flex-direction: row;
-}
-
-.nicknameinput {
-  display: flex;
-  flex-direction: row;
-  height: 38px;
-}
-
-#nicknameCheck {
-  display: flex;
-  flex-direction: row;
-  margin-top: 0px;
-  margin-left: 8px;
-  margin-bottom: 5px;
-  padding: 10px 15px;
-  text-align: center;
-  height: 38px;
-  font-size: 12px;
-  font-weight: 1000;
-}
-
-.nicknameinput {
-  display: flex;
-  flex-direction: row;
-  height: 38px;
-}
-
-#nicknameCheck {
-  display: flex;
-  flex-direction: row;
-  margin-top: 0px;
-  margin-left: 8px;
-  margin-bottom: 5px;
-  padding: 10px 15px;
-  text-align: center;
-  height: 38px;
-  font-size: 12px;
-  font-weight: 1000;
-}
-
-.nickname__button__box {
-  margin-top: 0px;
-}
-
-@media (max-width: 1366px) {
+@media all and (max-width: 414px) {
   .mobile__login__body {
-    width: 100%;
+    width: 100vw;
     min-width: 80px;
+    max-width: 400px;
     display: "flex";
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: 100vh;
+    padding-top: 23%;
     background-image: url("../../background.jpg");
   }
 
+  .mobile__auth-wrapper {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100%;
+  }
+
   .mobile__login__body form {
-    width: 90%;
+    width: 88%;
     margin: 0 auto;
     justify-content: center;
     align-items: center;
@@ -155,39 +112,8 @@
     -webkit-appearance: none;
   }
 
-  .mobile__auth-wrapper button[type="button"] {
-    display: block;
-    appearance: none;
-    background: #5b63ac;
-    color: white;
-    border: none;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    border-radius: 4px;
-  }
-
-  .mobile__auth-wrapper .name {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 30px;
-  }
-
-  .mobile__auth-wrapper .nicknameinput {
-    display: flex;
-  }
-
-  .mobile__auth-wrapper #nicknameCheck {
-    position: relative;
-  }
-
-  .mobile__auth-wrapper #nicknameCheck__error {
-    display: inline;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    font-size: 15px;
-  }
-
-  .mobile__auth-wrapper hr {
-    margin-top: 30px;
+  .mobile__link {
+    margin: 0 auto;
+    text-align: center;
   }
 }

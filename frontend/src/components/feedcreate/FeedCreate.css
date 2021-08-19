@@ -1,5 +1,5 @@
 .feedCreate {
-  padding-top: 100px;
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,10 +7,18 @@
 }
 
 .feedCreate__description {
-  height: 300px;
-  width: 800px;
   border-color: black;
-  font-size: 15px;
+  font-size: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  resize: both;
+  height: 200px;
+  width: 85%;
+  padding-top: 0px;
+  resize: none;
+}
+
+textarea::placeholder {
+  color: rgba(197, 197, 197, 0.938);
 }
 
 .feedCreate__button {
@@ -21,12 +29,10 @@
   padding-left: 450px;
 }
 
-.feedCreate__progress {
+.feedCreate__image__container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  margin-top: 100px;
+  align-items: center;
 }
 
 .feedCreate__comment {
@@ -37,16 +43,38 @@
 }
 
 .feedCreate__image {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   max-width: 350px;
+  border-color: black;
 }
 
 .feedCreate__bottom {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.feedCreate__buttons {
+  display: flex;
+  flex-direction: column;
+  width: 87%;
+}
+
+.image__and__location__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.feedCreate__upload__container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  width: 100%;
+}
+
+#locationButton,
+#uploadButton {
+  background-color: #9575cd;
 }

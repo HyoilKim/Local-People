@@ -1,6 +1,6 @@
 import {
     SET_USER,
-    CLEAR_USER
+    CLEAR_USER,
 } from '../actions/types';
 
 const initialUserState = {
@@ -23,7 +23,7 @@ export default function(state = initialUserState, action) {
                 isLoading: false
 
             }
-        
+
         default:
            return state;
     }

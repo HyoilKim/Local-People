@@ -1,11 +1,24 @@
-body {
+.body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  font-family:  "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #fafafa;
+}
+html {
+  overflow-x: hidden;
+}
+
+.loginbody,
+.signupbody {
+  margin: 0;
+  background-image: url("./background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
 }
 
 code {
@@ -17,36 +30,44 @@ code {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 60px;
+  padding-left: 180px;
+  padding-bottom: 0px;
   margin: 0px auto;
-  width: 100%;
+  width: 100vw;
   max-width: 400px;
-  min-height: 750px;
+  height: 90vh;
   border-color: black;
   border-radius: 5px;
-  background-color: #ffffff;
+  float: left;
 }
+
+
 
 .auth-wrapper form {
   width: 375px;
   margin: 0 auto;
+  justify-content: center;
+  align-items: center;
 }
 
 .auth-wrapper h1 {
   font-weight: 1000;
   text-align: center;
-  padding-bottom: 50px;
+  padding-bottom: 20px;
   letter-spacing: 10px;
-  color: #fb8267;
+  color: #fafafa;
 }
 
 .auth-wrapper span {
-  color: #bf1650;
+  color: white;
 }
 
 .auth-wrapper span::before {
   display: inline;
-  content: "⚠ ";
+  padding-top: 10px;
+  content: "";
 }
 
 .auth-wrapper input {
@@ -67,16 +88,18 @@ code {
   margin: 5px 0;
   font-size: 14px;
   font-weight: 200;
+  color: #fafafa;
 }
 
 .auth-wrapper button[type="submit"],
 .auth-wrapper input[type="submit"] {
-  background: #fb8267;
+  background: #5b63ac;
   color: white;
   text-transform: uppercase;
   border: none;
   border-radius: 20px;
   margin-top: 30px;
+  margin-bottom: 15px;
   padding: 15px;
   font-size: 20px;
   font-weight: 400;
@@ -85,7 +108,7 @@ code {
 
 .auth-wrapper button[type="submit"]:hover,
 .auth-wrapper input[type="submit"]:hover {
-  background: #f75f3d;
+  background: #8893e4;
 }
 
 .auth-wrapper button[type="submit"]:active,
@@ -114,12 +137,33 @@ code {
 .auth-wrapper button[type="button"] {
   display: block;
   appearance: none;
-  background: #333;
+  background: #5b63ac;
   color: white;
   border: none;
   text-transform: uppercase;
   padding: 10px 20px;
   border-radius: 4px;
+}
+
+.auth-wrapper .name {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.auth-wrapper .nicknameinput {
+  display: flex;
+}
+
+.auth-wrapper #nicknameCheck {
+  position: relative;
+}
+
+.auth-wrapper #nicknameCheck__error {
+  display: inline;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-size: 15px;
 }
 
 .auth-wrapper hr {

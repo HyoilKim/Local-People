@@ -5,9 +5,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { db } from "../firebase/firebase";
 import firebase from "../firebase/firebase";
 import FeedMore from "./FeedMore";
-import UserInfo from "./UserInfo";
-import CommentMore from "./CommentMore";
-
+import Comment from "./Comment";
 
 const Feed = ({
   postId,
@@ -15,17 +13,53 @@ const Feed = ({
   description,
   imageUrl,
   likedUser,
-  lat,
-  lon,
+  userCreationTime,
+  address,
 }) => {
   let nickname = "";
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const currentUser = firebase.auth().currentUser;
+  const [duration, setDuration] = useState();
+  const [dong, setDong] = useState("");
+  const [limit, setLimit] = useState(30);
+  const [userImageURL, setUserImageURL] = useState("");
+
+  const toggleEllipsis = (str, limit) => {
+    return {
+      string: str.slice(0, limit),
+      isShowMore: str.length > limit,
+    };
+  };
+
+  const [commentLimit, setCommentLimit] = useState(-2);
+
+  const deleteComment = (id) => () => {
+    if (postId) {
+      db.collection("feeds")
+        .doc(postId)
+        .collection("comments")
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log("your comments successfully deleted!");
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
+    }
+  };
+
+  const onClickMoreComments = (arr) => () => {
+    setCommentLimit(arr.length);
+  };
+
+  const onClickMore = (str) => () => {
+    setLimit(str.length);
+  };
 
   if (currentUser) {
     nickname = currentUser.displayName;
-    
   }
 
   const postComment = (event) => {
@@ -35,72 +69,112 @@ const Feed = ({
       username: nickname,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    
     setComment("");
   };
 
   useEffect(() => {
-    
-    let unsubscribe;
+    const now = Date.now();
+    const differ = now - userCreationTime;
+    setDuration(Math.ceil(differ / 86400000));
+    const arr = address.split(" ");
+    setDong(arr[arr.length - 1]);
+
     if (postId) {
-      unsubscribe = db
-        .collection("feeds")
+      db.collection("feeds")
         .doc(postId)
         .collection("comments")
-        .orderBy("timestamp", "desc")
+        .orderBy("timestamp")
         .onSnapshot((snapshot) => {
-          setComments(snapshot.docs.map((doc) => doc.data()));
+          setComments(
+            snapshot.docs.map((doc) => ({ id: doc.id, comment: doc.data() }))
+          );
+        });
+      db.collection("users")
+        .doc(author)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            if (doc.data().userAvatarUrl !== null) {
+              setUserImageURL(doc.data().userImage);
+            }
+          }
         });
     }
-    
 
-    return; //componentWillUnmount
+    return () => {}; //componentWillUnmount
   }, [postId]);
 
   return (
-    <div className="feed">
+    <div className="feed" id={postId}>
       <div className="feed__header">
         <div className="feed__header__left">
           <Avatar
             className="feed__avatar"
             // alt={author}
-            src="/static/images/avatar/1.jpeg"
+            src={userImageURL}
           ></Avatar>
-          <h3 style={{marginLeft: "5px", marginTop: "8px"}}>{author}</h3>
+          <h3 style={{ marginLeft: "5px", marginTop: "8px" }}>{author}</h3>
           <div
             style={{
               marginLeft: "5px",
-              marginTop: "20px",
-              fontSize: "7px",
-            }}>
-            <UserInfo></UserInfo>
+              marginTop: "15px",
+              justifyContent: "center",
+              fontSize: "10px",
+              alignItems: "center",
+            }}
+          >
+            {dong} 거주 {duration}일차
           </div>
         </div>
-        <div style={{width : "20px"}}>
+        <div style={{ width: "20px" }}>
           <FeedMore
             isCurrentUser={author === nickname}
             postId={postId}
+            description={description}
           ></FeedMore>
         </div>
         {/*header -> profileimage + username */}
       </div>
-
-      <img className="feed__image" src={imageUrl} alt="feed__image" />
-      {/*image*/}
+      <div className="image__container">
+        <img className="feed__image" src={imageUrl} alt="feed__image" />
+        {/*image*/}
+      </div>
 
       <div className="feed__section">
         <Like postId={postId} nickname={nickname} likedUser={likedUser}></Like>
       </div>
 
-
       <h4 className="feed__text">
-        <strong>{author}</strong>: {description}
+        <strong>{author}</strong>: {toggleEllipsis(description, limit).string}
+        {toggleEllipsis(description, limit).isShowMore && (
+          <button
+            className="feed__morebutton"
+            onClick={onClickMore(description)}
+          >
+            ..더보기
+          </button>
+        )}
       </h4>
       {/*username + description */}
       <div className="feed__comments">
-        {comments.map((comment) => (
-          <p>
+        {comments.length !== 0 ? (
+          <p className="comment__title">댓글</p>
+        ) : (
+          <div></div>
+        )}
+        {comments.map(({ id, comment }) => (
+          <p key={comment.timestamp} className="comment__section">
             <strong>{comment.username}</strong>&nbsp;{comment.text}
+            {comment.username == nickname ? (
+              <button
+                onClick={deleteComment(id)}
+                className="comment_delete_button"
+              >
+                X
+              </button>
+            ) : (
+              <span></span>
+            )}
           </p>
         ))}
       </div>

@@ -10,17 +10,23 @@ declare global {
 interface MarkerInfo {
   title: string;
   latlng: any;
+  username: string;
+  imageUrl: string;
+  description: string;
+  id: string;
 }
 
-const MarkerView = ({ feeds }) => {
+const MarkerView = ({ feeds, userCoords }) => {
   useEffect(() => {
     let container = document.getElementById("mapview");
     let options = {
       center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-      level: 2,
+      level: 3,
     };
 
     let map = new window.kakao.maps.Map(container, options);
+    var zoomControl = new window.kakao.maps.ZoomControl();
+    map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
     let positions: Array<MarkerInfo> = [];
 
     for (var i = 0; i < feeds.length; i++) {
@@ -30,6 +36,10 @@ const MarkerView = ({ feeds }) => {
           feeds[i].feed.location.lat,
           feeds[i].feed.location.lon
         ),
+        username: feeds[i].feed.username,
+        imageUrl: feeds[i].feed.imageUrl,
+        description: feeds[i].feed.description,
+        id: feeds[i].id,
       });
     }
     // 주소-좌표 변환 객체를 생성합니다
@@ -38,7 +48,7 @@ const MarkerView = ({ feeds }) => {
     var imageSrc =
       "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
 
-    for (var i = 0; i < positions.length; i++) {
+    positions.forEach((pos) => {
       // 마커 이미지의 이미지 크기 입니다
       const imageSize = new window.kakao.maps.Size(24, 35);
 
@@ -51,13 +61,61 @@ const MarkerView = ({ feeds }) => {
       // 마커를 생성합니다
       let marker1 = new window.kakao.maps.Marker({
         map: map, // 마커를 표시할 지도
-        position: positions[i].latlng, // 마커를 표시할 위치
-        title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        position: pos.latlng, // 마커를 표시할 위치
+        title: pos.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
         image: markerImage, // 마커 이미지
       });
+      // 커스텀 오버레이에 표시할 컨텐츠 입니다
+      // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+      // 별도의 이벤트 메소드를 제공하지 않습니다
+      var content =
+        '<div class="wrap">' +
+        '    <div class="info">' +
+        '        <div class="title">' +
+        pos.username +
+        "        </div>" +
+        '        <div class="body">' +
+        '            <div class="img">' +
+        "                <img src=" +
+        pos.imageUrl +
+        ' width="73" height="70">' +
+        "           </div>" +
+        '            <div class="desc">' +
+        '                <div class="ellipsis">' +
+        pos.description +
+        "</div>" +
+        "            </div>" +
+        "        </div>" +
+        "    </div>" +
+        "</div>";
 
+      // 마커 위에 커스텀오버레이를 표시합니다
+      // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+      var overlay = new window.kakao.maps.CustomOverlay({
+        content: content,
+        map: map,
+        position: marker1.getPosition(),
+      });
+      window.kakao.maps.event.addListener(marker1, "mouseover", function () {
+        overlay.setMap(map);
+      });
+      window.kakao.maps.event.addListener(marker1, "mouseout", function () {
+        overlay.setMap(null);
+      });
+
+      window.kakao.maps.event.addListener(marker1, "click", function () {
+        const feedId = document.getElementById(pos.id);
+        if (feedId) {
+          feedId.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "nearest",
+          });
+        }
+      });
+      overlay.setMap(null);
       marker1.setMap(map); //지도에 마커를 표시
-    }
+    });
     function displayMarker(locPosition, message) {
       // 마커를 생성합니다
       let marker = new window.kakao.maps.Marker({
@@ -123,12 +181,56 @@ const MarkerView = ({ feeds }) => {
 
       displayMarker(locPosition, message);
     }
-  }, [feeds]);
+  }, [feeds.length]);
 
   return (
     <div className="map">
-      <div className=""></div>
-      <div id="mapview"></div>
+      <div className="mapview__container">
+        <div className="mapview__header">
+          <p className="mapview__header__quote">우리 동네 로컬 생활</p>
+        </div>
+        <div id="mapview"></div>
+        <div className="mapview__footer">
+          <div style={{ textAlign: "center", marginTop: "3px" }}>
+            <span>
+              코로나 블루로 멀어진 이웃 사이,
+              <br></br>
+              ‘로컬피플’로 조금 더 가까이 다가가보세요!
+            </span>
+          </div>
+          {/*<div className="ixdEe">
+            <div className="K5OFK">
+              <a className="l93RR">소개</a>
+            </div>
+            <div className="K5OFK">
+              도움말
+              <a className="l93RR">소개</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">홍보 센터</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">API</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">채용 정보</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">개인정보처리방침</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">약관위치</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">인기 계정</a>
+            </div>
+            <div className="K5OFK">
+              <a className="l93RR">해시태그언어</a>
+            </div>
+          </div>
+          © 2021 INSTAGRAM FROM FACEBOOK */}
+        </div>
+      </div>
     </div>
   );
 };
